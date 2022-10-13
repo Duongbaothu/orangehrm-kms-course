@@ -1,0 +1,57 @@
+name: "Full Regression Automation UI"
+
+on:
+  pull_request:
+      branches: [ main ]
+  schedule:
+    - cron:  "0 7 * * 0"
+  workflow_dispatch:
+
+jobs:
+  full-regression-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.js 14.16.1
+        uses: actions/setup-node@v2
+        with:
+          node-version: "14.16.1"
+      - name: Set up libraries for browsers
+        id: setup-libs-chrome
+        run: |
+          sudo apt update
+          sudo apt install -y libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2 libx11-xcb1
+      - name: Set up Google Chrome
+        uses: browser-actions/setup-chrome@latest 
+        with:
+          chrome-version: stable
+      - name: Set up Edge
+        uses: browser-actions/setup-edge@latest
+        with:
+          edge-version: stable
+      - name: Set up Firefox
+        uses: browser-actions/setup-firefox@latest
+        with:
+          firefox-version: stable
+      - name: Run Automation Test UI with Chrome browser
+        id: automation-test-chrome
+        run: |
+          npm install         
+          bash runFeature_FullRegression.sh chrome
+      - name: Run Automation Test UI with FireFox browser
+        id: automation-test-firefox
+        if: success() || failure()
+        run: |
+          bash runFeature_FullRegression.sh firefox
+      - name: Run Automation Test UI with Edge browser
+        id: automation-test-edge
+        if: success() || failure()
+        run: |
+          bash runFeature_FullRegression.sh edge  
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: FullRegressionUI
+          path: ${{ github.workspace }}/report/**/*
+          retention-days: 2

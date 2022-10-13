@@ -1,0 +1,35 @@
+{
+  "name": "package.json",
+  "version": "1.0.0",
+  "description": "Automation for LNI training",
+  "main": "mainPage.js",
+  "dependencies": {
+    "@cucumber/cucumber": "^8.5.2",
+    "@ln-maf/core": "^1.6.1",
+    "@ln-maf/validations": "^1.6.2",
+    "chai": "^4.3.6",
+    "chromedriver": "^105.0.0",
+    "geckodriver": "^3.0.2",
+    "lodash": "^4.17.21",
+    "multiple-cucumber-html-reporter": "^3.0.1",
+    "newmsedgedriver": "^105.0.134-3.53",
+    "selenium-webdriver": "^4.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.24.0",
+    "eslint-config-google": "^0.14.0",
+    "npm": "^8.18.0"
+  },
+  "scripts": {
+    "cucumber": "node_modules/@cucumber/cucumber/bin/cucumber-js",
+    "firefox": "node_modules/@cucumber/cucumber/bin/cucumber-js -t @firefox",
+    "chrome": "node_modules/@cucumber/cucumber/bin/cucumber-js -t @chrome",
+    "edge": "node_modules/@cucumber/cucumber/bin/cucumber-js -t @edge"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kms-technology/lni-auto-ui-selenium.git"
+  },
+  "author": "Nam Luu",
+  "license": "ISC"
+}
