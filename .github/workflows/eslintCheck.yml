@@ -1,0 +1,15 @@
+name: "Eslint check"
+
+on:
+  pull_request:
+      branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  eslint-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Eslint check
+        id: run-eslint-check
+        run: |
+          npx eslint src/**

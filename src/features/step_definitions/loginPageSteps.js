@@ -1,6 +1,6 @@
 const {When} = require('@cucumber/cucumber');
 const {filltemplate} = require('@ln-maf/core');
-const loginPage = require('../page-objects/loginPage');
+const loginPage = require('../page_objects/loginPage');
 require('@ln-maf/core/parameter_types');
 require('@ln-maf/validations');
 
