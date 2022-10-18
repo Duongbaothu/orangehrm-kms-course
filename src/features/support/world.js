@@ -18,7 +18,7 @@ switch (process.env.BROWSER) {
       'acceptInsecureCerts': true,
       'ms:edgeOptions': {
         args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
-          '--window-size=1920,1080'],
+          '--disable-gpu', '--headless', '--window-size=1920,1080'],
       },
     };
     break;
@@ -29,7 +29,7 @@ switch (process.env.BROWSER) {
       'acceptInsecureCerts': true,
       'moz:firefoxOptions': {
         args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
-          '--window-size=1920,1080'],
+          '--disable-gpu', '--headless', '--window-size=1920,1080'],
       },
     };
     break;
@@ -40,7 +40,7 @@ switch (process.env.BROWSER) {
       'acceptInsecureCerts': true,
       'goog:chromeOptions': {
         args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
-          '--window-size=1920,1080'],
+          '--disable-gpu', '--headless', '--window-size=1920,1080'],
         extensions: [],
       },
     };
