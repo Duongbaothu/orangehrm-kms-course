@@ -134,17 +134,45 @@ const self = module.exports = {
   /**
   * Scroll element into view(middle).
   * @param {String} xpath The element xpath.
+  * @param {String} ms The number of milliseconds to wait for scroll to complete.
   */
-  async scrollIntoView(xpath) {
+  async scrollIntoView(xpath, ms) {
     const element = await self.waitUntilElementLocated.call(this, xpath);
-    const scrollElementIntoMiddle = `
-            var ele = arguments[0].getBoundingClientRect()
-            var desiredY = (window.innerHeight - ele.height) / 2
-            var scrollYBy = ele.top - desiredY
-            window.scrollBy(0, scrollYBy)
+    const script = `
+            arguments[0].scrollIntoView({
+              behavior: 'auto',
+              block: 'center',
+              inline: 'center'
+            });
           `;
-    await this.driver.executeScript(scrollElementIntoMiddle, element);
-    await sleep(200);
+    await this.driver.executeScript(script, element);
+    await sleep(ms);
+  },
+
+  /**
+  * Scroll to top of the page.
+  * @param {String} ms The number of milliseconds to wait for scroll to top complete.
+  */
+  async scrollToTop(ms) {
+    const script = `
+            window.focus();
+            window.scrollTo(0, 0);
+          `;
+    await this.driver.executeScript(script);
+    await sleep(ms);
+  },
+
+  /**
+  * Scroll to bottom of the page.
+  * @param {String} ms The number of milliseconds to wait for scroll to bottom complete.
+  */
+  async scrollToBottom(ms) {
+    const script = `
+            window.focus();
+            window.scrollTo(0, document.body.scrollHeight || document.documentElement.scrollHeight);
+          `;
+    await this.driver.executeScript(script);
+    await sleep(ms);
   },
 
   /**
@@ -166,5 +194,14 @@ const self = module.exports = {
     const element = await self.waitUntilElementLocated.call(this, xpath);
     const script = `arguments[0].removeAttribute('${attribute}')`;
     await this.driver.executeScript(script, element);
+  },
+
+  /**
+  * Move mouse over the element.
+  * @param {String} xpath The element xpath.
+  */
+  async moveMouse(xpath) {
+    const element = await self.waitUntilElementIsClickable.call(this, xpath);
+    await this.driver.actions().move({origin: element, x: 0, y: 0}).perform();
   },
 };
