@@ -1,6 +1,4 @@
-const {
-  Before, AfterStep, After, Status,
-} = require('@cucumber/cucumber');
+const {Before, AfterStep, After, Status} = require('@cucumber/cucumber');
 
 Before(function() {
   return this.driver.manage().window().maximize();

@@ -1,5 +1,4 @@
-const {setWorldConstructor, setDefaultTimeout} =
-    require('@cucumber/cucumber');
+const {setWorldConstructor, setDefaultTimeout} = require('@cucumber/cucumber');
 const webdriver = require('selenium-webdriver');
 require('newmsedgedriver');
 require('chromedriver');

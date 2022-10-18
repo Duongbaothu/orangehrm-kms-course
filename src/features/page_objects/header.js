@@ -2,8 +2,7 @@ const keywords = require('./keywords');
 const common = require('./common');
 
 const btnAccount = `//button[@id='ACCOUNT']`;
-const btnCustomerLogin =
-`//button[@id='ACCOUNT']/..//a[contains(.,'Customer Login')]`;
+const btnCustomerLogin = `//button[@id='ACCOUNT']/..//a[contains(.,'Customer Login')]`;
 
 module.exports = {
   /**
