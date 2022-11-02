@@ -204,4 +204,18 @@ const self = module.exports = {
     const element = await self.waitUntilElementIsClickable.call(this, xpath);
     await this.driver.actions().move({origin: element, x: 0, y: 0}).perform();
   },
+
+  /**
+  * Verify Element include specific text.
+  * @param {String} xpath The element xpath.
+  * @param {String} text The specific expected text.
+  */
+  async verifyElementIncludeText(xpath, text) {
+    await this.driver.findElements(By.xpath(xpath)).then((elements) => {
+      elements.forEach(async (element) => {
+        const value = await element.getText();
+        assert.include(value, text, `${value} not includes ${text}`);
+      });
+    });
+  },
 };

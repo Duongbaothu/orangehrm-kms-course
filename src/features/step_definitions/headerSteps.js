@@ -1,4 +1,4 @@
-const {When} = require('@cucumber/cucumber');
+const {When, Then} = require('@cucumber/cucumber');
 const header = require('../page_objects/header');
 const {filltemplate} = require('@ln-maf/core');
 const fillTemplate = filltemplate;
@@ -17,9 +17,16 @@ function getVal(variable, scenario) {
   return fillTemplate(variable, scenario.results);
 };
 
+require('@ln-maf/core/parameter_types');
+require('@ln-maf/validations');
+
 When('User click Account button', header.clickBtnAccount);
 
 When('User click Customer Login button', header.clickBtnCustomerLogin);
+
+Then('Currency button show {string}', header.checkCurrencyText);
+
+When('User select a {string} in Currency dropdown box', header.selectCurrency);
 
 When('User click Logo image', header.clickLogoImage);
 
