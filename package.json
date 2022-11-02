@@ -13,7 +13,8 @@
     "lodash": "^4.17.21",
     "multiple-cucumber-html-reporter": "^3.0.1",
     "newmsedgedriver": "^105.0.134-3.53",
-    "selenium-webdriver": "^4.4.0"
+    "selenium-webdriver": "^4.4.0",
+    "string-contains": "^0.1.0"
   },
   "devDependencies": {
     "eslint": "^8.24.0",
