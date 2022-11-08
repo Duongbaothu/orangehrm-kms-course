@@ -8,11 +8,11 @@
     "@ln-maf/core": "^1.6.1",
     "@ln-maf/validations": "^1.6.2",
     "chai": "^4.3.6",
-    "chromedriver": "^105.0.0",
+    "chromedriver": "^107.0.0",
     "geckodriver": "^3.0.2",
     "lodash": "^4.17.21",
     "multiple-cucumber-html-reporter": "^3.0.1",
-    "newmsedgedriver": "^105.0.134-3.53",
+    "newmsedgedriver": "^107.0.0",
     "selenium-webdriver": "^4.4.0",
     "string-contains": "^0.1.0"
   },
