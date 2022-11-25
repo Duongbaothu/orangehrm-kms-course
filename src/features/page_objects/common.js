@@ -26,6 +26,17 @@ module.exports = {
   },
 
   /**
+  * Wait and verify the page URL.
+  * @param {string} url The page URL.
+  */
+  async checkPageURL(url) {
+    const actualURL = await this.driver.getCurrentUrl();
+    this.attach(`Actual page url: ${actualURL}`);
+    this.attach(`Expected page url: ${url}`);
+    assert.equal(actualURL, url);
+  },
+
+  /**
   * Wait for the loading icon not visible.
   */
   async waitLoading() {
