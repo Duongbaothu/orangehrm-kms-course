@@ -31,3 +31,21 @@ When('User type {string} into password', async function(password) {
 });
 
 When('User click Login button', loginPage.clickBtnLogin);
+
+When('User select {string} option on Account dropdown list', loginPage.selectDdlAccountOption);
+
+When('{string} with {string},{string},{string},{string},{string}', async function(Type, first, last, phone, mail, pas) {
+  await loginPage.selectDdlAccountOption.call(this, Type);
+  first = getVal(first, this);
+  last = getVal(last, this);
+  phone = getVal(phone, this);
+  mail = getVal(mail, this);
+  pas = getVal(pas, this);
+  await loginPage.fillTxtAndSignUpAccount.call(this, first, last, phone, mail, pas);
+});
+
+When('User Switch to the new tab for log in', loginPage.switchToLogIn);
+
+When('The error {string} is present', loginPage.verifyMsgCredentialError);
+
+When('The message {string} is present under {string} field', loginPage.verifyMsgValidationMessage);

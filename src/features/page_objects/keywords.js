@@ -218,4 +218,21 @@ const self = module.exports = {
       });
     });
   },
+
+  /**
+  * Switch to the next windowns or tabs.
+  */
+  async switchNextWindown() {
+    const originalWindow = await this.driver.getWindowHandle();
+    await this.driver.wait(
+        async () => (await this.driver.getAllWindowHandles()).length === 2,
+        10000,
+    );
+    const windows = await this.driver.getAllWindowHandles();
+    windows.forEach(async (handle) => {
+      if (handle !== originalWindow) {
+        await this.driver.switchTo().window(handle);
+      }
+    });
+  },
 };
