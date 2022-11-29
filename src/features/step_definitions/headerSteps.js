@@ -24,6 +24,14 @@ When('User click Account button', header.clickBtnAccount);
 
 When('User click Customer Login button', header.clickBtnCustomerLogin);
 
+When('User select the new language as {string}', header.selectDdlLanguageByValue);
+
+When('Verify the copyright is translated correct as {string}', header.verifyLblCopyRightByValue);
+
+When('Verify the language as {string} displays on Home Page', header.verifyLblSelectedLanguageByValue);
+
+When('Verify language selected sequential {string} and display correctly on HomePage', header.verifyLstLanguages);
+
 Then('Currency button show {string}', header.checkCurrencyText);
 
 When('User select a {string} in Currency dropdown box', header.selectCurrency);

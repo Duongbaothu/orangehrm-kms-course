@@ -9,6 +9,7 @@
     "@ln-maf/validations": "^1.6.2",
     "chai": "^4.3.6",
     "chromedriver": "^107.0.0",
+    "firefox": "^0.0.1",
     "geckodriver": "^3.0.2",
     "lodash": "^4.17.21",
     "multiple-cucumber-html-reporter": "^3.0.1",

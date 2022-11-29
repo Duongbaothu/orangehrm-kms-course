@@ -12,8 +12,11 @@ const ddoCompany = `//div[@class='main-menu-content w-100']//li[@class='footm']
 const lnkPage = `//div[@class='main-menu-content w-100']//*[@href='$href']`;
 const btnCurrency = `//button[@id='currency']`;
 const ddoCurrency = `//ul[@class='dropdown-menu show']/..//a[contains(.,'$optionName')]`;
+const btnLanguage = `//button[@id='languages']`;
+const lblCopyRight = `//div[contains(@class,'container')]//div[contains(@class,' footer-item')]//ul`;
+const ddlLanguage = `//button[@id='languages']//following-sibling::ul//a[normalize-space(text())='selectedLanguage']`;
 
-module.exports = {
+const self = module.exports = {
   /**
   * Click the Account button.
   */
@@ -86,4 +89,59 @@ module.exports = {
     this.attach(`Expected currency text is: ${currency}`);
     assert.equal(actualCurrency, currency);
   },
+
+  /**
+  * Select language at Home page
+  * @param {string} language The select language
+  */
+  async selectDdlLanguageByValue(language) {
+    await common.waitLoading.call(this);
+    const ddl = ddlLanguage.replace('selectedLanguage', language);
+    await keywords.waitClick.call(this, btnLanguage);
+    keywords.scrollIntoView.call(this, ddl);
+    await keywords.waitClick.call(this, ddl);
+    await keywords.sleepFor(500);
+  },
+
+  /**
+  * Wait and verify the selected language label displays on Home page
+  * @param {string} label The language label
+  */
+  async verifyLblSelectedLanguageByValue(label) {
+    const expectedlabel = label.toUpperCase();
+    await keywords.waitUntilElementIsVisible.call(this, btnLanguage);
+    const actualLabel = await keywords.waitAndGetText.call(this, btnLanguage);
+    this.attach(`Actual selected language: ${actualLabel}`);
+    this.attach(`Expected selected language: ${expectedlabel}`);
+    assert.equal(actualLabel, expectedlabel);
+  },
+
+  /**
+  * Wait and verify the copyright displays correctly with the selected language on Home page
+  * @param {string} copyright The copyright text
+  */
+  async verifyLblCopyRightByValue(copyright) {
+    await common.waitLoading.call(this);
+    keywords.sleepFor(4000);
+    keywords.scrollIntoView.call(this, lblCopyRight);
+    const actualLabel = await keywords.waitAndGetText.call(this, lblCopyRight);
+    this.attach(`Actual copyRight: ${actualLabel}`);
+    this.attach(`Expected copyRight: ${copyright}`);
+    assert.equal(actualLabel, copyright);
+  },
+
+  /**
+  * Verify language selected sequential and displayed corectly on Home Page
+  * @param {string} expectedListLanguages The list of languages
+  */
+  async verifyLstLanguages(expectedListLanguages) {
+    const languages = expectedListLanguages.split(',');
+    for (const language of languages) {
+      this.attach(`Select language: ${language}`);
+      await self.selectDdlLanguageByValue.call(this, language);
+      keywords.sleepFor(4000);
+      await self.verifyLblSelectedLanguageByValue.call(this, language);
+    };
+  },
 };
+
