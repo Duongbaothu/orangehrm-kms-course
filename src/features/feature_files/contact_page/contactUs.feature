@@ -2,7 +2,10 @@
 Feature: As a guest, I can send message to the PHP Travel
 
   Background: Open browser and navigate to Contact Us page
-    Given A user visits 'https://phptravels.net/contact'
+    Given A user visits 'https://phptravels.net/lang-en'
+    Then Page title is 'PHPTRAVELS | Travel Technology Partner - PHPTRAVELS'
+    When User click on Contact Us button in Infor section
+    Then The page URL is 'https://phptravels.net/contact'
     Then Page title is 'Contact - PHPTRAVELS'
 
   Scenario Outline: User cannot send message to PHP Travels with the incorrect email format

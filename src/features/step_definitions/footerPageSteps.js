@@ -22,5 +22,5 @@ When('User scroll to the element', footerPage.scrollToFooter);
 
 When('User click {string} text with href: {string}', async function(element, href) {
   href = getVal(href, this);
-  await footerPage.clickBtnByName.call(this, href);
+  await footerPage.clickBtnByHref.call(this, href);
 });

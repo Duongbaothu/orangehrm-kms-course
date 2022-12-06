@@ -1,7 +1,7 @@
 const keywords = require('./keywords');
 const common = require('./common');
 
-const btnOnFooterByName = `//*[contains(@class,'footer-area')]//*[@href=hrefOfElement]`;
+const btnOnFooterByHref = `//*[contains(@class,'footer-area')]//*[@href=hrefOfElement]`;
 
 module.exports = {
   /**
@@ -16,8 +16,8 @@ module.exports = {
    * Click the elements of Footer by Xpath.
    * @param {string} href the href of footer element.
    */
-  async clickBtnByName(href) {
-    const xpath = btnOnFooterByName.replace('hrefOfElement', href);
+  async clickBtnByHref(href) {
+    const xpath = btnOnFooterByHref.replace('hrefOfElement', href);
     await keywords.waitUntilElementIsClickable.call(this, xpath);
     await keywords.waitClick.call(this, xpath);
   },

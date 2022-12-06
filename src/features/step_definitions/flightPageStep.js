@@ -78,7 +78,7 @@ When('verify the Date Flights are displayed as {string} departureDate and {strin
 });
 
 When('verify the Passengers are displayed correct as {string} adults and {string} childs', async function(totalAdults, totalChilds) {
-  this.parameters = flightPage.checkDateFlight(totalAdults, totalChilds);
+  this.parameters = flightPage.checktotalPassengers(totalAdults, totalChilds);
 });
 
 When('verify the result Flights is displayed as {string}', async function(resultFlights) {

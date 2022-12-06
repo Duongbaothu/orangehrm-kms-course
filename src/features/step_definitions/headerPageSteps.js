@@ -36,7 +36,7 @@ Then('Currency button show {string}', headerPage.checkCurrencyText);
 
 When('User select a {string} in Currency dropdown box', headerPage.selectCurrency);
 
-When('User click Logo image', headerPage.clickLogoImage);
+When('User click Logo image', headerPage.clickImgLogo);
 
 When('User hover Company button', headerPage.hoverDDLCompany);
 

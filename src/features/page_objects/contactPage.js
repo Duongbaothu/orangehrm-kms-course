@@ -8,7 +8,7 @@ const txtName = `//input[@name='name']`;
 const txtEmail = `//input[@name='email']`;
 const txtMessage = `//textarea[@name='message']`;
 const btnSend = `//*[@id='button']`;
-const txtInvalidEmail = `//*[contains(@class,'email')]`;
+const txtInvalidEmail = `//body`;
 const txtSuccessMessage = `//div[@class='alert alert-success']`;
 
 module.exports = {
