@@ -1,3 +1,4 @@
+@E01 @SEL-E01S04
 Feature: As a guest, I can visit all Pages from the page Header
 
   Background: Open browser and navigate to main page

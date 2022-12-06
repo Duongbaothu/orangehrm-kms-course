@@ -1,5 +1,5 @@
 const {When} = require('@cucumber/cucumber');
-const footerPage = require('../page_objects/footer');
+const footerPage = require('../page_objects/footerPage');
 const {filltemplate} = require('@ln-maf/core');
 
 const fillTemplate = filltemplate;

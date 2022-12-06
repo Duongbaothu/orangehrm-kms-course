@@ -1,3 +1,4 @@
+@E02
 Feature: As an Agent, I need the ability to login with the account I signed up
 
     Background: Create the e new agent account
@@ -7,6 +8,7 @@ Feature: As an Agent, I need the ability to login with the account I signed up
             | randomString                       |
             | ${moment().format("YYMMDDHHmmss")} |
 
+    @SEL-E02S05
     Scenario: User has need the ability to login with the Agent account
         When set:
             | firstName            | lastName            | phone   | email                      | password        |
@@ -20,6 +22,7 @@ Feature: As an Agent, I need the ability to login with the account I signed up
         And User click Login button
         Then Page title is 'Dashboard - PHPTRAVELS'
 
+    @SEL-E02S05
     Scenario Outline: User can not login with the Agent account when <TC>
         When User select 'Agents Login' option on Account dropdown list
         And User Switch to the new tab for log in
@@ -33,6 +36,7 @@ Feature: As an Agent, I need the ability to login with the account I signed up
             | Email is missed    |                  | 123456   | Email     | Please fill out this field. |
             | Password is missed | test02@gmail.com |          | Password  | Please fill out this field. |
 
+    @SEL-E02S05
     Scenario Outline: User can not login with the Agent account when <TC>
         When User select 'Agents Login' option on Account dropdown list
         And User Switch to the new tab for log in

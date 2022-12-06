@@ -1,3 +1,4 @@
+@E01 @SEL-E01S01
 Feature: Search for a flight
   As a guest, I can search for a flight
 

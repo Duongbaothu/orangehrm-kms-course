@@ -1,3 +1,4 @@
+@E01 @SEL-E01S08
 Feature: As a guest, I can access the Contact Us page from Infor section
 
     Background: Open browser and navigate to main page

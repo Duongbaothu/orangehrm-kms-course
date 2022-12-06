@@ -1,3 +1,4 @@
+@E01 @SEL-E01S05
 Feature: As a guest, I can visit all pages from the page footer
 
   Background: Open browser and navigate to main page
