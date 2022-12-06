@@ -2,7 +2,7 @@ const chai = require('chai');
 const keywords = require('./keywords');
 const {assert} = chai;
 
-const icnLoading = `(//div[@id='preloader'])[1]`;
+const icnLoading = `(//div[@id='preloader'])`;
 
 module.exports = {
   /**

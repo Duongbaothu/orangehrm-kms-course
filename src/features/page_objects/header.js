@@ -5,11 +5,11 @@ const {assert} = chai;
 
 const btnAccount = `//button[@id='ACCOUNT']`;
 const btnCustomerLogin = `//button[@id='ACCOUNT']/..//a[contains(.,'Customer Login')]`;
-const logoImage = `//div[@class="logo"]//img[@alt="logo"]`;
-const ddlCompany = `//div[@class='main-menu-content w-100']//li[@class='footm']/a[@href='company']`;
-const ddoCompany = `//div[@class='main-menu-content w-100']//li[@class='footm']
+const imgLogo = `//div[@class="logo"]//img[@alt="logo"]`;
+const ddlCompany = `//div[contains(@class,'main-menu')]//li[@class='footm']/a[@href='company']`;
+const ddoCompany = `//div[contains(@class,'main-menu')]//li[@class='footm']
 /a[@href='company']/..//a[text()='$optionName']`;
-const lnkPage = `//div[@class='main-menu-content w-100']//*[@href='$href']`;
+const lnkPage = `//div[contains(@class,'main-menu')]//*[@href='$href']`;
 const btnCurrency = `//button[@id='currency']`;
 const ddoCurrency = `//ul[@class='dropdown-menu show']/..//a[contains(.,'$optionName')]`;
 const btnLanguage = `//button[@id='languages']`;
@@ -39,9 +39,9 @@ const self = module.exports = {
   /**
   * Click the Logo image.
   */
-  async clickLogoImage() {
+  async clickImgLogo() {
     await common.waitLoading.call(this);
-    await keywords.waitClick.call(this, logoImage);
+    await keywords.waitClick.call(this, imgLogo);
   },
 
   /**

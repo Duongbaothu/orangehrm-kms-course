@@ -10,16 +10,16 @@ const txtReturnDate = `//input[@id="return"]`;
 const ddlClassFlight = `//select[@id="flight_type"]/option[@value='selectClassFlight']`;
 const txtAdults = `//input[@id='fadults']`;
 const txtChilds = `//input[@id='fchilds']`;
-const lblAdults = `//*[@id="fadein"]/section[1]//p[2]/text()[1]`;
-const lblChilds = `//*[@id="fadein"]/section[1]//p[2]/text()[2]`;
-const lblFlyingFrom = `//section[contains(@class,'sec__title_list')]//h2/text()[1]`;
-const lblToDestination = `//section[contains(@class,'sec__title_list')]//h2/text()[2]`;
+const lblAdults = `//*[@id="fadein"]//*[contains(@class,'adults')]`;
+const lblChilds = `//*[@id="fadein"]//*[contains(@class,'childs')]`;
+const lblFlyingFrom = `//section[contains(@class,'sec__title_list')]//*[contains(@class,'from')]`;
+const lblToDestination = `//section[contains(@class,'sec__title_list')]//*[contains(@class,'to')]`;
 const lblPageLabel = `//*[@id="fadein"]//h2[contains(text(),'SEARCH FOR BEST FLIGHTS')]`;
-const dblFlights = `//*[@id="data"]/ul/li[1]/div/form//div[1]`;
-const lblDateFlight = `//*[@id="fadein"]/div/form/div[2]//h3[contains(text(),'Flight Stops')]`;
-const lblDepartureDate = `//*[@id="fadein"]/section[1]//p[1]/text()[1]`;
-const lblReturnDate = `//*[@id="fadein"]/section[1]//p[1]/text()[2]`;
-const btnBackToSearch = `//*[@id="fadein"]/div[5]/a/strong[contains(text(),'Back To Search')]`;
+const dblFlights = `//*[@id="data"]//form//div`;
+const lblDateFlight = `//*[@id="fadein"]//h3[contains(text(),'Flight Stops')]`;
+const lblDepartureDate = `//*[@id="fadein"]//*[contains(@class,'departure')]`;
+const lblReturnDate = `//*[@id="fadein"]//*[contains(@class,'return')]`;
+const btnBackToSearch = `//*[@id="fadein"]//strong[contains(text(),'Back To Search')]`;
 
 module.exports = {
   /**
