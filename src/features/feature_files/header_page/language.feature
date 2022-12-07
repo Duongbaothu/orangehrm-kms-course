@@ -2,7 +2,7 @@
 Feature: As a guest, I can select a language appear on my page
 
     Background: Open browser and navigate to main page
-        Given A user visits 'https://phptravels.net'
+        Given A user visits 'https://phptravels.net/lang-en'
         Then Page title is 'PHPTRAVELS | Travel Technology Partner - PHP'
 
     Scenario: Verify the default lanague at Home Page

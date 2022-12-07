@@ -2,7 +2,7 @@
 Feature: As an Agent, I need the ability to login with the account I signed up
 
     Background: Create the e new agent account
-        Given A user visits 'https://phptravels.net'
+        Given A user visits 'https://phptravels.net/lang-en'
         Then Page title is 'PHPTRAVELS | Travel Technology Partner - PHPTRAVELS'
         And set:
             | randomString                       |

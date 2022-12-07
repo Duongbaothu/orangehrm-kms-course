@@ -2,7 +2,7 @@
 Feature: Currency function
 
   Background: Open browser and navigate to main page
-    Given A user visits 'https://phptravels.net'
+    Given A user visits 'https://phptravels.net/lang-en'
 
   Scenario: TC01 - Validate default currecy set to USD
     Then Currency button show "USD"

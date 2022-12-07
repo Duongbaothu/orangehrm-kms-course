@@ -1,7 +1,7 @@
 Feature: Demo for LNI training
 
   Background: Open browser and navigate to main page
-    Given A user visits 'https://phptravels.net'
+    Given A user visits 'https://phptravels.net/lang-en'
     Then Page title is 'PHPTRAVELS | Travel Technology Partner - PHPTRAVELS'
 
   Scenario: User can login successfuly
