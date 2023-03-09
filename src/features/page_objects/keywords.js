@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 const {By, until, WebElement} = require('selenium-webdriver');
 const {promisify} = require('util');
-const {timeout} = require('../../../config');
+const {timeout} = require('../support/config');
 const sleep = promisify(setTimeout);
 const chai = require('chai');
 const {assert} = chai;
