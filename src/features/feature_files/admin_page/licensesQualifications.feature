@@ -36,7 +36,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
         When I type text '<licenseNameEdited>'  for field 'Name'
         And I click button with name 'Save' in page
         Then I verify the message with 'Successfully Updated' is presented
-        And I verify the education with '<licenseNameEdited>' is shown in the table
+        And I verify the license with '<licenseNameEdited>' is shown in the table
         And I delete the record to clean environment
 
         Examples:
@@ -65,14 +65,14 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
     Scenario Outline: HappyCase - <TC>: Verify user can delete a license successfully
         When I add the license '<licenseName>'
         Then I verify the license with '<licenseName>' is shown in the table
-        When I click button 'delete' in the row equal to the '<Number>'
+        When I click button 'delete' in the row equal to the '<number>'
         And The popup with the question 'Are you Sure?' is presented
         Then I click button with name 'Yes, Delete' in page
         And I verify the message with 'Successfully Deleted' is presented
         And I verify the record with title '<licenseName>' is deleted successfully
 
         Examples:
-            | TC | licenseName                                                    | Number |
+            | TC | licenseName                                                    | number |
             | 09 | Certified Digital Marketing Professional (CDMP)${randomString} | 2      |
 
     Scenario Outline: UnHappyCase - <TC>: Verify user cannot add exist license
@@ -87,7 +87,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | TC | licenseName1                                            | licenseName2                                            |
             | 01 | Certified Digital Marketing Professional${randomString} | Certified Digital Marketing Professional${randomString} |
 
-    Scenario: UnHappyCase - 02: Verify user cannot leave empty education name
+    Scenario: UnHappyCase - 02: Verify user cannot leave empty license name
         When I click button with name 'Add' in page
         And Click button with name 'Save' in page
         Then Verify the error message 'Required' is shown under 'Name' field
