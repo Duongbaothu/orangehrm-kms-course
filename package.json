@@ -8,14 +8,16 @@
     "@ln-maf/core": "^2.0.1",
     "@ln-maf/validations": "^2.0.3",
     "chai": "^4.3.6",
-    "chromedriver": "^107.0.0",
+    "chromedriver": "^111.0.0",
     "firefox": "^0.0.1",
     "geckodriver": "^3.0.2",
     "lodash": "^4.17.21",
     "multiple-cucumber-html-reporter": "^3.1.0",
     "newmsedgedriver": "^107.0.0",
     "selenium-webdriver": "^4.4.0",
-    "string-contains": "^0.1.0"
+    "string-contains": "^0.1.0",
+    "dotenv":"^16.0.3",
+    "csv-parser":"^3.0.0"
   },
   "devDependencies": {
     "eslint": "^8.29.0",

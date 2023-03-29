@@ -17,6 +17,15 @@ const self = module.exports = {
   },
 
   /**
+  * Wait until the element is present on DOM.
+  * @param {String} xpath The element xpath.
+  * @return {Array<WebElement>} The array of web elements.
+  */
+  async waitUntilElementsLocated(xpath) {
+    return this.driver.wait(until.elementsLocated(By.xpath(xpath)), timeout);
+  },
+
+  /**
   * Wait until the element is not present on DOM.
   * @param {WebElement} element The web element.
   * @return {Boolean} true if the element is not present on DOM otherwise false.
@@ -102,6 +111,20 @@ const self = module.exports = {
     return result;
   },
 
+  /**
+  * Wait and get all text from xpath.
+  * @param {String} xpath The element xpath.
+  * @return {String} Text of elements.
+  */
+  async waitAndGetAllText(xpath) {
+    await self.waitUntilElementIsClickable.call(this, xpath);
+    let text = '';
+    const elements = await this.driver.findElements(By.xpath(xpath));
+    elements.forEach(async (element) => {
+      text += await element.getText() + ',';
+    });
+    return text;
+  },
   /**
   * Wait and get attribute value.
   * @param {String} xpath The element xpath.
@@ -234,5 +257,15 @@ const self = module.exports = {
         await this.driver.switchTo().window(handle);
       }
     });
+  },
+
+  /**
+  * Count number of elements having the same xpath value.
+  * @param {String} xpath The element xpath.
+  * @return {number} Text of element.
+  */
+  async countNumberOfElementsByXPath(xpath) {
+    const count = driver.findElementsByXpath(xpath).Count();
+    return parseInt(count);
   },
 };

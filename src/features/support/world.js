@@ -39,7 +39,7 @@ switch (process.env.BROWSER) {
       'acceptInsecureCerts': true,
       'goog:chromeOptions': {
         args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
-          '--disable-gpu', '--headless', '--window-size=1920,1080'],
+          '--disable-gpu', '--window-size=1920,1080'],
         extensions: [],
       },
     };
