@@ -37,4 +37,4 @@ When('A user delete selected records', common.deleteSeletedRecords);
 
 When('read csv data file from {string}', common.readDataFromCSVFile);
 
-When('Get all texts in record with keys are {string}', common.decodeString);
+When('Get all texts in record with keys are {string}', common.getAllInformationByKeys);
