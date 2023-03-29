@@ -42,7 +42,7 @@ const self = module.exports = {
   /**
   * Login to system using username and password
   */
-  async login() {
+  async loginByAdminRole() {
     await keywords.setText.call(this, txtUsername, config.ADMIN_USERNAME);
     await keywords.setText.call(this, txtPassword, config.ADMIN_PASSWORD);
     await keywords.waitClick.call(this, btnLogin);
@@ -150,12 +150,12 @@ const self = module.exports = {
   },
 
   /**
-  * Select dropdown and choose dropdown item in topbar menu
+  * Type a hint to search and then select option in the dropdown list
   * @param {string} hint The hint value for searching
   * @param {string} labelName The name of label with the corresponding hint field. Ex: Employee Name in Search System User or Employee Name, Employee Id, Supervisor Name in Search Employee Information
   * @param {string} optionValue The name of option in dropdown with the corresponding hint. Ex: Boss A and Boss B are options for the hint is Boss
   */
-  async selectValueByHint(hint, labelName, optionValue) {
+  async selectDropdownItemByHint(hint, labelName, optionValue) {
     const txtFieldByLabelName = txtFieldInForm.replace('$labelName', labelName);
     await keywords.setText.call(this, txtFieldByLabelName, hint);
     const ddlItemName = ddlInForm.replace('$dropdownName', labelName);
@@ -208,7 +208,7 @@ const self = module.exports = {
   },
 
   /**
-  * Delete a record by key
+  * Edit a record by key
   * @param {string} key The key name. Ex: username in Users table, employee id in Employees table
   */
   async clickEditActionByKey(key) {

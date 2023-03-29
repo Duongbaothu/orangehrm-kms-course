@@ -3,7 +3,7 @@ const common = require('../page_objects/common');
 
 Given('A user visits {string} page', common.navigateToPage);
 
-Given('A user logged in', common.login);
+Given('A user logged in by admin role', common.loginByAdminRole);
 
 Then('Page title is {string}', common.checkPageTitle);
 
@@ -21,7 +21,7 @@ Given('Verify the level page header is {string}', common.verifyLevelPageHeaderTi
 
 When('A user select option {string} in dropdown {string}', common.selectDropdownItemByValue);
 
-When('A user type a hint {string} in field {string} select option {string} in the dropdown list', common.selectValueByHint);
+When('A user type a hint {string} in field {string} to search and then select option {string} in the dropdown list', common.selectDropdownItemByHint);
 
 Then('Verify number of records found', common.verifyNumberOfRecordsFound);
 

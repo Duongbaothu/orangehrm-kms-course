@@ -17,7 +17,7 @@ const self = module.exports = {
   },
 
   /**
-  * Wait until the element is present on DOM.
+  * Wait until the elements are present on DOM.
   * @param {String} xpath The element xpath.
   * @return {Array<WebElement>} The array of web elements.
   */

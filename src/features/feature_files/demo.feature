@@ -6,7 +6,7 @@ Feature: Demo for common functions
 
     @Common_01
     Scenario: Example for common function
-        And A user logged in
+        And A user logged in by admin role
         Then A user is on '/web/index.php/dashboard/index' page
         And Page title is 'OrangeHRM'
         When A user click 'Admin' item in main menu
@@ -15,7 +15,7 @@ Feature: Demo for common functions
         Then Verify the module page header is 'Admin'
         Then Verify the level page header is 'User Management'
         When A user select option 'Admin' in dropdown 'User Role'
-        And A user type a hint 'Boss' in field 'Employee Name' select option 'Boss A' in the dropdown list
+        And A user type a hint 'Boss' in field 'Employee Name' to search and then select option 'Boss A' in the dropdown list
         When A user select option 'Enabled' in dropdown 'Status'
         # Then Verify number of records found
         When A user delete a record with key is 'ess_user2'
