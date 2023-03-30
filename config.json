@@ -1,5 +1,0 @@
-{
-  "url": "https://opensource-demo.orangehrmlive.com/",
-  "userName": "${process.env.USERNAME}",
-  "password": "${process.env.PASSWORD}"
-}
