@@ -31,7 +31,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
     Scenario Outline: HappyCase - <TC>: Verify user can edit licenses successfully
         When I add the license '<licenseName>'
         Then I verify the license with '<licenseName>' is shown in the table
-        When I click button 'edit' in the row equal to the '<number>'
+        When I click button 'edit' in the row has name '<licenseName>'
         Then I verify the header title is 'Edit License'
         When I type text '<licenseNameEdited>'  for field 'Name'
         And I click button with name 'Save' in page
@@ -40,16 +40,16 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
         And I delete the record to clean environment
 
         Examples:
-            | TC | number | licenseName                                             | licenseNameEdited                                              |
-            | 06 | 2      | Certified Digital Marketing Professional${randomString} | Certified Digital Marketing Professional (CDMP)${randomString} |
-            | 07 | 3      | Certified Information Security Manager${randomString}   | Certified Information Security Manager (CISM)${randomString}   |
+            | TC | licenseName                                             | licenseNameEdited                                              |
+            | 06 | Certified Digital Marketing Professional${randomString} | Certified Digital Marketing Professional (CDMP)${randomString} |
+            | 07 | Certified Information Security Manager${randomString}   | Certified Information Security Manager (CISM)${randomString}   |
 
     Scenario Outline: HappyCase - <TC>: Verify user can choose muptiple licenses to delete successfully
-        Given get number of records found
         When I add the license '<licenseName1>'
         And I add the license '<licenseName2>'
         Then I verify the license with '<licenseName1>' is shown in the table
         Then I verify the license with '<licenseName2>' is shown in the table
+        And get number of records found
         And I click on the checkbox in the row has name '<licenseName1>'
         And I click on the checkbox in the row has name '<licenseName2>'
         Then I verify button with value 'Delete Selected' is visible
@@ -67,9 +67,9 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | 08 | Certified Digital Marketing Professional (CDMP)${randomString} | Certified Information Security Manager (CISM)${randomString} |
 
     Scenario Outline: HappyCase - <TC>: Verify user can delete a license successfully
-        Given get number of records found
         When I add the license '<licenseName>'
         Then I verify the license with '<licenseName>' is shown in the table
+        And get number of records found
         When I click button 'delete' in the row has name '<licenseName>'
         And The popup with the question 'Are you Sure?' is presented
         And I click button with name 'No, Cancel' in page
