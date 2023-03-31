@@ -50,8 +50,8 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
         And I add the license '<licenseName2>'
         Then I verify the license with '<licenseName1>' is shown in the table
         Then I verify the license with '<licenseName2>' is shown in the table
-        And I click on the checkbox in the row equal to the '<number1>'
-        And I click on the checkbox in the row equal to the '<number2>'
+        And I click on the checkbox in the row has name '<licenseName1>'
+        And I click on the checkbox in the row has name '<licenseName2>'
         Then I verify button with value 'Delete Selected' is visible
         And I click button with name 'Delete Selected' in page
         And The popup with the question 'Are you Sure?' is presented
@@ -63,25 +63,25 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
         And Verify the record 'licenseName1' and 'licenseName2' from the list are deleted successfully
 
         Examples:
-            | TC | licenseName1                                                   | licenseName2                                                 | number1 | number2 |
-            | 08 | Certified Digital Marketing Professional (CDMP)${randomString} | Certified Information Security Manager (CISM)${randomString} | 2       | 4       |
+            | TC | licenseName1                                                   | licenseName2                                                 |
+            | 08 | Certified Digital Marketing Professional (CDMP)${randomString} | Certified Information Security Manager (CISM)${randomString} |
 
     Scenario Outline: HappyCase - <TC>: Verify user can delete a license successfully
         Given get number of records found
         When I add the license '<licenseName>'
         Then I verify the license with '<licenseName>' is shown in the table
-        When I click button 'delete' in the row equal to the '<number>'
+        When I click button 'delete' in the row has name '<licenseName>'
         And The popup with the question 'Are you Sure?' is presented
         And I click button with name 'No, Cancel' in page
-        And I click button 'delete' in the row equal to the '<number>'
+        And I click button 'delete' in the row has name '<licenseName>'
         And I click button with name 'Yes, Delete' in page
         Then I verify the message with 'Successfully Deleted' is presented
         And I verify the number of records decrease by '1'
         And I verify the record with title '<licenseName>' is deleted successfully
 
         Examples:
-            | TC | licenseName                                                    | number |
-            | 09 | Certified Digital Marketing Professional (CDMP)${randomString} | 2      |
+            | TC | licenseName                                                    |
+            | 09 | Certified Digital Marketing Professional (CDMP)${randomString} |
 
     Scenario Outline: UnHappyCase - <TC>: Verify user cannot add exist license
         When I add the license '<licenseName1>'
