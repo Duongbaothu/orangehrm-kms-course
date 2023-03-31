@@ -5,12 +5,12 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
         Given a user visits 'https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewLicenses'
         Then page title is 'OrangeHRM'
         And verify the header title is 'Licenses'
-        And get number of records found
         And set:
             | randomString                       |
-            | ${moment().format("YYMMDDHHmmss")} |
+            | ${moment().format('YYMMDDHHmmss')} |
 
     Scenario Outline: HappyCase - <TC>: Verify user can add new licenses successfully
+        Given get number of records found
         When I click button with name 'Add' in page
         Then I verify the header title is 'Add License'
         When I type text '<licenseName>' for field 'Name'
@@ -45,6 +45,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | 07 | 3      | Certified Information Security Manager${randomString}   | Certified Information Security Manager (CISM)${randomString}   |
 
     Scenario Outline: HappyCase - <TC>: Verify user can choose muptiple licenses to delete successfully
+        Given get number of records found
         When I add the license '<licenseName1>'
         And I add the license '<licenseName2>'
         Then I verify the license with '<licenseName1>' is shown in the table
@@ -54,8 +55,11 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
         Then I verify button with value 'Delete Selected' is visible
         And I click button with name 'Delete Selected' in page
         And The popup with the question 'Are you Sure?' is presented
+        And I click button with name 'No, Cancel' in page
+        And I click button with name 'Delete Selected' in page
         And I click button with name 'Yes, Delete' in page
         And I verify the message with 'Successfully Deleted' is presented
+        And I verify the number of records decrease by '2'
         And Verify the record 'licenseName1' and 'licenseName2' from the list are deleted successfully
 
         Examples:
@@ -63,12 +67,16 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | 08 | Certified Digital Marketing Professional (CDMP)${randomString} | Certified Information Security Manager (CISM)${randomString} | 2       | 4       |
 
     Scenario Outline: HappyCase - <TC>: Verify user can delete a license successfully
+        Given get number of records found
         When I add the license '<licenseName>'
         Then I verify the license with '<licenseName>' is shown in the table
         When I click button 'delete' in the row equal to the '<number>'
         And The popup with the question 'Are you Sure?' is presented
-        Then I click button with name 'Yes, Delete' in page
-        And I verify the message with 'Successfully Deleted' is presented
+        And I click button with name 'No, Cancel' in page
+        And I click button 'delete' in the row equal to the '<number>'
+        And I click button with name 'Yes, Delete' in page
+        Then I verify the message with 'Successfully Deleted' is presented
+        And I verify the number of records decrease by '1'
         And I verify the record with title '<licenseName>' is deleted successfully
 
         Examples:
@@ -85,9 +93,19 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
 
         Examples:
             | TC | licenseName1                                            | licenseName2                                            |
-            | 01 | Certified Digital Marketing Professional${randomString} | Certified Digital Marketing Professional${randomString} |
+            | 10 | Certified Digital Marketing Professional${randomString} | Certified Digital Marketing Professional${randomString} |
 
-    Scenario: UnHappyCase - 02: Verify user cannot leave empty license name
+    Scenario Outline: UnHappyCase - 11: Verify user cannot leave empty license name
         When I click button with name 'Add' in page
         And Click button with name 'Save' in page
         Then Verify the error message 'Required' is shown under 'Name' field
+
+    Scenario Outline: UnHappyCase - <TC>: Verify user cannot add licenses exceed 100 charaters
+        When I click button with name 'Add' in page
+        Then I verify the header title is 'Add License'
+        When I type text '<licenseName>' for field 'Name'
+        Then I verify the error message 'Already exists' is shown under 'Name' field
+
+        Examples:
+            | TC | licenseName                                                                                               |
+            | 12 | Certified Digital Marketing Professional from Macquarie University valid from the date you have graduated |
