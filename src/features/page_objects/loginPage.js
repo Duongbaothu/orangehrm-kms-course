@@ -10,7 +10,7 @@ const btnLogin = `//button[contains(@type,'submit')]`;
 const msgValidationError = `//input[@name='$fieldName']/parent::*/following-sibling::span`;
 const msgCredentialError = `//div[contains(@class,'oxd-alert-content--error')]`;
 
-const self = module.exports = {
+module.exports = {
   /**
    * Login to system using username and password
    * @param {string} username The username of an account
