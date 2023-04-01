@@ -3,7 +3,7 @@ name: "Full Regression Automation UI"
 on:
   push:
     branches:
-      - "**"
+      - "main"
   schedule:
     - cron:  "0 7 * * 0"
   workflow_dispatch:
@@ -12,11 +12,11 @@ jobs:
   full-regression-ui:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Node.js 14.16.1
+      - uses: actions/checkout@v3
+      - name: Set up Node.js 16.16
         uses: actions/setup-node@v2
         with:
-          node-version: "14.16.1"
+          node-version: "16.16"
       - name: Set up libraries for browsers
         id: setup-libs-chrome
         run: |
@@ -25,28 +25,46 @@ jobs:
       - name: Set up Google Chrome
         uses: browser-actions/setup-chrome@latest 
         with:
-          chrome-version: stable
+          chrome-version: 1070209      
       - name: Set up Edge
-        uses: browser-actions/setup-edge@latest
+        if: success() || failure()
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-stable.list'
+          sudo apt-get update
+          sudo apt-get install microsoft-edge-stable=107.0.1418.62-1 --allow-downgrades -y
+      - name: Set up Docker
+        # need checkout before using compose-action
+        uses: isbang/compose-action@v1.4.1
         with:
-          edge-version: stable
-      - name: Set up Firefox
-        uses: browser-actions/setup-firefox@latest
-        with:
-          firefox-version: "105.0"
-      - name: Run Automation Test UI with Chrome browser
-        id: automation-test-chrome
+          compose-file: "./docker-compose.yml"
+          up-flags: "--build"
+          services: |
+            web
+            db
+            phpmyadmin
+      - name: 'Create .env File'
+        run: |
+          touch .env
+          echo HRM_USERNAME_ADMIN=${{ secrets.HRM_USERNAME_ADMIN }} >> .env
+          echo HRM_PASSWORD_ADMIN=${{ secrets.HRM_PASSWORD_ADMIN }} >> .env
+          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+      - name: Run Automation to Setup OrangeHRM Application
+        id: automation-setup-application
+        if: success() || failure()
         run: |
           npm install         
+          bash runFeature_Setup.sh chrome      
+      - name: Run Automation Test UI with Chrome browser
+        id: automation-test-chrome
+        run: |      
           bash runFeature_FullRegression.sh chrome
       - name: Run Automation Test UI with Edge browser
         id: automation-test-edge
         run: |
           bash runFeature_FullRegression.sh edge
-      - name: Run Automation Test UI with FireFox browser
-        id: automation-test-firefox
-        run: |
-          bash runFeature_FullRegression.sh firefox
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         if: always()

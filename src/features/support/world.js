@@ -3,7 +3,7 @@ const webdriver = require('selenium-webdriver');
 require('newmsedgedriver');
 require('chromedriver');
 require('geckodriver');
-const {timeout} = require('../../../config');
+const {timeout} = require('./config');
 
 console.log('You are running on env:', process.env.BROWSER);
 
