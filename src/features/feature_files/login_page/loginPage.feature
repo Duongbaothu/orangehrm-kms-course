@@ -30,7 +30,7 @@ Feature: As an user, I am able to login with my credentials
     Then The error message 'Invalid credentials' is present
 
     Examples:
-      | testCases                              | username         | password         |
-      | invalid username of Admin              | ${randomString}  | ${passwordAdmin} |
-      | invalid password of Admin              | ${usernameAdmin} | ${randomString}  |
-      | invalid username and password of Admin | ${randomString}  | ${randomString}  |
+      | testCases                          | username         | password         |
+      | invalid username of Admin          | ${randomString}  | ${passwordAdmin} |
+      | invalid password of Admin          | ${usernameAdmin} | ${randomString}  |
+      | invalid both username and password | ${randomString}  | ${randomString}  |
