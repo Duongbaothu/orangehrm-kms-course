@@ -6,3 +6,5 @@ When('A user login with username {string} and password {string}', loginPage.logi
 Then('The message {string} is present under {string} field', loginPage.verifyMsgValidationMessage);
 
 Then('The error message {string} is present', loginPage.verifyMsgCredentialError);
+
+Then('Verify the item {string} in Main Menu is displayed', loginPage.verifyItemMainMenuIsDisplayed);

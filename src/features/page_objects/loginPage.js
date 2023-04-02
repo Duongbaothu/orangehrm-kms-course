@@ -1,5 +1,6 @@
 require('@ln-maf/validations');
-require('@ln-maf/core');
+require('@ln-maf/core/parameter_types');
+const {filltemplate} = require('@ln-maf/core');
 const chai = require('chai');
 const keywords = require('./keywords');
 const {assert} = chai;
@@ -9,6 +10,20 @@ const txtPassword = `//input[@name='password']`;
 const btnLogin = `//button[contains(@type,'submit')]`;
 const msgValidationError = `//input[@name='$fieldName']/parent::*/following-sibling::span`;
 const msgCredentialError = `//div[contains(@class,'oxd-alert-content--error')]`;
+const itemMainMenu = `//ul[@class='oxd-main-menu']//li//span[text()='$itemName']`;
+
+/**
+ * Returns the value of the variable if it exists in this.results
+ * @param {string} variable the variable to check
+ * @param {string} scenario the object to be used as the current object
+ * @return {Object} the value of the variable if it exists in this.results. Returns the variable itself if variable does not contain "${}"
+ */
+function getVariableValue(variable, scenario) {
+  if (!scenario.results) {
+    scenario.results = {};
+  }
+  return filltemplate(variable, scenario.results);
+}
 
 module.exports = {
   /**
@@ -17,8 +32,8 @@ module.exports = {
    * @param {string} password The password of an account
    */
   async login(username, password) {
-    await keywords.setText.call(this, txtUsername, username);
-    await keywords.setText.call(this, txtPassword, password);
+    await keywords.setText.call(this, txtUsername, getVariableValue(username, this));
+    await keywords.setText.call(this, txtPassword, getVariableValue(password, this));
     await keywords.waitClick.call(this, btnLogin);
   },
 
@@ -44,5 +59,14 @@ module.exports = {
     this.attach(`Actual message: ${actualMessage}`);
     this.attach(`Expected message: ${expectedMessage}`);
     assert.equal(actualMessage, expectedMessage);
+  },
+
+  /**
+   * Verify the item in main menu is displayed.
+   * @param {string} itemName The item name in main menu. Ex: Admin, Dashboard,...
+   */
+  async verifyItemMainMenuIsDisplayed(itemName) {
+    const item = itemMainMenu.replace('$itemName', itemName);
+    await keywords.verifyElementIsDisplayed.call(this, item);
   },
 };
