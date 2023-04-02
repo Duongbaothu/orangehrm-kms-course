@@ -125,6 +125,7 @@ const self = module.exports = {
     });
     return text;
   },
+
   /**
   * Wait and get attribute value.
   * @param {String} xpath The element xpath.
@@ -203,9 +204,19 @@ const self = module.exports = {
   * @param {String} xpath The element xpath.
   */
   async verifyElementIsDisplayed(xpath) {
+    const result = await self.elementIsDisplayed.call(this, xpath);
+    assert(result, true);
+  },
+
+  /**
+  * Check Element is displayed.
+  * @param {String} xpath The element xpath.
+  * @return {Boolean} Element is displayed or not
+  */
+  async elementIsDisplayed(xpath) {
     const element = await self.waitUntilElementLocated.call(this, xpath);
     const result = element.isDisplayed();
-    assert(result, true);
+    return result;
   },
 
   /**
@@ -262,10 +273,10 @@ const self = module.exports = {
   /**
   * Count number of elements having the same xpath value.
   * @param {String} xpath The element xpath.
-  * @return {number} Text of element.
+  * @return {number} Number of elements.
   */
   async countNumberOfElementsByXPath(xpath) {
-    const count = driver.findElementsByXpath(xpath).Count();
-    return parseInt(count);
+    const elements = await self.waitUntilElementsLocated.call(this, xpath);
+    return parseInt(elements.length);
   },
 };

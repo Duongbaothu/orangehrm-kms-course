@@ -5,7 +5,7 @@ const {assert} = chai;
 const fs = require('fs');
 const parse = require('csv-parser');
 
-const icnLoading = `(//div[@id='preloader'])`;
+const icnLoading = `(//div[@data-v-app])`;
 const txtUsername = `//input[@name="username"]`;
 const txtPassword = `//input[@name="password"]`;
 const btnLogin = `//button[contains(@type,'submit')]`;
@@ -29,6 +29,9 @@ const chkRecord = `//div[@class='oxd-table-body']//div[text()='$key']/../..//inp
 const chkAllRecords = `//div[@class='oxd-table-header']//input[@type='checkbox']/..//span`;
 const btnDeleteSelectedRecords = `//button[normalize-space(.)='Delete Selected']`;
 const txtAllInfomationInRecord = `//div[@class='oxd-table-body']//div[text()='$key']/../../div`;
+const navPaging = `//nav[@aria-label='Pagination Navigation']/ul/li`;
+const btnUpload = `//input[@class='oxd-file-input']`;
+const btnAdd = `//button[normalize-space(.)='Add']`;
 
 const self = module.exports = {
   /**
@@ -73,10 +76,10 @@ const self = module.exports = {
   },
 
   /**
-  * Wait for the loading icon not visible.
+  * Wait for the main page is loaded.
   */
   async waitLoading() {
-    await keywords.waitUntilElementIsNotVisible.call(this, icnLoading);
+    await keywords.waitUntilElementIsVisible.call(this, icnLoading);
   },
 
   /**
@@ -171,7 +174,8 @@ const self = module.exports = {
   */
   async getNumberOfRecordsFound() {
     const fullText = await keywords.waitAndGetText.call(this, lblRecordsFound);
-    const number = fullText.match(/\d/g);
+    let number = fullText.match(/\d/g);
+    number = number.join('');
     return parseInt(number);
   },
 
@@ -179,11 +183,53 @@ const self = module.exports = {
   * Verify number of records found
   */
   async verifyNumberOfRecordsFound() {
-    const expectedRecordFoundNumber = await self.getNumberOfRecordsFound();
-    const actualRecordFoundNumber = keywords.countNumberOfElementsByXPath(tblRecords);
-    this.attach(`Actual Record Found Number: ${actualRecordFoundNumber}`);
+    const expectedRecordFoundNumber = await self.getNumberOfRecordsFound.call(this);
+    let numberOfRecordsFound = await keywords.countNumberOfElementsByXPath.call(this, tblRecords);
+    if (expectedRecordFoundNumber > 50 ) {
+      const pagingSection = await keywords.elementIsDisplayed.call(this, navPaging);
+      if (pagingSection) {
+        numberOfRecordsFound = 0;
+        const numberPages = await keywords.countNumberOfElementsByXPath.call(this, navPaging);
+        for (let index = 2; index <= numberPages; index++) {
+          await keywords.waitClick.call(this, navPaging + `[${index}]/button`);
+          numberOfRecordsFound += await keywords.countNumberOfElementsByXPath.call(this, tblRecords);
+        }
+      }
+    }
+    this.attach(`Actual Record Found Number: ${numberOfRecordsFound}`);
     this.attach(`Expected Record Found Number: ${expectedRecordFoundNumber}`);
-    assert.equal(actualRecordFoundNumber, expectedRecordFoundNumber);
+    assert.equal(numberOfRecordsFound, expectedRecordFoundNumber);
+  },
+
+  /**
+  * Verify the page has pagination
+  */
+  async verifyPageHasPagination() {
+    let result = false;
+    const numberOfRecordsFound = await self.getNumberOfRecordsFound.call(this);
+    if (numberOfRecordsFound > 50 ) {
+      result = await keywords.elementIsDisplayed.call(this, navPaging);
+    }
+    assert.equal(true, result);
+  },
+
+  /**
+  * verify paginated page number
+  * @param {string} expectedNumberOfPages The paginated page number
+  */
+  async verifyPaginatedPageNumber(expectedNumberOfPages) {
+    let numberPages = 0;
+    const numberOfRecordsFound = await self.getNumberOfRecordsFound.call(this);
+    if (numberOfRecordsFound > 50 ) {
+      const pagingSection = await keywords.elementIsDisplayed.call(this, navPaging);
+      if (pagingSection) {
+        numberPages = (await keywords.countNumberOfElementsByXPath.call(this, navPaging)) - 1;
+      }
+    }
+    expectedNumberOfPages = parseInt(expectedNumberOfPages);
+    this.attach(`Actual Paginated Page Number: ${numberPages}`);
+    this.attach(`Expected Paginated Page Number: ${expectedNumberOfPages}`);
+    assert.equal(numberPages, expectedNumberOfPages);
   },
 
   /**
@@ -286,5 +332,15 @@ const self = module.exports = {
   */
   async decodeString(encodedString) {
     return atob(encodedString);
+  },
+
+  /**
+  * Upload file
+  * @param {String} filePath The path of file that you want to upload.
+  */
+  async uploadFile(filePath) {
+    await keywords.waitClick.call(this, btnAdd);
+    const element = await keywords.waitUntilElementLocated.call(this, btnUpload);
+    element.sendKeys(process.cwd() + '/' + filePath);
   },
 };
