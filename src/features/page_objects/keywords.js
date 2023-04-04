@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 const {By, until, WebElement} = require('selenium-webdriver');
+const webdriver = require('selenium-webdriver');
 const {promisify} = require('util');
 const {timeout} = require('../support/config');
 const sleep = promisify(setTimeout);
@@ -87,7 +88,7 @@ const self = module.exports = {
   */
   async setText(xpath, text) {
     const element = await self.waitUntilElementLocated.call(this, xpath);
-    element.clear();
+    element.sendKeys(webdriver.Key.chord(webdriver.Key.CONTROL, 'a'));
     element.sendKeys(text);
   },
 

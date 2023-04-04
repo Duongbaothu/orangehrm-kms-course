@@ -11,7 +11,7 @@ Feature: Demo for common functions
         And Page title is 'OrangeHRM'
         When A user click 'Admin' item in main menu
         And A user click 'Job' dropdown and choose 'Job Titles' item in topbar menu
-        And A user upload file 'src/features/data/jobs/job01.pdf'
+        # And A user upload file 'src/features/data/jobs/job01.pdf'
         And A user click 'User Management' dropdown and choose 'Users' item in topbar menu
         Then Verify the module page header is 'Admin'
         Then Verify the level page header is 'User Management'

@@ -1,9 +1,7 @@
-require('@ln-maf/validations');
-require('@ln-maf/core/parameter_types');
-const {filltemplate} = require('@ln-maf/core');
 const chai = require('chai');
 const keywords = require('./keywords');
 const {assert} = chai;
+const common = require('./common');
 
 const txtUsername = `//input[@name='username']`;
 const txtPassword = `//input[@name='password']`;
@@ -12,19 +10,7 @@ const msgValidationError = `//input[@name='$fieldName']/parent::*/following-sibl
 const msgCredentialError = `//div[contains(@class,'oxd-alert-content--error')]`;
 const itemMainMenu = `//ul[@class='oxd-main-menu']//li//span[text()='$itemName']`;
 
-const self = module.exports = {
-  /**
-   * Returns the value of the variable if it exists in this.results
-   * @param {string} variable the variable to check
-   * @param {string} scenario the object to be used as the current object
-   * @return {Object} the value of the variable if it exists in this.results. Returns the variable itself if variable does not contain "${}"
-   */
-  async getVariableValue(variable, scenario) {
-    if (!scenario.results) {
-      scenario.results = {};
-    }
-    return filltemplate(variable, scenario.results);
-  },
+module.exports = {
 
   /**
    * Login to system using username and password
@@ -32,8 +18,8 @@ const self = module.exports = {
    * @param {string} password The password of an account
    */
   async login(username, password) {
-    await keywords.setText.call(this, txtUsername, self.getVariableValue(username, this));
-    await keywords.setText.call(this, txtPassword, self.getVariableValue(password, this));
+    await keywords.setText.call(this, txtUsername, common.getVariableValue(username, this));
+    await keywords.setText.call(this, txtPassword, common.getVariableValue(password, this));
     await keywords.waitClick.call(this, btnLogin);
   },
 

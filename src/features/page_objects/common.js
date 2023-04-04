@@ -1,3 +1,6 @@
+require('@ln-maf/validations');
+require('@ln-maf/core/parameter_types');
+const {filltemplate} = require('@ln-maf/core');
 const chai = require('chai');
 const keywords = require('./keywords');
 const config = require('../support/config');
@@ -31,7 +34,6 @@ const btnDeleteSelectedRecords = `//button[normalize-space(.)='Delete Selected']
 const txtAllInfomationInRecord = `//div[@class='oxd-table-body']//div[text()='$key']/../../div`;
 const navPaging = `//nav[@aria-label='Pagination Navigation']/ul/li`;
 const btnUpload = `//input[@class='oxd-file-input']`;
-const btnAdd = `//button[normalize-space(.)='Add']`;
 
 const self = module.exports = {
   /**
@@ -335,12 +337,33 @@ const self = module.exports = {
   },
 
   /**
-  * Upload file
-  * @param {String} filePath The path of file that you want to upload.
-  */
+    * Encode a string
+    * @param {string} password The password string
+    * @return {string} The string has been encoded
+    */
+  async encodeString(password) {
+    return btoa(password);
+  },
+
+  /**
+    * Upload file
+    * @param {String} filePath The path of file that you want to upload.
+    */
   async uploadFile(filePath) {
-    await keywords.waitClick.call(this, btnAdd);
     const element = await keywords.waitUntilElementLocated.call(this, btnUpload);
     element.sendKeys(process.cwd() + '/' + filePath);
+  },
+
+  /**
+     * Returns the value of the variable if it exists in this.results
+     * @param {string} variable the variable to check
+     * @param {string} scenario the object to be used as the current object
+     * @return {Object} the value of the variable if it exists in this.results. Returns the variable itself if variable does not contain "${}"
+     */
+  async getVariableValue(variable, scenario) {
+    if (!scenario.results) {
+      scenario.results = {};
+    }
+    return filltemplate(variable, scenario.results);
   },
 };
