@@ -13,6 +13,8 @@
     "rules": {
         "new-cap": "off",
         "max-len": ["error", { "code": 300 }],
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "indent": ["error", 4],
+        "object-curly-spacing": ["error", "always"]
     }
 }

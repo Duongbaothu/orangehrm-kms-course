@@ -1,47 +1,47 @@
-const {setWorldConstructor, setDefaultTimeout} = require('@cucumber/cucumber');
+const { setWorldConstructor, setDefaultTimeout } = require('@cucumber/cucumber');
 const webdriver = require('selenium-webdriver');
 require('newmsedgedriver');
 require('chromedriver');
 require('geckodriver');
-const {timeout} = require('./config');
+const config = require('./config');
 
 console.log('You are running on env:', process.env.BROWSER);
 
 let capabilities;
 
 switch (process.env.BROWSER) {
-  case 'edge':
+case 'edge':
     capabilities = {
-      'browserName': 'MicrosoftEdge',
-      'javascriptEnabled': true,
-      'acceptInsecureCerts': true,
-      'ms:edgeOptions': {
-        args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
-          '--disable-gpu', '--headless', '--window-size=1920,1080'],
-      },
+        'browserName': 'MicrosoftEdge',
+        'javascriptEnabled': true,
+        'acceptInsecureCerts': true,
+        'ms:edgeOptions': {
+            args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
+                '--disable-gpu', '--headless', '--window-size=1920,1080'],
+        },
     };
     break;
 
-  case 'firefox':
+case 'firefox':
     capabilities = {
-      'browserName': 'firefox',
-      'acceptInsecureCerts': true,
-      'moz:firefoxOptions': {
-        args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
-          '--disable-gpu', '--headless', '--window-size=1920,1080'],
-      },
+        'browserName': 'firefox',
+        'acceptInsecureCerts': true,
+        'moz:firefoxOptions': {
+            args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
+                '--disable-gpu', '--headless', '--window-size=1920,1080'],
+        },
     };
     break;
 
-  default:
+default:
     capabilities = {
-      'browserName': 'chrome',
-      'acceptInsecureCerts': true,
-      'goog:chromeOptions': {
-        args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
-          '--disable-gpu', '--headless', '--window-size=1920,1080'],
-        extensions: [],
-      },
+        'browserName': 'chrome',
+        'acceptInsecureCerts': true,
+        'goog:chromeOptions': {
+            args: ['--allow-insecure-localhost', '--ignore-certificate-errors',
+                '--disable-gpu', '--headless', '--window-size=1920,1080'],
+            extensions: [],
+        },
     };
     break;
 }
@@ -54,13 +54,13 @@ switch (process.env.BROWSER) {
 * @param {object} worldParameters The worldParameters configuration option
 * allows you to provide this information to Cucumber.
 */
-function CustomWorld({attach, parameters}) {
-  this.attach = attach;
-  this.parameters = parameters;
-  this.driver = new webdriver.Builder()
-      .withCapabilities(capabilities)
-      .build();
+function CustomWorld({ attach, parameters }) {
+    this.attach = attach;
+    this.parameters = parameters;
+    this.driver = new webdriver.Builder()
+        .withCapabilities(capabilities)
+        .build();
 }
 
-setDefaultTimeout(timeout);
+setDefaultTimeout(config.TIMEOUT_MEDIUM);
 setWorldConstructor(CustomWorld);

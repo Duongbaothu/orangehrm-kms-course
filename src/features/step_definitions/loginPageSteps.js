@@ -1,4 +1,4 @@
-const {When, Then} = require('@cucumber/cucumber');
+const { When, Then } = require('@cucumber/cucumber');
 const loginPage = require('../page_objects/loginPage');
 
 When('A user login with username {string} and password {string}', loginPage.login);
