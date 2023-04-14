@@ -183,7 +183,7 @@ const self = module.exports = {
         const fullText = await keywords.waitAndGetText.call(this, lblRecordsFound);
         let number = fullText.match(/\d/g);
         if (number === null) {
-            number = 0;
+            return 0;
         }
         number = number.join('');
         return parseInt(number);
