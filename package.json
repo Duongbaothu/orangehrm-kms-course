@@ -1,23 +1,23 @@
 {
   "name": "package.json",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Automation for LNI training",
   "main": "mainPage.js",
   "dependencies": {
-    "@cucumber/cucumber": "^8.10.0",
+    "@cucumber/cucumber": "^9.1.0",
     "@ln-maf/core": "^2.0.1",
     "@ln-maf/validations": "^2.0.3",
     "chai": "^4.3.6",
     "chromedriver": "^111.0.0",
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.0.3",
     "firefox": "^0.0.1",
     "geckodriver": "^3.0.2",
     "lodash": "^4.17.21",
-    "multiple-cucumber-html-reporter": "^3.1.0",
+    "multiple-cucumber-html-reporter": "^3.3.0",
     "newmsedgedriver": "^107.0.0",
     "selenium-webdriver": "^4.4.0",
-    "string-contains": "^0.1.0",
-    "dotenv":"^16.0.3",
-    "csv-parser":"^3.0.0"
+    "string-contains": "^0.1.0"
   },
   "devDependencies": {
     "eslint": "^8.29.0",

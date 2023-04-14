@@ -1,13 +1,13 @@
-const {Given, Then, When} = require('@cucumber/cucumber');
+const { Given, Then, When } = require('@cucumber/cucumber');
 const common = require('../page_objects/common');
 
-Given('A user visits {string} page', common.navigateToPage);
+Given('A user visits OrangeHRM page', common.navigateToOrangeHRMPage);
 
 Given('A user logged in by admin role', common.loginByAdminRole);
 
-Then('Page title is {string}', common.checkPageTitle);
+Then('Page title is {string}', common.verifyPageTitle);
 
-Then('A user is on {string} page', common.checkPageURL);
+Then('A user is on {string} page', common.verifyPageURL);
 
 When('A user click {string} item in main menu', common.clickMainMenuItem);
 
@@ -25,6 +25,10 @@ When('A user type a hint {string} in field {string} to search and then select op
 
 Then('Verify number of records found', common.verifyNumberOfRecordsFound);
 
+Then('Verify this page has pagination', common.verifyPageHasPagination);
+
+Then('Verify the paginated page number is {string}', common.verifyPaginatedPageNumber);
+
 When('A user delete a record with key is {string}', common.deleteRecordByKey);
 
 Then('Verify alert message is {string}', common.verifyAlert);
@@ -37,4 +41,4 @@ When('A user delete selected records', common.deleteSeletedRecords);
 
 When('read csv data file from {string}', common.readDataFromCSVFile);
 
-When('Get all texts in record with keys are {string}', common.getAllInformationByKeys);
+When('A user upload file {string}', common.uploadFile);
