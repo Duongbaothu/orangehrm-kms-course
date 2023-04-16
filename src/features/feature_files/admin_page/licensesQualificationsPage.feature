@@ -11,7 +11,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | randomString                       |
             | ${moment().format('YYMMDDHHmmss')} |
 
-    @HappyCases @AP12
+    @HappyCases
     Scenario Outline: HappyCase - <TC>: Verify user can add new licenses successfully
         Given get number of records found
         When I click button with name 'Add' in page
@@ -31,7 +31,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | 04 | Cisco Certified Network Professional${randomString}     |
             | 05 | Microsoft Certified Systems Engineer${randomString}     |
 
-    @HappyCases @AP12
+    @HappyCases
     Scenario Outline: HappyCase - <TC>: Verify user can edit licenses successfully
         When I add the license '<licenseName>'
         Then I verify the license with '<licenseName>' is shown in the table
@@ -48,7 +48,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | 06 | Certified Digital Marketing Professional${randomString} | Certified Digital Marketing Professional (CDMP)${randomString} |
             | 07 | Certified Information Security Manager${randomString}   | Certified Information Security Manager (CISM)${randomString}   |
 
-    @HappyCases @AP12
+    @HappyCases
     Scenario Outline: HappyCase - <TC>: Verify user can choose muptiple licenses to delete successfully
         When I add the license '<licenseName1>'
         And I add the license '<licenseName2>'
@@ -69,7 +69,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | TC | licenseName1                                                   | licenseName2                                                 |
             | 08 | Certified Digital Marketing Professional (CDMP)${randomString} | Certified Information Security Manager (CISM)${randomString} |
 
-    @HappyCases @AP12
+    @HappyCases
     Scenario Outline: HappyCase - <TC>: Verify user can delete a license successfully
         When I add the license '<licenseName>'
         Then I verify the license with '<licenseName>' is shown in the table
@@ -87,7 +87,7 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | TC | licenseName                                                    |
             | 09 | Certified Digital Marketing Professional (CDMP)${randomString} |
 
-    @ErrorCases @AP12
+    @ErrorCases
     Scenario Outline: UnHappyCase - <TC>: Verify user cannot add exist license
         When I add the license '<licenseName1>'
         Then I verify the license with '<licenseName1>' is shown in the table
@@ -102,13 +102,13 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
             | TC | licenseName1                                            | licenseName2                                            |
             | 10 | Certified Digital Marketing Professional${randomString} | Certified Digital Marketing Professional${randomString} |
 
-    @ErrorCases @AP12
+    @ErrorCases
     Scenario Outline: UnHappyCase - 11: Verify user cannot leave empty license name
         When I click button with name 'Add' in page
         And I click button with name 'Save' in page
         Then I verify the error message 'Required' is shown under 'Name' field
 
-    @ErrorCases @AP12
+    @ErrorCases
     Scenario Outline: UnHappyCase - <TC>: Verify user cannot add licenses exceed 100 charaters
         When I click button with name 'Add' in page
         Then Main title is 'Add License'
