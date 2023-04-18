@@ -1,6 +1,6 @@
 require('dotenv').config();
 module.exports = {
-    TIMEOUT_SHORT: 10000,
+    TIMEOUT_SHORT: 3000,
     TIMEOUT_MEDIUM: 50000,
     TIMEOUT_LONG: 100000,
     BASE_URL: 'http://localhost:8200',

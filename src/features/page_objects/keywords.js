@@ -247,6 +247,24 @@ const self = module.exports = {
     },
 
     /**
+  * Wait for Element is NOT present on DOM
+  * @author Tuyen Nguyen
+  * @param {String} xpath The element xpath.
+  * @param {String} timeout The waiting time.
+  * @return {Boolean} Element is displayed or not
+  */
+    async waitForElementIsNotPresent(xpath, timeout = TIMEOUT_MEDIUM) {
+        await this.driver.wait(async () => {
+            return await this.driver.findElements(By.xpath(xpath)).then((elements) => {
+                if (elements.length <= 0) {
+                    return true;
+                }
+                return false;
+            });
+        }, timeout, 'The element was still present when it should have disappeared.');
+    },
+
+    /**
     * Check element is displayed.
     * @author Nam Hoang
     * @param {String} xpath The element xpath.

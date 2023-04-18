@@ -25,24 +25,24 @@ module.exports = {
     },
 
     /**
-     * Verify the Credential error
+     * Verify the credential error message
      * @author Han Hoang
      * @param {string} expectedMessage The expected credential error message
      */
-    async verifyMsgCredentialError(expectedMessage) {
-        await keywords.sleepFor(3000);
-        const actualMsg = await keywords.waitAndGetText.call(this, msgCredentialError);
-        assert.equal(actualMsg, expectedMessage);
+    async verifyCredentialErrorMessage(expectedMessage) {
+        const actualMessage = await keywords.waitAndGetText.call(this, msgCredentialError);
+        assert.equal(actualMessage, expectedMessage);
     },
 
     /**
-     * Verify the validation message
+     * Verify the validation error message
      * @author Han Hoang
      * @param {string} expectedMessage The expected validation message
      * @param {string} fieldName The field name has the error message below
      */
-    async verifyMsgValidationMessage(expectedMessage, fieldName) {
-        const actualMessage = await keywords.waitAndGetText.call(this, msgValidationError.replace(`$fieldName`, fieldName));
+    async verifyValidationErrorMessage(expectedMessage, fieldName) {
+        const messagePath = msgValidationError.replace(`$fieldName`, fieldName);
+        const actualMessage = await keywords.waitAndGetText.call(this, messagePath);
         assert.equal(actualMessage, expectedMessage);
     },
 

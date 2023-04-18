@@ -368,4 +368,20 @@ const self = module.exports = {
         }
         return filltemplate(variable, scenario.results);
     },
+
+    /**
+       * Returns the value of the variable if it exists in this.results
+       * @author Tuyen Nguyen
+       * @param {number} length the length of character which generated. Ex: 7, 8, 9,...
+       * @return {string} the generated random string
+       */
+    async generateRandomString(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let counter = 0; counter < Number(length); counter++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    },
 };
