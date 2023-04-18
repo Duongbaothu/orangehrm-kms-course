@@ -5,32 +5,32 @@ Feature: As an user, I am able to login with my credentials
         Given A user visits OrangeHRM page
         Then Page title is 'OrangeHRM'
         And set:
-            | usernameAdmin                     | passwordAdmin                     | randomString                       |
-            | ${process.env.HRM_USERNAME_ADMIN} | ${process.env.HRM_PASSWORD_ADMIN} | ${moment().format('YYMMDDHHmmss')} |
+            | randomString                       |
+            | ${moment().format('YYMMDDHHmmss')} |
 
-    @HappyCase @LP01
-    Scenario: Verify that the administrator can log in successfully when providing the username and password correctly
-        When A user login with username '${usernameAdmin}' and password '${passwordAdmin}'
+    @HappyCases @LP01
+    Scenario: 01. Verify that the administrator can log in successfully when providing the username and password correctly
+        When A user login with username '${process.env.HRM_USERNAME_ADMIN}' and password '${process.env.HRM_PASSWORD_ADMIN}'
         Then Verify the module page header is 'Dashboard'
         And Verify the item 'Admin' in Main Menu is displayed
 
     @ErrorCases @LP01
-    Scenario Outline: Verify that the user can not log in successfully when providing <testCases>
+    Scenario Outline: <TC>. Verify that the user can not log in successfully when providing <testCases>
         When A user login with username '<username>' and password '<password>'
         Then The message '<message>' is present under '<fieldName>' field
 
         Examples:
-            | testCases                  | username         | password         | fieldName | message  |
-            | username of Admin is empty |                  | ${passwordAdmin} | username  | Required |
-            | password of Admin is empty | ${usernameAdmin} |                  | password  | Required |
+            | TC | testCases         | username                          | password                          | fieldName | message  |
+            | 02 | username is empty |                                   | ${process.env.HRM_PASSWORD_ADMIN} | username  | Required |
+            | 03 | password is empty | ${process.env.HRM_USERNAME_ADMIN} |                                   | password  | Required |
 
     @ErrorCases @LP01
-    Scenario Outline: Verify that the user can not log in successfully when providing <testCases>
+    Scenario Outline: <TC>. Verify that the user can not log in successfully when providing <testCases>
         When A user login with username '<username>' and password '<password>'
         Then The error message 'Invalid credentials' is present
 
         Examples:
-            | testCases                          | username         | password         |
-            | invalid username of Admin          | ${randomString}  | ${passwordAdmin} |
-            | invalid password of Admin          | ${usernameAdmin} | ${randomString}  |
-            | invalid both username and password | ${randomString}  | ${randomString}  |
+            | TC | testCases                          | username                          | password                          |
+            | 04 | invalid username                   | ${randomString}                   | ${process.env.HRM_PASSWORD_ADMIN} |
+            | 05 | invalid password                   | ${process.env.HRM_USERNAME_ADMIN} | ${randomString}                   |
+            | 06 | invalid both username and password | ${randomString}                   | ${randomString}                   |
