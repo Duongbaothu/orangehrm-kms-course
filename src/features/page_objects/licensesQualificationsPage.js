@@ -41,7 +41,7 @@ const self = module.exports = {
     /**
     * Type the input to the field
     * @param {string} text The value input of the corresponding text field
-    * @param {string} labelName The name of label with the corresponding text field" and should give some examples
+    * @param {string} labelName The name of label with the corresponding text field. Ex: Name
     */
     async typeTextForField(text, labelName) {
         const txtFieldByLabelName = txtFieldInForm.replace('$labelName', labelName);
@@ -84,7 +84,7 @@ const self = module.exports = {
     * Verify the new button is displayed
     * @param {string} name The new button name
     */
-    async verifyButtonVisible(name) {
+    async verifyNewButtonVisible(name) {
         const btnVisible = btnName.replace('$name', name);
         await keywords.verifyElementIsDisplayed.call(this, btnVisible);
     },

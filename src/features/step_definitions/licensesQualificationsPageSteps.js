@@ -18,7 +18,7 @@ Then('I delete the record {string} to clean environment', common.deleteRecordByK
 
 When('I add the license {string}', licensesPage.addRecord);
 
-Then('I verify button with value {string} is visible', licensesPage.verifyButtonVisible);
+Then('I verify button with value {string} is visible', licensesPage.verifyNewButtonVisible);
 
 Then('The popup with the question {string} is presented', licensesPage.verifyPopupQuestionPresented);
 
