@@ -4,7 +4,6 @@ const common = require('./common');
 const keywords = require('./keywords');
 
 let numberOfRecordsFound = 0;
-const lowTimeout = 500;
 const btnName = `//button[normalize-space(.)='$name']`;
 const txtFieldInForm = `//label[normalize-space(.)='$labelName']/../..//input`;
 const lblMainTitle = `//h6[contains(@class,'main-title')]`;
@@ -41,12 +40,11 @@ const self = module.exports = {
 
     /**
     * Type the input to the field
-    * @param {string} text The input form keyboard
-    * @param {string} labelName The name above the input field
+    * @param {string} text The value input of the corresponding text field
+    * @param {string} labelName The name of label with the corresponding text field" and should give some examples
     */
-    async fillTextForField(text, labelName) {
+    async typeTextForField(text, labelName) {
         const txtFieldByLabelName = txtFieldInForm.replace('$labelName', labelName);
-        await keywords.sleepFor(lowTimeout);
         const value = await common.getVariableValue(text, this);
         await keywords.setText.call(this, txtFieldByLabelName, value);
     },
@@ -78,7 +76,7 @@ const self = module.exports = {
     async addRecord(record) {
         await self.clickButtonByName.call(this, 'Add');
         const value = await common.getVariableValue(record, this);
-        await self.fillTextForField.call(this, value, 'Name');
+        await self.typeTextForField.call(this, value, 'Name');
         await self.clickButtonByName.call(this, 'Save');
     },
 
@@ -147,7 +145,5 @@ const self = module.exports = {
         const label = errorMessage.replace('$labelName', labelName);
         const fullErrorMessage = label.replace('$message', message);
         await keywords.verifyElementIsDisplayed.call(this, fullErrorMessage);
-        // eslint-disable-next-line comma-dangle
-    }
-    // eslint-disable-next-line semi
-}
+    },
+};

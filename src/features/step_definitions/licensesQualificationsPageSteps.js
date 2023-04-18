@@ -8,7 +8,7 @@ When('I click button with name {string} in page', licensesPage.clickButtonByName
 
 Then('Main title is {string}', licensesPage.verifyMainTitle);
 
-When('I type text {string} for field {string}', licensesPage.fillTextForField);
+When('I type text {string} for field {string}', licensesPage.typeTextForField);
 
 Then('I verify the total number of records found in the table increased by {string} unit', licensesPage.verifyIncreasingNumberRecords);
 
