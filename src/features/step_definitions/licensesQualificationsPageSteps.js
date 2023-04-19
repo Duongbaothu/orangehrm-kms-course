@@ -12,7 +12,7 @@ When('I type text {string} for field {string}', licensesPage.typeTextForField);
 
 Then('I verify the total number of records found in the table increased by {string} unit', licensesPage.verifyIncreasingNumberRecords);
 
-Then('I verify the license with {string} is shown in the table', licensesPage.verifyIsRecordInTable);
+Then('I verify the license with {string} is shown in the table', licensesPage.verifyRecordInTable);
 
 Then('I delete the record {string} to clean environment', common.deleteRecordByKey);
 
@@ -24,7 +24,7 @@ Then('The popup with the question {string} is presented', licensesPage.verifyPop
 
 Then('I verify the number of records decrease by {string}', licensesPage.verifyDecreasingNumberRecords);
 
-Then('Verify the record {string} from the list are deleted successfully', licensesPage.verifyIsRecordDeleted);
+Then('Verify the record {string} from the list are deleted successfully', licensesPage.verifyRecordDeleted);
 
 When('A user delete a record by trash button with key is {string}', licensesPage.clickTrashButton);
 

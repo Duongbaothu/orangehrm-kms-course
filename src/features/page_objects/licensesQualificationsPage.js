@@ -63,7 +63,7 @@ const self = module.exports = {
     * Verify the new record is displayed in table
     * @param {string} record The new record added to the table
     */
-    async verifyIsRecordInTable(record) {
+    async verifyRecordInTable(record) {
         const value = await common.getVariableValue(record, this);
         const newRecord = cellRecord.replace('$record', value);
         await keywords.verifyElementIsDisplayed.call(this, newRecord);
@@ -113,7 +113,7 @@ const self = module.exports = {
     * Verify the deleted record is not in table
     * @param {string} records The deleted record from the table
     */
-    async verifyIsRecordDeleted(records) {
+    async verifyRecordDeleted(records) {
         let isRecordDisplay = false;
         const arrRecords = records.split(',').map((str) => str.trim());
         arrRecords.forEach(async (record) => {
