@@ -166,6 +166,6 @@ const self = module.exports = {
     * @param {string} key The key name. Ex: username in Users table, employee id in Employees table
     */
     async cleanEnvironment(key) {
-        await common.deleteRecordByKey(key);
+        await common.deleteRecordByKey.call(this, key);
     },
 };
