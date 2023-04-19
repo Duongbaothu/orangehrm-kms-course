@@ -1,6 +1,5 @@
 const { Given, Then, When } = require('@cucumber/cucumber');
 const licensesPage = require('../page_objects/licensesQualificationsPage');
-const common = require('../page_objects/common');
 
 Given('get number of records found', licensesPage.getNumberOfRecords);
 
@@ -14,7 +13,7 @@ Then('I verify the total number of records found in the table increased by {stri
 
 Then('I verify the license with {string} is shown in the table', licensesPage.verifyRecordInTable);
 
-Then('I delete the record {string} to clean environment', common.deleteRecordByKey);
+Then('I delete the record {string} to clean environment', licensesPage.cleanEnvironment);
 
 When('I add the license {string}', licensesPage.addRecord);
 

@@ -15,6 +15,7 @@ const btnDelete = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[no
 const self = module.exports = {
     /**
     * Set the number of records found page loaded
+    * @author Lan Tran
     */
     async getNumberOfRecords() {
         numberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
@@ -22,6 +23,7 @@ const self = module.exports = {
 
     /**
     * Click a button by name
+    * @author Lan Tran
     * @param {string} name The name of button. Ex: Add, Search
     */
     async clickButtonByName(name) {
@@ -31,6 +33,7 @@ const self = module.exports = {
 
     /**
     * Verify main title of page
+    * @author Lan Tran
     * @param {string} expectedMainTitle The expected main title of page, Ex: Add license, licenses
     */
     async verifyMainTitle(expectedMainTitle) {
@@ -40,6 +43,7 @@ const self = module.exports = {
 
     /**
     * Type the input to the field
+    * @author Lan Tran
     * @param {string} text The value input of the corresponding text field
     * @param {string} labelName The name of label with the corresponding text field. Ex: Name
     */
@@ -51,6 +55,7 @@ const self = module.exports = {
 
     /**
     * Verify the number of records after added
+    * @author Lan Tran
     * @param {string} number The number of records added
     */
     async verifyIncreasingNumberRecords(number) {
@@ -61,6 +66,7 @@ const self = module.exports = {
 
     /**
     * Verify the new record is displayed in table
+    * @author Lan Tran
     * @param {string} record The new record added to the table
     */
     async verifyRecordInTable(record) {
@@ -71,6 +77,7 @@ const self = module.exports = {
 
     /**
     * Add the new record to the table
+    * @author Lan Tran
     * @param {string} record The new record added to the table
     */
     async addRecord(record) {
@@ -82,6 +89,7 @@ const self = module.exports = {
 
     /**
     * Verify the new button is displayed
+    * @author Lan Tran
     * @param {string} name The new button name
     */
     async verifyNewButtonVisible(name) {
@@ -91,6 +99,7 @@ const self = module.exports = {
 
     /**
      * Verify the popup question is presented
+     * @author Lan Tran
      * @param {string} question The question in popup message
      */
     async verifyPopupQuestionPresented(question) {
@@ -101,6 +110,7 @@ const self = module.exports = {
 
     /**
     * Verify the number of records after deleted
+    * @author Lan Tran
     * @param {string} number The number of records deleted
     */
     async verifyDecreasingNumberRecords(number) {
@@ -111,6 +121,7 @@ const self = module.exports = {
 
     /**
     * Verify the deleted record is not in table
+    * @author Lan Tran
     * @param {string} records The deleted record from the table
     */
     async verifyRecordDeleted(records) {
@@ -128,6 +139,7 @@ const self = module.exports = {
 
     /**
     * Click delete button a record by key
+    * @author Lan Tran
     * @param {string} key The key name.
     */
     async clickTrashButton(key) {
@@ -138,6 +150,7 @@ const self = module.exports = {
 
     /**
      * Verify the error message is showed under label name
+     * @author Lan Tran
      * @param {string} message The error message is displayed
      * @param {string} labelName The lable name of error message
      */
@@ -145,5 +158,14 @@ const self = module.exports = {
         const label = errorMessage.replace('$labelName', labelName);
         const fullErrorMessage = label.replace('$message', message);
         await keywords.verifyElementIsDisplayed.call(this, fullErrorMessage);
+    },
+
+    /**
+    * Clean environment after test
+    * @author Lan Tran
+    * @param {string} key The key name. Ex: username in Users table, employee id in Employees table
+    */
+    async cleanEnvironment(key) {
+        await common.deleteRecordByKey(key);
     },
 };
