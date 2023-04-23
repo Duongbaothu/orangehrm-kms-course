@@ -1,9 +1,6 @@
 name: "On-Demand Workflow"
 
 on:
-  push:
-    branches-ignore:
-      - "*"
   workflow_dispatch:
     name: on-demand
     inputs:
@@ -61,16 +58,16 @@ jobs:
         id: automation-setup-application
         if: success() || failure()
         run: |
-          npm install         
-          bash runFeature_Setup.sh chrome      
+          npm install
+          bash runFeature_Setup.sh chrome
       - name: Run Automation Test UI with Chrome browser
         id: automation-test-chrome
         run: |      
-          bash runFeature_OnDemamd.sh chrome
+          bash runFeature_OnDemamd.sh chrome "${{ inputs.FEATURE_FILE }}"
       - name: Run Automation Test UI with Edge browser
         id: automation-test-edge
         run: |
-          bash runFeature_OnDemamd.sh edge
+          bash runFeature_OnDemamd.sh edge "${{ inputs.FEATURE_FILE }}"
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         if: always()

@@ -1,18 +1,18 @@
-export param_1=$1
-export param_2=$2
-rm -rf ./report/$param_1/
-mkdir -p ./report/$param_1/
+export param=$1
+export featureFile=$2
+rm -rf ./report/$param/
+mkdir -p ./report/$param/
 export startTime=$(date) 
-if [[ $param_1 = "all" ]]; then
+if [[ $param = "all" ]]; then
     export BROWSER="edge"
-    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param_1/edge.json $param_2 --tags "not @setup"
+    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param/edge.json $featureFile --tags "not @setup"
     export BROWSER="firefox"
-    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param_1/firefox.json $param_2 --tags "not @setup"
+    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param/firefox.json $featureFile --tags "not @setup"
     export BROWSER="chrome"
-    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param_1/chrome.json $param_2 --tags "not @setup"
+    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param/chrome.json $featureFile --tags "not @setup"
 else 
-    export BROWSER=$param_1
-    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param_1/cucumber_report.json $param_2 --tags "not @setup"
+    export BROWSER=$param
+    node node_modules/@cucumber/cucumber/bin/cucumber-js -f json:report/$param/cucumber_report.json $featureFile --tags "not @setup"
 fi
 result=$?
 export endTime=$(date)
