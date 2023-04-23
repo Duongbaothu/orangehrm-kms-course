@@ -1,0 +1,80 @@
+name: "On-Demand Workflow"
+
+on:
+  push:
+    branches-ignore:
+      - "*"
+  workflow_dispatch:
+    name: on-demand
+    inputs:
+      FEATURE_FILE:
+        required: true
+        description: 'Path to feature file'
+        default: 'src/features/feature_files/demo.feature'
+
+jobs:
+  on-demand-bdd-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js 16.16
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16.16"
+      - name: Set up libraries for browsers
+        id: setup-libs-chrome
+        run: |
+          sudo apt update
+          sudo apt install -y libgconf-2-4 libatk1.0-0 libatk-bridge2.0-0 libgdk-pixbuf2.0-0 libgtk-3-0 libgbm-dev libnss3-dev libxss-dev libasound2 libx11-xcb1
+      - name: Set up Google Chrome
+        uses: browser-actions/setup-chrome@latest 
+        with:
+          chrome-version: 1070209      
+      - name: Set up Edge
+        if: success() || failure()
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-stable.list'
+          sudo apt-get update
+          sudo apt-get install microsoft-edge-stable=107.0.1418.62-1 --allow-downgrades -y
+      - name: Set up Docker
+        # need checkout before using compose-action
+        uses: isbang/compose-action@v1.4.1
+        with:
+          compose-file: "./docker-compose.yml"
+          up-flags: "--build"
+          services: |
+            web
+            db
+            phpmyadmin
+      - name: 'Create .env File'
+        run: |
+          touch .env
+          echo HRM_USERNAME_ADMIN=${{ secrets.HRM_USERNAME_ADMIN }} >> .env
+          echo HRM_PASSWORD_ADMIN=${{ secrets.HRM_PASSWORD_ADMIN }} >> .env
+          echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          echo HRM_USERNAME_ESS=${{ secrets.HRM_USERNAME_ESS }} >> .env
+          echo HRM_PASSWORD_ESS=${{ secrets.HRM_PASSWORD_ESS }} >> .env
+      - name: Run Automation to Setup OrangeHRM Application
+        id: automation-setup-application
+        if: success() || failure()
+        run: |
+          npm install         
+          bash runFeature_Setup.sh chrome      
+      - name: Run Automation Test UI with Chrome browser
+        id: automation-test-chrome
+        run: |      
+          bash runFeature_OnDemamd.sh chrome
+      - name: Run Automation Test UI with Edge browser
+        id: automation-test-edge
+        run: |
+          bash runFeature_OnDemamd.sh edge
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: FeatureExecutionUI
+          path: ${{ github.workspace }}/report/**/*
+          retention-days: 2
