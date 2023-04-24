@@ -61,7 +61,7 @@ const self = module.exports = {
     async verifyIncreasingNumberRecords(number) {
         const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
         const expectedNumberOfRecordsFound = numberOfRecordsFound + Number(number);
-        assert.equal(expectedNumberOfRecordsFound, actualNumberOfRecordsFound);
+        assert.equal(actualNumberOfRecordsFound, expectedNumberOfRecordsFound);
     },
 
     /**
@@ -116,7 +116,7 @@ const self = module.exports = {
     async verifyDecreasingNumberRecords(number) {
         const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
         const expectedNumberOfRecordsFound = numberOfRecordsFound - Number(number);
-        assert.equal(expectedNumberOfRecordsFound, actualNumberOfRecordsFound);
+        assert.equal(actualNumberOfRecordsFound, expectedNumberOfRecordsFound);
     },
 
     /**
