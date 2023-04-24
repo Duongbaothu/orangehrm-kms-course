@@ -1,15 +1,16 @@
-name: "Full Regression Automation UI"
+name: "On-Demand Workflow"
 
 on:
-  push:
-    branches:
-      - "main"
-  schedule:
-    - cron:  "0 7 * * 0"
   workflow_dispatch:
+    name: on-demand
+    inputs:
+      FEATURE_FILE:
+        required: true
+        description: 'Path to feature file'
+        default: 'src/features/feature_files/demo.feature'
 
 jobs:
-  full-regression-ui:
+  on-demand-bdd-job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -57,20 +58,20 @@ jobs:
         id: automation-setup-application
         if: success() || failure()
         run: |
-          npm install         
-          bash runFeature_Setup.sh chrome      
+          npm install
+          bash runFeature_Setup.sh chrome
       - name: Run Automation Test UI with Chrome browser
         id: automation-test-chrome
         run: |      
-          bash runFeature_FullRegression.sh chrome
+          bash runFeature_OnDemamd.sh chrome "${{ inputs.FEATURE_FILE }}"
       - name: Run Automation Test UI with Edge browser
         id: automation-test-edge
         run: |
-          bash runFeature_FullRegression.sh edge
+          bash runFeature_OnDemamd.sh edge "${{ inputs.FEATURE_FILE }}"
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: FullRegressionUI
+          name: FeatureExecutionUI
           path: ${{ github.workspace }}/report/**/*
           retention-days: 2
