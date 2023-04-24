@@ -27,4 +27,4 @@ Then('Verify the record {string} from the list are deleted successfully', licens
 
 When('A user delete a record by trash button with key is {string}', licensesPage.clickTrashButton);
 
-Then('I verify the error message {string} is shown under {string} field', licensesPage.verifyErrorMessage);
+Then('I verify the error message {string} is shown under {string} field', licensesPage.verifyErrorMessageDisplayed);

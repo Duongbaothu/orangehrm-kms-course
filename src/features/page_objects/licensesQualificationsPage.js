@@ -154,7 +154,7 @@ const self = module.exports = {
      * @param {string} message The error message is displayed
      * @param {string} labelName The lable name of error message
      */
-    async verifyErrorMessage(message, labelName) {
+    async verifyErrorMessageDisplayed(message, labelName) {
         const label = errorMessage.replace('$labelName', labelName);
         const fullErrorMessage = label.replace('$message', message);
         await keywords.verifyElementIsDisplayed.call(this, fullErrorMessage);
