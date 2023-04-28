@@ -59,6 +59,6 @@ Feature: As an user, I am able to login with my credentials
         When A user login with username '${process.env.HRM_USERNAME_ADMIN}' and password '${process.env.HRM_PASSWORD_ADMIN}'
         And A user click 'Admin' item in main menu
         Then Verify the module page header is 'Admin'
-        Then Verify the level page header is 'User Management'     
+        Then Verify the level page header is 'User Management'
         When A user delete a record with key is '${process.env.HRM_USERNAME_ESS}'
-        Then Verify alert message is 'Successfully Deleted'
+        And User click the 'Yes, Delete' button on pop-up

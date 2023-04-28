@@ -8,7 +8,7 @@ const { assert } = chai;
 const fs = require('fs');
 const parse = require('csv-parser');
 
-const spnLoadingSpinner = `//div[@class='loading-spinner']`;
+const appData = `//div[@data-v-app]`;
 const txtUsername = `//input[@name='username']`;
 const txtPassword = `//input[@name='password']`;
 const btnLogin = `//button[contains(@type,'submit')]`;
@@ -24,15 +24,21 @@ const ddlOptionInForm = `//div[contains(@class, 'oxd-grid-item') and .//label[no
 const txtFieldInForm = `//label[normalize-space(.)='$labelName']/../..//input`;
 const lblRecordsFound = `//span[contains(.,'Record Found') or contains(.,'Records Found')]`;
 const tblRecords = `//div[@role='rowgroup']//div[@class='oxd-table-card']`;
-const btnDelete = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[normalize-space(.)='$key']/..//i[contains(@class, 'bi-trash')]`;
-const btnEdit = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[normalize-space(.)='$key']/..//i[contains(@class, 'bi-pencil')]`;
+const btnDeleteAction = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[normalize-space(.)="$key"]/..//i[contains(@class, 'bi-trash')]`;
+const btnEditAction = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[normalize-space(.)="$key"]/..//i[contains(@class, 'bi-pencil')]`;
 const btnYes = `//button[normalize-space(.)='Yes, Delete']`;
 const alrtMessage = `//div[contains(@class, 'oxd-toast-content')]`;
-const chkRecord = `//div[@class='oxd-table-body']//div[text()='$key']/../..//input[@type='checkbox']/..//span`;
+const chkRecord = `//div[@class='oxd-table-body']//div[text()="$key"]/../..//input[@type='checkbox']/..//span`;
 const chkAllRecords = `//div[@class='oxd-table-header']//input[@type='checkbox']/..//span`;
 const btnDeleteSelectedRecords = `//button[normalize-space(.)='Delete Selected']`;
 const navPaging = `//nav[@aria-label='Pagination Navigation']/ul/li`;
 const btnUpload = `//input[@class='oxd-file-input']`;
+const frmPageHeaderTitle = `//div[@class='orangehrm-background-container']//h5 | //div[@class='orangehrm-background-container']//h6`;
+const btnByName = `//button[normalize-space(.)='$action']`;
+const lblFormTitle = `//h6[contains(@class, 'orangehrm-main-title')]`;
+const dlgPopup = `//div[contains(@class,'orangehrm-dialog-popup')]//p[normalize-space(.)='$itemName']`;
+const btnConfirmPopupButtonByName = `//div[@role = 'dialog' and .//p[contains(@class, 'oxd-text--card-title') and normalize-space(.) = 'Are you Sure?']]//button[normalize-space(.) = '$btnName']`;
+const lblNameErrorMsg = `//label[contains(text(),'$fieldName')]/ancestor::div[contains(@class,'oxd-form-row')]//span[contains(@class,'error-message')]`;
 
 const self = module.exports = {
     /**
@@ -76,13 +82,13 @@ const self = module.exports = {
     },
 
     /**
-    * Wait for the page is loaded.
+    * Wait for the page header is loaded.
     * @author Nam Hoang
     */
-    async waitLoading() {
-        await keywords.waitForPageIsLoaded.call(this, spnLoadingSpinner);
+    async waitPageHeaderIsLoaded() {
+        await keywords.waitUntilElementIsVisible.call(this, appData);
+        await keywords.waitUntilElementIsVisible.call(this, frmPageHeaderTitle);
     },
-
     /**
     * Click item in main menu.
     * @author Nam Hoang
@@ -178,8 +184,7 @@ const self = module.exports = {
     * @return {number} Number of records found.
     */
     async getNumberOfRecordsFound() {
-        await self.waitLoading.call(this);
-        await keywords.waitUntilElementIsVisible.call(this, lblRecordsFound);
+        await self.waitPageHeaderIsLoaded.call(this);
         const fullText = await keywords.waitAndGetText.call(this, lblRecordsFound);
         let number = fullText.match(/\d/g);
         if (number === null) {
@@ -247,11 +252,21 @@ const self = module.exports = {
     * @author Nam Hoang
     * @param {string} key The key name. Ex: username in Users table, employee id in Employees table
     */
-    async deleteRecordByKey(key) {
+    async clickDeleteRecordByKey(key) {
         const keyName = await self.getVariableValue(key, this);
-        const btnDeleteByKey = btnDelete.replace('$key', keyName);
+        const btnDeleteByKey = btnDeleteAction.replace('$key', keyName);
         await keywords.waitClick.call(this, btnDeleteByKey);
-        await keywords.waitClick.call(this, btnYes);
+    },
+
+    /**
+    * Delete record by key to clean environment
+    * @author Nam Hoang
+    * @param {string} key The value of title name that user want to have action
+    */
+    async deleteRecordToCleanEnv(key) {
+        const value = await self.getVariableValue(key, this);
+        await self.clickDeleteRecordByKey.call(this, value);
+        await self.clickBtnInPopup.call(this, 'Yes, Delete');
     },
 
     /**
@@ -271,7 +286,7 @@ const self = module.exports = {
     */
     async clickEditActionByKey(key) {
         const keyName = await self.getVariableValue(key, this);
-        const btnEditByKey = btnEdit.replace('$key', keyName);
+        const btnEditByKey = btnEditAction.replace('$key', keyName);
         await keywords.waitClick.call(this, btnEditByKey);
     },
 
@@ -383,5 +398,71 @@ const self = module.exports = {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return result;
+    },
+
+    /**
+     * Click button
+     * @author Nam Hoang
+     * @param {string} action The name of button
+     */
+    async clickBtnByName(action) {
+        await self.waitPageHeaderIsLoaded.call(this);
+        const btnActXpath = btnByName.replace(`$action`, action);
+        await keywords.waitAndScrollIntoView.call(this, btnActXpath);
+        await keywords.waitClick.call(this, btnActXpath);
+    },
+
+    /**
+     * Verify form title
+     * @author Nam Hoang
+     * @param {string} expectedTitle The expected title of form
+     */
+    async verifyTheFormTitle(expectedTitle) {
+        await self.waitPageHeaderIsLoaded.call(this);
+        const actualFormTitle = await keywords.waitAndGetText.call(this, lblFormTitle);
+        assert.equal(actualFormTitle, expectedTitle);
+    },
+
+    /**
+     * Click button in pop-up
+     * @author Nam Hoang
+     * @param {string} buttonName the button in pop-up
+     */
+    async clickBtnInPopup(buttonName) {
+        const btnPopupByName = btnConfirmPopupButtonByName.replace('$btnName', buttonName);
+        await keywords.waitClick.call(this, btnPopupByName);
+    },
+
+    /**
+    * Verify popup with the question is display
+    * @author Nam Hoang
+    * @param {string} value The value of question in popup
+    */
+    async verifyPopupIsDisplayed(value) {
+        const dialogPopUp = dlgPopup.replace('$itemName', value);
+        await keywords.waitUntilElementIsVisible.call(this, dialogPopUp);
+        await keywords.verifyElementIsDisplayed.call(this, dialogPopUp);
+    },
+
+    /**
+     * Verify the pop-up is not displayed
+     * @author Nam Hoang
+     * @param {string} value The value of question in popup
+     */
+    async popupIsNotDisplayed(value) {
+        const dialogPopUp = dlgPopup.replace('$itemName', value);
+        await keywords.waitForElementIsNotPresent.call(this, dialogPopUp);
+    },
+
+    /**
+     * Verify the error message under textbox
+     * @author Nam Hoang
+     * @param {string} expectedValidationMsg The expected the message
+     * @param {string} valueFieldName The field is showing error message
+     */
+    async verifyValidationErrorMessage(expectedValidationMsg, valueFieldName) {
+        const msgErrorMessage = lblNameErrorMsg.replace('$fieldName', valueFieldName);
+        const actualValidationMsg = await keywords.waitAndGetText.call(this, msgErrorMessage);
+        assert.equal(actualValidationMsg, expectedValidationMsg);
     },
 };

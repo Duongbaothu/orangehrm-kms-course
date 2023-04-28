@@ -29,7 +29,7 @@ Then('Verify this page has pagination', common.verifyPageHasPagination);
 
 Then('Verify the paginated page number is {string}', common.verifyPaginatedPageNumber);
 
-When('A user delete a record with key is {string}', common.deleteRecordByKey);
+When('A user delete a record with key is {string}', common.clickDeleteRecordByKey);
 
 Then('Verify alert message is {string}', common.verifyAlert);
 
@@ -42,3 +42,17 @@ When('A user delete selected records', common.deleteSeletedRecords);
 When('read csv data file from {string}', common.readDataFromCSVFile);
 
 When('A user upload file {string}', common.uploadFile);
+
+When('User click the {string} button', common.clickBtnByName);
+
+Then('Verify the form title {string} is displayed correctly', common.verifyTheFormTitle);
+
+When('User click the {string} button on pop-up', common.clickBtnInPopup);
+
+Then('The popup with the question {string} is displayed', common.verifyPopupIsDisplayed);
+
+Then('The popup with the question {string} is not displayed', common.popupIsNotDisplayed);
+
+Then('Verify a error message {string} is shown under {string} field', common.verifyValidationErrorMessage);
+
+Given('Delete the record {string} to clean environment', common.deleteRecordToCleanEnv);

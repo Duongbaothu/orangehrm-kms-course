@@ -6,11 +6,7 @@ const keywords = require('./keywords');
 let numberOfRecordsFound = 0;
 const btnName = `//button[normalize-space(.)='$name']`;
 const txtFieldInForm = `//label[normalize-space(.)='$labelName']/../..//input`;
-const lblMainTitle = `//h6[contains(@class,'main-title')]`;
 const cellRecord = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[normalize-space(.)='$record']`;
-const popupTitle = `//p[normalize-space(.)='$title']`;
-const errorMessage = `//label[normalize-space(.)='$labelName']/../..//span[contains(.,'$message')]`;
-const btnDelete = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[normalize-space(.)='$key']/..//i[contains(@class, 'bi-trash')]`;
 
 const self = module.exports = {
     /**
@@ -19,26 +15,6 @@ const self = module.exports = {
     */
     async getNumberOfRecords() {
         numberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-    },
-
-    /**
-    * Click a button by name
-    * @author Lan Tran
-    * @param {string} name The name of button. Ex: Add, Search
-    */
-    async clickButtonByName(name) {
-        const btnClickByName = btnName.replace('$name', name);
-        await keywords.waitClick.call(this, btnClickByName);
-    },
-
-    /**
-    * Verify main title of page
-    * @author Lan Tran
-    * @param {string} expectedMainTitle The expected main title of page, Ex: Add license, licenses
-    */
-    async verifyMainTitle(expectedMainTitle) {
-        const actualMainTitle = await keywords.waitAndGetText.call(this, lblMainTitle);
-        assert.equal(actualMainTitle, expectedMainTitle);
     },
 
     /**
@@ -81,10 +57,10 @@ const self = module.exports = {
     * @param {string} record The new record added to the table
     */
     async addRecord(record) {
-        await self.clickButtonByName.call(this, 'Add');
+        await common.clickBtnByName.call(this, 'Add');
         const value = await common.getVariableValue(record, this);
         await self.typeTextForField.call(this, value, 'Name');
-        await self.clickButtonByName.call(this, 'Save');
+        await common.clickBtnByName.call(this, 'Save');
     },
 
     /**
@@ -95,17 +71,6 @@ const self = module.exports = {
     async verifyNewButtonVisible(name) {
         const btnVisible = btnName.replace('$name', name);
         await keywords.verifyElementIsDisplayed.call(this, btnVisible);
-    },
-
-    /**
-     * Verify the popup question is presented
-     * @author Lan Tran
-     * @param {string} question The question in popup message
-     */
-    async verifyPopupQuestionPresented(question) {
-        const popupQuestion = await popupTitle.replace('$title', question);
-        await keywords.waitUntilElementIsVisible.call(this, popupQuestion);
-        await keywords.verifyElementIsDisplayed.call(this, popupQuestion);
     },
 
     /**
@@ -135,37 +100,5 @@ const self = module.exports = {
             }
         });
         assert.isFalse(isRecordDisplay);
-    },
-
-    /**
-    * Click delete button a record by key
-    * @author Lan Tran
-    * @param {string} key The key name.
-    */
-    async clickTrashButton(key) {
-        const value = await common.getVariableValue(key, this);
-        const btnDeleteByKey = btnDelete.replace('$key', value);
-        await keywords.waitClick.call(this, btnDeleteByKey);
-    },
-
-    /**
-     * Verify the error message is showed under label name
-     * @author Lan Tran
-     * @param {string} message The error message is displayed
-     * @param {string} labelName The lable name of error message
-     */
-    async verifyErrorMessageDisplayed(message, labelName) {
-        const label = errorMessage.replace('$labelName', labelName);
-        const fullErrorMessage = label.replace('$message', message);
-        await keywords.verifyElementIsDisplayed.call(this, fullErrorMessage);
-    },
-
-    /**
-    * Clean environment after test
-    * @author Lan Tran
-    * @param {string} key The key name. Ex: username in Users table, employee id in Employees table
-    */
-    async cleanEnvironment(key) {
-        await common.deleteRecordByKey.call(this, key);
     },
 };

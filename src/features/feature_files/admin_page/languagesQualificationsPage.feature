@@ -13,15 +13,15 @@ Feature: As a Admin, I can manage languages information in Qualifications sessio
 
     @HappyCases
     Scenario Outline: <TC>. Verify user can add new languages successfully
-        Given get number of records found in page
-        When I click button with name is 'Add' in page
-        Then The main title is 'Add Language'
+        Given Get number of records found in the language table
+        When User click the 'Add' button
+        Then Verify the form title 'Add Language' is displayed correctly
         When I type the text '<languageName>' for field 'Name'
-        And I click button with name is 'Save' in page
+        And User click the 'Save' button
         Then Verify alert message is 'Successfully Saved'
-        And I verify the total number of records founded in the table increased by '1' unit
+        And I verify the total number of records founded in the language table increased by '1' unit
         And I verify the language with '<languageName>' is shown in the table
-        And I delete the record '<languageName>' added to clean environment
+        And Delete the record '<languageName>' to clean environment
 
         Examples:
             | TC | languageName              |
@@ -34,12 +34,12 @@ Feature: As a Admin, I can manage languages information in Qualifications sessio
         When I add the language '<languageName>'
         Then I verify the language with '<languageName>' is shown in the table
         When A user click edit a record with key is '<languageName>'
-        Then The main title is 'Edit Language'
+        Then Verify the form title 'Edit Language' is displayed correctly
         When I type the text '<languageNameEdited>' for field 'Name'
-        And I click button with name is 'Save' in page
+        And User click the 'Save' button
         Then Verify alert message is 'Successfully Updated'
         And I verify the language with '<languageNameEdited>' is shown in the table
-        And I delete the record '<languageNameEdited>' added to clean environment
+        And Delete the record '<languageNameEdited>' to clean environment
 
         Examples:
             | TC | languageName           | languageNameEdited                       |
@@ -52,16 +52,16 @@ Feature: As a Admin, I can manage languages information in Qualifications sessio
         And I add the language '<languageName2>'
         Then I verify the language with '<languageName1>' is shown in the table
         And I verify the language with '<languageName2>' is shown in the table
-        And get number of records found in page
+        And Get number of records found in the language table
         When A user select checkbox with keys are '<languageName1>,<languageName2>'
         Then I verify button with name 'Delete Selected' is visible
-        And I click button with name is 'Delete Selected' in page
-        And The popup with question 'Are you Sure?' is presented
-        And I click button with name is 'No, Cancel' in page
+        And User click the 'Delete Selected' button
+        And The popup with the question 'Are you Sure?' is displayed
+        And User click the 'No, Cancel' button on pop-up
         And A user delete selected records
         Then Verify alert message is 'Successfully Deleted'
-        And I verify the number of records founded decrease by '2'
-        And Verify the record '<languageName1>, <languageName2>' from the table are deleted successfully
+        And I verify the total number of records founded in the language table decreased by '2' unit
+        And Verify the record '<languageName1>,<languageName2>' from the table are deleted successfully
 
         Examples:
             | TC | languageName1         | languageName2         |
@@ -71,14 +71,14 @@ Feature: As a Admin, I can manage languages information in Qualifications sessio
     Scenario Outline: <TC>. Verify user can delete a language successfully
         When I add the language '<languageName>'
         Then I verify the language with '<languageName>' is shown in the table
-        And get number of records found in page
-        When A user deletes a record by trash button with key is '<languageName>'
-        And The popup with question 'Are you Sure?' is presented
-        And I click button with name is 'No, Cancel' in page
-        And A user deletes a record by trash button with key is '<languageName>'
-        And I click button with name is 'Yes, Delete' in page
+        And Get number of records found in the language table
+        When A user delete a record with key is '<languageName>'
+        And The popup with the question 'Are you Sure?' is displayed
+        And User click the 'No, Cancel' button on pop-up
+        And A user delete a record with key is '<languageName>'
+        And User click the 'Yes, Delete' button on pop-up
         Then Verify alert message is 'Successfully Deleted'
-        And I verify the number of records founded decrease by '1'
+        And I verify the total number of records founded in the language table decreased by '1' unit
         And Verify the record '<languageName>' from the table are deleted successfully
 
         Examples:
@@ -89,12 +89,12 @@ Feature: As a Admin, I can manage languages information in Qualifications sessio
     Scenario Outline: <TC>. Verify user cannot add exist language
         When I add the language '<languageName1>'
         Then I verify the language with '<languageName1>' is shown in the table
-        When I click button with name is 'Add' in page
+        When User click the 'Add' button
         And I type the text '<languageName2>' for field 'Name'
-        And I click button with name is 'Save' in page
-        Then I verify the error message 'Already exists' is shown under the 'Name' field
-        And I click button with name is 'Cancel' in page
-        And I delete the record '<languageName1>' added to clean environment
+        And User click the 'Save' button
+        Then Verify a error message 'Already exists' is shown under 'Name' field
+        And User click the 'Cancel' button
+        And Delete the record '<languageName1>' to clean environment
 
         Examples:
             | TC | languageName1          | languageName2          |
@@ -102,13 +102,13 @@ Feature: As a Admin, I can manage languages information in Qualifications sessio
 
     @ErrorCases
     Scenario Outline: 09. Verify user cannot leave empty language name
-        When I click button with name is 'Add' in page
-        And I click button with name is 'Save' in page
-        Then I verify the error message 'Required' is shown under the 'Name' field
+        When User click the 'Add' button
+        And User click the 'Save' button
+        Then Verify a error message 'Required' is shown under 'Name' field
 
     @ErrorCases
     Scenario Outline: 10. Verify user cannot add language exceed 120 charaters
-        When I click button with name is 'Add' in page
-        Then The main title is 'Add Language'
+        When User click the 'Add' button
+        Then Verify the form title 'Add Language' is displayed correctly
         When Generate '121' characters and set for field 'Name'
-        Then I verify the error message 'Should not exceed 120 characters' is shown under the 'Name' field
+        Then Verify a error message 'Should not exceed 120 characters' is shown under 'Name' field

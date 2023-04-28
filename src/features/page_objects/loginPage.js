@@ -10,7 +10,7 @@ const msgValidationError = `//input[@name='$fieldName']/parent::*/following-sibl
 const msgCredentialError = `//div[contains(@class,'oxd-alert-content--error')]`;
 const itemMainMenu = `//ul[@class='oxd-main-menu']//li//span[text()='$itemName']`;
 const txtUserDetails = `//label[text()='$labelName']//parent::div/following-sibling::div//input`;
-const btnAction = `//button[contains(.,'$buttonName')]`;
+const btnByName = `//button[contains(.,'$buttonName')]`;
 const ddlUserProfile = `//div[@class='oxd-topbar-header-userarea']//li[contains(@class, 'oxd-userdropdown')]`;
 const ddoLogout = `//ul[@role='menu']//a[text()='Logout']`;
 
@@ -77,7 +77,7 @@ module.exports = {
      * @param {string} buttonName The name of button. Ex: Add, Save
      */
     async clickOnButtonByName(buttonName) {
-        const actionPath = btnAction.replace('$buttonName', buttonName);
+        const actionPath = btnByName.replace('$buttonName', buttonName);
         await keywords.waitAndScrollIntoView.call(this, actionPath);
         await keywords.waitClick.call(this, actionPath);
     },

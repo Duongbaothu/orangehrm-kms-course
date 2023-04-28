@@ -14,15 +14,15 @@ Feature: As a Admin, I can manage Job Categories in Job session
 
     @HappyCases
     Scenario Outline: 01. Verify that it is possible to ADD a new Job Category
-        When Get number of records found in table
+        When Get number of records found in job categories table
         Then User click the 'Add' button
-        And Verify that the header title is 'Add Job Category'
-        And User enter a new Job Category as '<job>'
+        And Verify the form title 'Add Job Category' is displayed correctly
+        And User enter a new job category as '<job>'
         And User click the 'Save' button
         And Verify alert message is 'Successfully Saved'
-        And Verify that new Job Category '<job>' is visible in the table
-        And Verify the total number of records found in the table is increased by '1' unit
-        And Clean up job category '<job>' after adding
+        And Verify that new job category '<job>' is visible in the table
+        And Verify the total number of records found in the job categories table is increased by '1' unit
+        And Delete the record '<job>' to clean environment
 
         Examples:
             | job                 |
@@ -31,18 +31,18 @@ Feature: As a Admin, I can manage Job Categories in Job session
     @HappyCases
     Scenario Outline: 02. Verify that it is possible to EDIT a Job Category.
         When User click the 'Add' button
-        Then Verify that the header title is 'Add Job Category'
-        And User enter a new Job Category as '<job>'
+        Then Verify the form title 'Add Job Category' is displayed correctly
+        And User enter a new job category as '<job>'
         And User click the 'Save' button
         And Verify alert message is 'Successfully Saved'
-        And Verify that new Job Category '<job>' is visible in the table
+        And Verify that new job category '<job>' is visible in the table
         And A user click edit a record with key is '<job>'
-        And Verify that the header title is 'Edit Job Category'
-        And User enter a new Job Category as '<jobUpdate>'
+        And Verify the form title 'Edit Job Category' is displayed correctly
+        And User enter a new job category as '<jobUpdate>'
         And User click the 'Save' button
         And Verify alert message is 'Successfully Updated'
-        And Verify that new Job Category '<jobUpdate>' is visible in the table
-        And Clean up job category '<jobUpdate>' after adding
+        And Verify that new job category '<jobUpdate>' is visible in the table
+        And Delete the record '<jobUpdate>' to clean environment
 
         Examples:
             | job                | jobUpdate                 | message            |
@@ -51,43 +51,43 @@ Feature: As a Admin, I can manage Job Categories in Job session
     @HappyCases
     Scenario: 03. Verify that it is possible to DELETE an existing Job Category
         When User click the 'Add' button
-        Then Verify that the header title is 'Add Job Category'
-        And User enter a new Job Category as 'Job ${randomString}'
+        Then Verify the form title 'Add Job Category' is displayed correctly
+        And User enter a new job category as 'Job ${randomString}'
         And User click the 'Save' button
         And Verify alert message is 'Successfully Saved'
-        And Verify that new Job Category 'Job ${randomString}' is visible in the table
-        And Get number of records found in table
-        And User click the delete icon of job category 'Job ${randomString}'
-        And Verify the confirm pop-up appears
+        And Verify that new job category 'Job ${randomString}' is visible in the table
+        And Get number of records found in job categories table
+        And A user delete a record with key is 'Job ${randomString}'
+        And The popup with the question 'Are you Sure?' is displayed
         And User click the 'No, Cancel' button on pop-up
-        And Verify the confirm pop-up disappears
-        And User click the delete icon of job category 'Job ${randomString}'
-        And Verify the confirm pop-up appears
+        And The popup with the question 'Are you Sure?' is not displayed
+        And A user delete a record with key is 'Job ${randomString}'
+        And The popup with the question 'Are you Sure?' is displayed
         And User click the 'Yes, Delete' button on pop-up
         And Verify alert message is 'Successfully Deleted'
-        And Verify the total number of records found in the table is decreased by '1' unit
+        And Verify the total number of records found in the job categories table is decreased by '1' unit
 
     @HappyCases
     Scenario Outline: 04. Verify that it is possible to DELETE multiple existing Job Category
         When User click the 'Add' button
-        And User enter a new Job Category as '<job_1>'
+        And User enter a new job category as '<job_1>'
         Then User click the 'Save' button
         And Verify alert message is 'Successfully Saved'
         And User click the 'Add' button
-        And User enter a new Job Category as '<job_2>'
+        And User enter a new job category as '<job_2>'
         And User click the 'Save' button
         And Verify alert message is 'Successfully Saved'
-        And Get number of records found in table
+        And Get number of records found in job categories table
         And A user select checkbox with keys are '<job_1>,<job_2>'
         And User click the 'Delete Selected' button
-        And Verify the confirm pop-up appears
+        And The popup with the question 'Are you Sure?' is displayed
         And User click the 'No, Cancel' button on pop-up
-        And Verify the confirm pop-up disappears
+        And The popup with the question 'Are you Sure?' is not displayed
         And User click the 'Delete Selected' button
-        And Verify the confirm pop-up appears
+        And The popup with the question 'Are you Sure?' is displayed
         And User click the 'Yes, Delete' button on pop-up
         And Verify alert message is 'Successfully Deleted'
-        And Verify the total number of records found in the table is decreased by '2' unit
+        And Verify the total number of records found in the job categories table is decreased by '2' unit
 
         Examples:
             | job_1                 | job_2                 | records | message              |
@@ -96,14 +96,14 @@ Feature: As a Admin, I can manage Job Categories in Job session
     @ErrorCases
     Scenario Outline: 05. Verify that it is not possible to ADD an Job Category with a duplicate name.
         When User click the 'Add' button
-        Then Verify that the header title is 'Add Job Category'
-        And User enter a new Job Category as '<job>'
+        Then Verify the form title 'Add Job Category' is displayed correctly
+        And User enter a new job category as '<job>'
         And User click the 'Save' button
         And Verify alert message is 'Successfully Saved'
-        And Verify that new Job Category '<job>' is visible in the table
+        And Verify that new job category '<job>' is visible in the table
         And User click the 'Add' button
-        And User enter the name of an existing Job Category as '<job>'
-        And Verify that the label should be displayed as 'Already exists'
+        And User enter the name of an existing job category as '<job>'
+        And Verify a error message 'Already exists' is shown under 'Name' field
 
         Examples:
             | job                 |
@@ -112,16 +112,16 @@ Feature: As a Admin, I can manage Job Categories in Job session
     @ErrorCases
     Scenario Outline: 06. Verify the message error appears when adding the Job Category with null value for name
         When User click the 'Add' button
-        Then Verify that the header title is 'Add Job Category'
+        Then Verify the form title 'Add Job Category' is displayed correctly
         And User click the 'Save' button
-        And Verify that the label should be displayed as 'Required'
+        And Verify a error message 'Required' is shown under 'Name' field
 
     @ErrorCases
     Scenario Outline: 07. Verify the error massage when adding the new Job Category with '<job>'
         When User click the 'Add' button
-        Then Verify that the header title is 'Add Job Category'
-        And User enter a new Job Category as '<job>'
-        And Verify that the label should be displayed as 'Should not exceed 50 characters'
+        Then Verify the form title 'Add Job Category' is displayed correctly
+        And User enter a new job category as '<job>'
+        And Verify a error message 'Should not exceed 50 characters' is shown under 'Name' field
 
         Examples:
             | job                                                               |

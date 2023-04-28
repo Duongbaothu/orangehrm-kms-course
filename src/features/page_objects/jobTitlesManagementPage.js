@@ -3,10 +3,7 @@ const chai = require('chai');
 const keywords = require('./keywords');
 const { assert } = chai;
 const common = require('./common');
-const { TIMEOUT_SHORT } = require('../support/config');
 
-const btnFunctionByName = `//button[normalize-space(.) = '$buttonName']`;
-const lblFormTitle = `//h6[contains(@class, 'orangehrm-main-title')]`;
 const txtJobTitle = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') and .//label[normalize-space(text()) = 'Job Title']]//input`;
 const lblJobTitleError = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') and .//label[normalize-space(text()) = 'Job Title']]//span[contains(@class, 'oxd-input-field-error-message')]`;
 const txtJobDescription = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') and .//label[normalize-space(text()) = 'Job Description']]//textarea`;
@@ -15,13 +12,10 @@ const txtNote = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') a
 const lblJobNoteError = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') and .//label[normalize-space(text()) = 'Note']]//span[contains(@class, 'oxd-input-field-error-message')]`;
 const lblRecordRowByJobTitle = `//div[contains(@class, 'oxd-table-row') and .//div[count(//div[contains(@class, 'oxd-table-header-cell') and contains(., 'Job Titles')]/preceding-sibling::div) + 1][@role = 'cell' and normalize-space(.) = '$jobTitle']]`;
 const lblRecordRowByJobTitleAndDescription = `//div[contains(@class, 'oxd-table-row') and .//div[count(//div[contains(@class, 'oxd-table-header-cell') and contains(., 'Job Titles')]/preceding-sibling::div) + 1][@role = 'cell' and normalize-space(.) = '$jobTitle'] and .//div[count(//div[contains(@class, 'oxd-table-header-cell') and contains(., 'Job Description')]/preceding-sibling::div) + 1][contains(., '$jobDescription')]]`;
-const btnTrashIconOfJobTitle = `//div[contains(@class, 'oxd-table-row') and .//div[count(//div[contains(@class, 'oxd-table-header-cell') and contains(., 'Job Titles')]/preceding-sibling::div) + 1][@role = 'cell' and normalize-space(.) = '$jobTitle']]//i[contains(@class, 'bi-trash')]`;
-const dlgDeleteModal = `//div[@role = 'dialog' and .//p[contains(@class, 'oxd-text--card-title') and normalize-space(.) = 'Are you Sure?']]`;
-const btnDeleteModalButtonByName = `//div[@role = 'dialog' and .//p[contains(@class, 'oxd-text--card-title') and normalize-space(.) = 'Are you Sure?']]//button[normalize-space(.) = '$buttonName']`;
 const lblFormLoader = `//div[contains(@class, 'oxd-form-loader')]`;
 let numberOfRecordsFound= 0;
 
-const self = module.exports = {
+module.exports = {
 
     /**
     * Get the number of records found page loaded
@@ -51,29 +45,6 @@ const self = module.exports = {
         const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
         const expectedNumberOfRecordsFound = numberOfRecordsFound - Number(number);
         assert.equal(expectedNumberOfRecordsFound, actualNumberOfRecordsFound);
-    },
-
-    /**
-    * Click fucntion button at Job Title page.
-    * @author Tuyen Nguyen
-    * @param {string} buttonName The function button in Admin Page: Add, Edit, No Cancel, Yes Delete,...
-    */
-    async clickFunctionButton(buttonName) {
-        await common.waitLoading.call(this);
-        const btnFunction = btnFunctionByName.replace('$buttonName', buttonName);
-        await keywords.waitAndScrollIntoView.call(this, btnFunction, TIMEOUT_SHORT);
-        await keywords.waitClick.call(this, btnFunction);
-    },
-
-    /**
-    * Verify the from title on the job title page.
-    * @author Tuyen Nguyen
-    * @param {string} expectedTitle The form title on teh Job title page: Add Job Title, Edit Job Title
-    */
-    async verifyTheFormTitle(expectedTitle) {
-        await keywords.waitForElementIsNotPresent.call(this, lblFormLoader);
-        const actualFormTitle = await keywords.waitAndGetText.call(this, lblFormTitle);
-        assert.equal(actualFormTitle, expectedTitle);
     },
 
     /**
@@ -157,10 +128,10 @@ const self = module.exports = {
     * @param {string} title The job title
     */
     async addNewJobTitle(title) {
-        await self.clickFunctionButton.call(this, 'Add');
+        await common.clickBtnByName.call(this, 'Add');
         const value = await common.getVariableValue(title, this);
         await keywords.setText.call(this, txtJobTitle, value);
-        await self.clickFunctionButton.call(this, 'Save');
+        await common.clickBtnByName.call(this, 'Save');
     },
 
     /**
@@ -185,44 +156,6 @@ const self = module.exports = {
         const value = await common.getVariableValue(title, this);
         const lblRecordRow = lblRecordRowByJobTitle.replace('$jobTitle', value);
         await keywords.verifyElementIsDisplayed.call(this, lblRecordRow);
-    },
-
-    /**
-    * click on the trash icon of a job title
-    * @author Tuyen Nguyen
-    * @param {string} title The job title
-    */
-    async clickTrashIconOfJob(title) {
-        const value = await common.getVariableValue(title, this);
-        const btnTrashIcon = btnTrashIconOfJobTitle.replace('$jobTitle', value);
-        await keywords.waitClick.call(this, btnTrashIcon);
-    },
-
-    /**
-    * Verify the delete dialog appears
-    * @author Tuyen Nguyen
-    */
-    async verifyDeleteDialogDislayed() {
-        await keywords.waitUntilElementIsVisible.call(this, dlgDeleteModal);
-        await keywords.verifyElementIsDisplayed.call(this, dlgDeleteModal);
-    },
-
-    /**
-    * Click on the button on the delete dialog
-    * @author Tuyen Nguyen
-    * @param {string} buttonName The job title: No, Cancel || Yes, Delete
-    */
-    async clickDeleteModalButton(buttonName) {
-        const btnDeleteModalButton = btnDeleteModalButtonByName.replace('$buttonName', buttonName);
-        await keywords.waitClick.call(this, btnDeleteModalButton);
-    },
-
-    /**
-    * Verify the delete dialog disappears
-    * @author Tuyen Nguyen
-    */
-    async verifyDeleteDialogNotDislayed() {
-        await keywords.waitForElementIsNotPresent.call(this, dlgDeleteModal);
     },
 
     /**
@@ -260,25 +193,5 @@ const self = module.exports = {
         }
         const randomString = await common.generateRandomString.call(this, numOfChar);
         await keywords.setText.call(this, txtInput, randomString);
-    },
-
-    /**
-    * clean up the job title data after running
-    * @author Tuyen Nguyen
-    * @param {string} jobTitle The job title
-    */
-    async removeTheJob(jobTitle) {
-        const value = await common.getVariableValue(jobTitle, this);
-        await common.deleteRecordByKey.call(this, value);
-    },
-
-    /**
-    * verify the URL link
-    * @author Tuyen Nguyen
-    * @param {string} url The job title
-    */
-    async verifyThePageURL(url) {
-        await common.waitLoading.call(this);
-        await common.verifyPageURL.call(this, url);
     },
 };
