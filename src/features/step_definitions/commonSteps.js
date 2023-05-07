@@ -43,6 +43,8 @@ When('read csv data file from {string}', common.readDataFromCSVFile);
 
 When('A user upload file {string}', common.uploadFile);
 
+When('A user click {string} item in User Profile dropdown', common.selectItemInUserDropdown);
+
 When('User click the {string} button', common.clickBtnByName);
 
 Then('Verify the form title {string} is displayed correctly', common.verifyTheFormTitle);

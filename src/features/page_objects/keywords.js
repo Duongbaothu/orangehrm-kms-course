@@ -132,6 +132,16 @@ const self = module.exports = {
     },
 
     /**
+    * Clear text box.
+    * @author Trang Ngo
+    * @param {String} xpath The text box xpath.
+    */
+    async deleteAllText(xpath) {
+        const element = await self.waitUntilElementLocated.call(this, xpath);
+        element.sendKeys(webdriver.Key.chord(webdriver.Key.CONTROL, 'a', webdriver.Key.DELETE));
+    },
+
+    /**
     * Wait the element to be clickable then click it.
     * @author Nam Hoang
     * @param {String} xpath The element xpath.
@@ -150,7 +160,7 @@ const self = module.exports = {
     * @return {String} Text of element.
     */
     async waitAndGetText(xpath, timeout = TIMEOUT_MEDIUM) {
-        const element = await self.waitUntilElementLocated.call(this, xpath, timeout);
+        const element = await self.waitUntilElementIsVisible.call(this, xpath, timeout);
         const result = await element.getText();
         return result;
     },

@@ -21,6 +21,9 @@ const ddlTopbarMenuItem = `//a[normalize-space(text())='$itemName']`;
 const ddoInForm = `//div[contains(@class, 'oxd-grid-item') and .//label[normalize-space(text())='$dropdownName']]//i[contains(@class, 'oxd-select-text--arrow')]`;
 const ddlInForm = `//div[contains(@class, 'oxd-grid-item') and .//label[normalize-space(text())='$dropdownName']]//div[@role='listbox']`;
 const ddlOptionInForm = `//div[contains(@class, 'oxd-grid-item') and .//label[normalize-space(text())='$dropdownName']]//div[@role='listbox']//div[normalize-space(.)='$option']`;
+const ddoUser = `//div[contains(@class,'topbar-header-userarea')]//i`;
+const ddlUser = `//div[contains(@class,'topbar-header-userarea')]//ul[contains(@class,'dropdown-menu')]`;
+const ddlOptionUser = `//div[contains(@class,'topbar-header-userarea')]//ul[contains(@class,'dropdown-menu')]//a[normalize-space(text())='$option']`;
 const txtFieldInForm = `//label[normalize-space(.)='$labelName']/../..//input`;
 const lblRecordsFound = `//span[contains(.,'Record Found') or contains(.,'Records Found')]`;
 const tblRecords = `//div[@role='rowgroup']//div[@class='oxd-table-card']`;
@@ -38,7 +41,7 @@ const btnByName = `//button[normalize-space(.)='$action']`;
 const lblFormTitle = `//h6[contains(@class, 'orangehrm-main-title')]`;
 const dlgPopup = `//div[contains(@class,'orangehrm-dialog-popup')]//p[normalize-space(.)='$itemName']`;
 const btnConfirmPopupButtonByName = `//div[@role = 'dialog' and .//p[contains(@class, 'oxd-text--card-title') and normalize-space(.) = 'Are you Sure?']]//button[normalize-space(.) = '$btnName']`;
-const lblNameErrorMsg = `//label[contains(text(),'$fieldName')]/ancestor::div[contains(@class,'oxd-form-row')]//span[contains(@class,'error-message')]`;
+const lblNameErrorMsg = `//label[normalize-space(.)='$fieldName']/../../span[contains(@class,'error-message')]`;
 
 const self = module.exports = {
     /**
@@ -152,11 +155,13 @@ const self = module.exports = {
     * @param {string} dropdownName The name of dropdown. Ex: User Role, Status dropdown in User Management
     */
     async selectDropdownItemByValue(optionValue, dropdownName) {
-        const ddoName = ddoInForm.replace('$dropdownName', dropdownName);
+        const value = await self.getVariableValue(optionValue, this);
+        const ddo = await self.getVariableValue(dropdownName, this);
+        const ddoName = ddoInForm.replace('$dropdownName', ddo);
         await keywords.waitClick.call(this, ddoName);
-        const ddlItemName = ddlInForm.replace('$dropdownName', dropdownName);
+        const ddlItemName = ddlInForm.replace('$dropdownName', ddo);
         if (keywords.waitUntilElementIsVisible.call(this, ddlItemName)) {
-            const optionName = ddlOptionInForm.replace('$dropdownName', dropdownName).replace('$option', optionValue);
+            const optionName = ddlOptionInForm.replace('$dropdownName', ddo).replace('$option', value);
             await keywords.waitClick.call(this, optionName);
         }
     },
@@ -385,11 +390,11 @@ const self = module.exports = {
     },
 
     /**
-       * Returns the value of the variable if it exists in this.results
-       * @author Tuyen Nguyen
-       * @param {number} length the length of character which generated. Ex: 7, 8, 9,...
-       * @return {string} the generated random string
-       */
+    * Returns the value of the variable if it exists in this.results
+    * @author Tuyen Nguyen
+    * @param {number} length the length of character which generated. Ex: 7, 8, 9,...
+    * @return {string} the generated random string
+    */
     async generateRandomString(length) {
         let result = '';
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -398,6 +403,20 @@ const self = module.exports = {
             result += characters.charAt(Math.floor(Math.random() * charactersLength));
         }
         return result;
+    },
+
+    /**
+    * Select  dropdown item in user dropdown
+    * @author Trang Ngo
+    * @param {string} optionValue The name of option in dropdown. Ex: About, Support, Change Password, Logout
+    */
+    async selectItemInUserDropdown(optionValue) {
+        const value = await self.getVariableValue(optionValue, this);
+        await keywords.waitClick.call(this, ddoUser);
+        if (keywords.waitUntilElementIsVisible.call(this, ddlUser)) {
+            const optionName = ddlOptionUser.replace('$option', value);
+            await keywords.waitClick.call(this, optionName);
+        }
     },
 
     /**
