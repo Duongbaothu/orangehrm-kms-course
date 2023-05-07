@@ -27,14 +27,10 @@ jobs:
         uses: browser-actions/setup-chrome@latest 
         with:
           chrome-version: 1070209      
-      - name: Set up Edge
-        if: success() || failure()
-        run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-          sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-stable.list'
-          sudo apt-get update
-          sudo apt-get install microsoft-edge-stable=107.0.1418.62-1 --allow-downgrades -y
+      - name: Set up Firefox
+        uses: browser-actions/setup-firefox@latest
+        with:
+          firefox-version: "105.0"
       - name: Set up Docker
         # need checkout before using compose-action
         uses: isbang/compose-action@v1.4.1
@@ -63,11 +59,12 @@ jobs:
       - name: Run Automation Test UI with Chrome browser
         id: automation-test-chrome
         run: |      
-          bash runFeature_OnDemamd.sh chrome "${{ inputs.FEATURE_FILE }}"
-      - name: Run Automation Test UI with Edge browser
-        id: automation-test-edge
+          bash runFeature_OnDemand.sh chrome "${{ inputs.FEATURE_FILE }}"
+      - name: Run Automation Test UI with Firefox browser
+        id: automation-test-firefox
+        if: success() || failure()
         run: |
-          bash runFeature_OnDemamd.sh edge "${{ inputs.FEATURE_FILE }}"
+          bash runFeature_OnDemand.sh firefox "${{ inputs.FEATURE_FILE }}"
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         if: always()

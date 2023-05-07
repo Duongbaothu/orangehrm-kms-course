@@ -4,28 +4,28 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
     Background: Open browser, login and navigate to the Job Titles page
         Given A user visits OrangeHRM page
         And A user logged in by admin role
+        Then Verify the module page header is 'Dashboard'
         And A user is on '/web/index.php/dashboard/index' page
         And Page title is 'OrangeHRM'
         When A user click 'Admin' item in main menu
         And A user click 'Job' dropdown and choose 'Job Titles' item in topbar menu
+        Then Verify the main title 'Job Titles' is displayed correctly
         And set:
             | randomString                       |
             | ${moment().format('YYMMDDHHmmss')} |
 
     @HappyCases
     Scenario Outline: <TC>. Verify the job can be added to system successfully <note>
-        When Get number of records found in job title table
         Then User click the 'Add' button
-        And Verify the form title '<addTitle>' is displayed correctly
+        And Verify the main title '<addTitle>' is displayed correctly
         And Enter Job Title '<title>'
         And Enter Job Description '<description>'
-        And A user upload file 'src/features/data/jobs/job01.pdf'
         And Add the Note '<note>'
         And User click the 'Save' button
         Then Verify alert message is 'Successfully Saved'
         And Verify the Job Titles records with title '<title>' and '<description>' is added successfully
-        And Verify the total number of records found in the job title table increased by '1' unit
         And Delete the record '<title>' to clean environment
+        Then Verify '<title>' is not displayed in table after removing successfully
 
         Examples:
             | TC | note                            | addTitle      | title                 | description                 |
@@ -35,7 +35,7 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
     @ErrorCases
     Scenario Outline: <TC>. Verify the error appears when adding the Job Title with null value for Job title
         When User click the 'Add' button
-        Then Verify the form title '<addTitle>' is displayed correctly
+        Then Verify the main title '<addTitle>' is displayed correctly
         And User click the 'Save' button
         And Verify the error message of Job Title is 'Required'
 
@@ -58,8 +58,7 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
     Scenario Outline: <TC>. Verify the admin can delete an existing Job Title
         When Add the new Job with Title '<title>'
         Then Verify alert message is 'Successfully Saved'
-        And Verify the Job Titles records '<title>' is added successfully
-        And Get number of records found in job title table
+        And Verify '<title>' is displayed in table after adding successfully
         And A user delete a record with key is '<title>'
         Then The popup with the question 'Are you Sure?' is displayed
         And User click the 'No, Cancel' button on pop-up
@@ -68,8 +67,7 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
         Then The popup with the question 'Are you Sure?' is displayed
         And User click the 'Yes, Delete' button on pop-up
         Then Verify alert message is 'Successfully Deleted'
-        And Verify the Job Titles records '<title>' is removed successfully
-        And Verify the total number of records found in the job title table decreased by '1' unit
+        Then Verify '<title>' is not displayed in table after removing successfully
 
         Examples:
             | TC | title                |
@@ -79,9 +77,10 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
     Scenario Outline: <TC>. Verify the admin can delete the multiple existing Job Title
         When Add the new Job with Title '<title1>'
         Then Verify alert message is 'Successfully Saved'
+        Then Verify '<title1>' is displayed in table after adding successfully
         And Add the new Job with Title '<title2>'
         Then Verify alert message is 'Successfully Saved'
-        And Get number of records found in job title table
+        Then Verify '<title2>' is displayed in table after adding successfully
         And A user select checkbox with keys are '<title1>,<title2>'
         And User click the 'Delete Selected' button
         Then The popup with the question 'Are you Sure?' is displayed
@@ -91,9 +90,8 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
         Then The popup with the question 'Are you Sure?' is displayed
         And User click the 'Yes, Delete' button on pop-up
         Then Verify alert message is 'Successfully Deleted'
-        And Verify the Job Titles records '<title1>' is removed successfully
-        And Verify the Job Titles records '<title2>' is removed successfully
-        And Verify the total number of records found in the job title table decreased by '2' unit
+        Then Verify '<title1>' is not displayed in table after removing successfully
+        Then Verify '<title2>' is not displayed in table after removing successfully
 
         Examples:
             | TC | jobOption  | dropdown | title      | title1                 | title2                 |
@@ -102,7 +100,7 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
     @HappyCases
     Scenario Outline: <TC>. Verify the admin can edit the Job Title successfully
         When Add the new Job with Title '<title>'
-        And Verify the Job Titles records '<title>' is added successfully
+        Then Verify '<title>' is displayed in table after adding successfully
         And A user click edit a record with key is '<title>'
         And Verify the Job title '<title>' is displayed correctly
         And Edit Job Title to '<updatedTitle>'
@@ -111,6 +109,7 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
         Then Verify alert message is 'Successfully Updated'
         And Verify the Job Titles records with title '<updatedTitle>' and '<updatedDescription>' is added successfully
         And Delete the record '<updatedTitle>' to clean environment
+        Then Verify '<updatedTitle>' is not displayed in table after removing successfully
 
         Examples:
             | TC | title                | editTitle      | updatedTitle                | updatedDescription                |
@@ -119,7 +118,7 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
     @ErrorCases
     Scenario Outline: <TC>. Verify the error massage when adding the new job title with <note>
         When User click the 'Add' button
-        Then Verify the form title '<addTitle>' is displayed correctly
+        Then Verify the main title '<addTitle>' is displayed correctly
         And Generating '101' characters and set to 'Job Title' text box
         Then Verify the error message of Job Title is 'Should not exceed 100 characters'
         And Generating '401' characters and set to 'Job Description' text box

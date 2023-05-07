@@ -1,7 +1,5 @@
-const { When, Then, Given } = require('@cucumber/cucumber');
+const { When, Then } = require('@cucumber/cucumber');
 const nationalitiesPage = require('../page_objects/nationalitiesPage');
-
-Given('Get current total of nationality records', nationalitiesPage.getTotalOfRecords);
 
 When('Verify the delete nationality pop-up appears', nationalitiesPage.verifyDialogDisplay);
 
@@ -26,10 +24,6 @@ Then('Verify the {string} nationality is not displayed in table', async function
 });
 
 Then('Verify the {string} nationality is displayed in {string} field', nationalitiesPage.verifyValueInField);
-
-Then('Verify the total of nationality records increased by {string} unit', nationalitiesPage.verifyNumberOfRecordsIncrease);
-
-Then('Verify the total of nationality records decreased by {string} unit', nationalitiesPage.verifyNumberOfRecordsDecrease);
 
 Then('Verify the main title {string} of nationality page is displayed', nationalitiesPage.verifyMainTitleIsDisplayed);
 

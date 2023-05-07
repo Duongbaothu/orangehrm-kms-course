@@ -10,42 +10,10 @@ const txtJobDescription = `//div[contains(concat(' ', @class, ' '), ' oxd-input-
 const lblJobDescriptionError = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') and .//label[normalize-space(text()) = 'Job Description']]//span[contains(@class, 'oxd-input-field-error-message')]`;
 const txtNote = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') and .//label[normalize-space(text()) = 'Note']]//textarea`;
 const lblJobNoteError = `//div[contains(concat(' ', @class, ' '), ' oxd-input-group ') and .//label[normalize-space(text()) = 'Note']]//span[contains(@class, 'oxd-input-field-error-message')]`;
-const lblRecordRowByJobTitle = `//div[contains(@class, 'oxd-table-row') and .//div[count(//div[contains(@class, 'oxd-table-header-cell') and contains(., 'Job Titles')]/preceding-sibling::div) + 1][@role = 'cell' and normalize-space(.) = '$jobTitle']]`;
 const lblRecordRowByJobTitleAndDescription = `//div[contains(@class, 'oxd-table-row') and .//div[count(//div[contains(@class, 'oxd-table-header-cell') and contains(., 'Job Titles')]/preceding-sibling::div) + 1][@role = 'cell' and normalize-space(.) = '$jobTitle'] and .//div[count(//div[contains(@class, 'oxd-table-header-cell') and contains(., 'Job Description')]/preceding-sibling::div) + 1][contains(., '$jobDescription')]]`;
 const lblFormLoader = `//div[contains(@class, 'oxd-form-loader')]`;
-let numberOfRecordsFound= 0;
 
 module.exports = {
-
-    /**
-    * Get the number of records found page loaded
-    * @author Tuyen Nguyen
-    */
-    async getNumberOfRecords() {
-        numberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-    },
-
-    /**
-    * Verify the number of records after added
-    * @author Tuyen Nguyen
-    * @param {string} number The number of records added
-    */
-    async verifyIncreasingNumberRecords(number) {
-        const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-        const expectedNumberOfRecordsFound = numberOfRecordsFound + Number(number);
-        assert.equal(expectedNumberOfRecordsFound, actualNumberOfRecordsFound);
-    },
-
-    /**
-    * Verify the number of records after deleted
-    * @author Tuyen Nguyen
-    * @param {string} number The number of records deleted
-    */
-    async verifyDecreasingNumberRecords(number) {
-        const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-        const expectedNumberOfRecordsFound = numberOfRecordsFound - Number(number);
-        assert.equal(expectedNumberOfRecordsFound, actualNumberOfRecordsFound);
-    },
 
     /**
     * Enter the job title into the textbox
@@ -145,28 +113,6 @@ module.exports = {
         const text = await common.getVariableValue(description, this);
         const lblRecordRow = lblRecordRowByJobTitleAndDescription.replace('$jobTitle', value).replace('$jobDescription', text);
         await keywords.verifyElementIsDisplayed.call(this, lblRecordRow);
-    },
-
-    /**
-    * verify the job title of the record which added
-    * @author Tuyen Nguyen
-    * @param {string} title The job title
-    */
-    async verifyRecordWithTitle(title) {
-        const value = await common.getVariableValue(title, this);
-        const lblRecordRow = lblRecordRowByJobTitle.replace('$jobTitle', value);
-        await keywords.verifyElementIsDisplayed.call(this, lblRecordRow);
-    },
-
-    /**
-    * verify the record is removed from system
-    * @author Tuyen Nguyen
-    * @param {string} title The job title
-    */
-    async verifyRecordWithTitleNotDisplayed(title) {
-        const value = await common.getVariableValue(title, this);
-        const lblRecordRow = lblRecordRowByJobTitle.replace('$jobTitle', value);
-        await keywords.waitForElementIsNotPresent.call(this, lblRecordRow);
     },
 
     /**

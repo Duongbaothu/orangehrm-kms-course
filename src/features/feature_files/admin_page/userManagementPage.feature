@@ -15,7 +15,7 @@ Feature: As an Admin, I can manage users in User Management session
     @HappyCases
     Scenario: <No>. Verify that it is possible to ADD user then search that user with full info
         When User click the 'Add' button
-        Then Verify the main title 'Add User' is displayed
+        Then Verify the main title 'Add User' is displayed correctly
         When A user select option '<userRole>' in dropdown 'User Role'
         And A user type a hint '<hintEmployeeName>' in field 'Employee Name' to search and then select option 'Boss A' in the dropdown list
         And A user select option '<status>' in dropdown 'Status'
@@ -92,7 +92,7 @@ Feature: As an Admin, I can manage users in User Management session
     @HappyCases
     Scenario: <No>. As an Admin, I can search user with <field> field
         When User click the 'Add' button
-        Then Verify the main title 'Add User' is displayed
+        Then Verify the main title 'Add User' is displayed correctly
         When A user select option 'ESS' in dropdown 'User Role'
         And A user type a hint 'Boss' in field 'Employee Name' to search and then select option 'Boss A' in the dropdown list
         And A user select option 'Enabled' in dropdown 'Status'
@@ -147,7 +147,7 @@ Feature: As an Admin, I can manage users in User Management session
     @HappyCases
     Scenario: <No>. As an Admin, I can edit <field> field
         When User click the 'Add' button
-        Then Verify the main title 'Add User' is displayed
+        Then Verify the main title 'Add User' is displayed correctly
         And A user select option 'Admin' in dropdown 'User Role'
         And A user type a hint 'Boss' in field 'Employee Name' to search and then select option 'Boss A' in the dropdown list
         And A user select option 'Enabled' in dropdown 'Status'
@@ -180,7 +180,7 @@ Feature: As an Admin, I can manage users in User Management session
     @HappyCases
     Scenario: 28. As an Admin, I can edit Username and Password for specific account
         When User click the 'Add' button
-        Then Verify the main title 'Add User' is displayed
+        Then Verify the main title 'Add User' is displayed correctly
         When A user select option 'Admin' in dropdown 'User Role'
         And A user type a hint 'Boss' in field 'Employee Name' to search and then select option 'Boss A' in the dropdown list
         And A user select option 'Enabled' in dropdown 'Status'
@@ -231,7 +231,7 @@ Feature: As an Admin, I can manage users in User Management session
     @ErrorCases
     Scenario: <No>. As an Admin, I can see error message <msg> when <case> <field> in edit form
         When User click the 'Add' button
-        Then Verify the main title 'Add User' is displayed
+        Then Verify the main title 'Add User' is displayed correctly
         When A user select option 'Admin' in dropdown 'User Role'
         And A user type a hint 'Boss' in field 'Employee Name' to search and then select option 'Boss A' in the dropdown list
         And A user select option 'Enabled' in dropdown 'Status'

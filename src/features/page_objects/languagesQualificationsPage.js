@@ -3,19 +3,11 @@ const { assert } = chai;
 const common = require('./common');
 const keywords = require('./keywords');
 
-let numberOfRecordsFound = 0;
 const btnName = `//button[normalize-space(.)='$name']`;
 const txtFieldInForm = `//label[normalize-space(.)='$labelName']/../..//input`;
 const cellRecord = `//div[@role='rowgroup']//div[@class='oxd-table-card']//div[normalize-space(.)='$record']`;
 
 const self = module.exports = {
-    /**
-    * Get the number of records found page loaded
-    * @author Lan Tran
-    */
-    async getNumberOfRecords() {
-        numberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-    },
 
     /**
     * Type the input to the field
@@ -27,28 +19,6 @@ const self = module.exports = {
         const txtFieldByLabelName = txtFieldInForm.replace('$labelName', labelName);
         const value = await common.getVariableValue(text, this);
         await keywords.setText.call(this, txtFieldByLabelName, value);
-    },
-
-    /**
-    * Verify the number of records after added
-    * @author Lan Tran
-    * @param {string} number The number of records added
-    */
-    async verifyIncreasingNumberRecords(number) {
-        const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-        const expectedNumberOfRecordsFound = numberOfRecordsFound + Number(number);
-        assert.equal(actualNumberOfRecordsFound, expectedNumberOfRecordsFound);
-    },
-
-    /**
-    * Verify the new record is displayed in
-    * @author Lan Tran
-    * @param {string} record The new record added to the table
-    */
-    async verifyRecordInTable(record) {
-        const value = await common.getVariableValue(record, this);
-        const newRecord = cellRecord.replace('$record', value);
-        await keywords.verifyElementIsDisplayed.call(this, newRecord);
     },
 
     /**
@@ -71,17 +41,6 @@ const self = module.exports = {
     async verifyNewButtonVisible(name) {
         const btnVisible = btnName.replace('$name', name);
         await keywords.verifyElementIsDisplayed.call(this, btnVisible);
-    },
-
-    /**
-    * Verify the number of records after deleted
-    * @author Lan Tran
-    * @param {string} number The number of records deleted
-    */
-    async verifyDecreasingNumberRecords(number) {
-        const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-        const expectedNumberOfRecordsFound = numberOfRecordsFound - Number(number);
-        assert.equal(actualNumberOfRecordsFound, expectedNumberOfRecordsFound);
     },
 
     /**

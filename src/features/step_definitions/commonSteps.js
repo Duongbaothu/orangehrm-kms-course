@@ -47,7 +47,7 @@ When('A user click {string} item in User Profile dropdown', common.selectItemInU
 
 When('User click the {string} button', common.clickBtnByName);
 
-Then('Verify the form title {string} is displayed correctly', common.verifyTheFormTitle);
+Then('Verify the main title {string} is displayed correctly', common.verifyTheMainTitleIsDisplayed);
 
 When('User click the {string} button on pop-up', common.clickBtnInPopup);
 
@@ -58,3 +58,7 @@ Then('The popup with the question {string} is not displayed', common.popupIsNotD
 Then('Verify a error message {string} is shown under {string} field', common.verifyValidationErrorMessage);
 
 Given('Delete the record {string} to clean environment', common.deleteRecordToCleanEnv);
+
+Given('Verify {string} is displayed in table after adding successfully', common.verifyRecordWithTitleDisplay);
+
+Given('Verify {string} is not displayed in table after removing successfully', common.verifyRecordWithTitleIsNotDisplay);

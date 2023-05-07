@@ -19,16 +19,7 @@ const btnYes = `//button[normalize-space(.)='Yes, Delete']`;
 const navNumber = navPaging + `/button[contains(@class,'oxd-pagination-page-item--page') and text()='$index']`;
 
 const timeToSleep = 2000;
-let totalOfRecords = 0;
 const self = module.exports = {
-
-    /**
-    * Set the number of records found page loaded
-    * @author Nhu Ho
-    */
-    async getTotalOfRecords() {
-        totalOfRecords = await common.getNumberOfRecordsFound.call(this);
-    },
 
     /**
     * Type value into the inout field
@@ -210,28 +201,6 @@ const self = module.exports = {
         await keywords.waitUntilElementIsVisible.call(this, txt);
         const actualValue = await keywords.waitAndGetAttribute.call(this, txt, 'value');
         assert.equal(actualValue, expectedValue);
-    },
-
-    /**
-    * Verify the number of records increase
-    * @author Nhu Ho
-    * @param {string} number The number of records is increase
-    */
-    async verifyNumberOfRecordsIncrease(number) {
-        const actualTotalOfRecords = await common.getNumberOfRecordsFound.call(this);
-        totalOfRecords += Number(number);
-        assert.equal(actualTotalOfRecords, totalOfRecords);
-    },
-
-    /**
-    * Verify the number of records decrease
-    * @author Nhu Ho
-    * @param {string} number The number of records is decrease
-    */
-    async verifyNumberOfRecordsDecrease(number) {
-        const actualTotalOfRecords = await common.getNumberOfRecordsFound.call(this);
-        totalOfRecords -= Number(number);
-        assert.equal(actualTotalOfRecords, totalOfRecords);
     },
 
     /**

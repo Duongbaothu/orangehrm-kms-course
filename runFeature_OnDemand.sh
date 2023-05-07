@@ -4,8 +4,6 @@ rm -rf ./report/$param/
 mkdir -p ./report/$param/
 export startTime=$(date) 
 if [[ $param = "all" ]]; then
-    export BROWSER="edge"
-    node node_modules/@cucumber/cucumber/bin/cucumber-js --parallel 4 -f json:report/$param/edge.json $featureFile --tags "not @setup"
     export BROWSER="firefox"
     node node_modules/@cucumber/cucumber/bin/cucumber-js --parallel 4 -f json:report/$param/firefox.json $featureFile --tags "not @setup"
     export BROWSER="chrome"

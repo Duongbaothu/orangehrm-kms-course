@@ -8,7 +8,6 @@ const { assert } = chai;
 const fs = require('fs');
 const parse = require('csv-parser');
 
-const appData = `//div[@data-v-app]`;
 const txtUsername = `//input[@name='username']`;
 const txtPassword = `//input[@name='password']`;
 const btnLogin = `//button[contains(@type,'submit')]`;
@@ -38,10 +37,12 @@ const navPaging = `//nav[@aria-label='Pagination Navigation']/ul/li`;
 const btnUpload = `//input[@class='oxd-file-input']`;
 const frmPageHeaderTitle = `//div[@class='orangehrm-background-container']//h5 | //div[@class='orangehrm-background-container']//h6`;
 const btnByName = `//button[normalize-space(.)='$action']`;
-const lblFormTitle = `//h6[contains(@class, 'orangehrm-main-title')]`;
+const txtMainTitle = `//h6[contains(@class, 'orangehrm-main-title')and(text()='$title')]`;
 const dlgPopup = `//div[contains(@class,'orangehrm-dialog-popup')]//p[normalize-space(.)='$itemName']`;
 const btnConfirmPopupButtonByName = `//div[@role = 'dialog' and .//p[contains(@class, 'oxd-text--card-title') and normalize-space(.) = 'Are you Sure?']]//button[normalize-space(.) = '$btnName']`;
 const lblNameErrorMsg = `//label[normalize-space(.)='$fieldName']/../../span[contains(@class,'error-message')]`;
+const lblRecordNameWithLevelTitle = `//div[contains(@class,'oxd-table-card')]//div[text()="$itemName"]`;
+const tblTable = `//div[@class='oxd-table']`;
 
 const self = module.exports = {
     /**
@@ -89,7 +90,6 @@ const self = module.exports = {
     * @author Nam Hoang
     */
     async waitPageHeaderIsLoaded() {
-        await keywords.waitUntilElementIsVisible.call(this, appData);
         await keywords.waitUntilElementIsVisible.call(this, frmPageHeaderTitle);
     },
     /**
@@ -406,7 +406,7 @@ const self = module.exports = {
     },
 
     /**
-    * Select  dropdown item in user dropdown
+    * Select dropdown item in user dropdown
     * @author Trang Ngo
     * @param {string} optionValue The name of option in dropdown. Ex: About, Support, Change Password, Logout
     */
@@ -432,14 +432,14 @@ const self = module.exports = {
     },
 
     /**
-     * Verify form title
+     * Verify main title is displayed
      * @author Nam Hoang
-     * @param {string} expectedTitle The expected title of form
+     * @param {string} title The title of main form
      */
-    async verifyTheFormTitle(expectedTitle) {
-        await self.waitPageHeaderIsLoaded.call(this);
-        const actualFormTitle = await keywords.waitAndGetText.call(this, lblFormTitle);
-        assert.equal(actualFormTitle, expectedTitle);
+    async verifyTheMainTitleIsDisplayed(title) {
+        const mainTitle = txtMainTitle.replace('$title', title);
+        await keywords.waitUntilElementIsVisible.call(this, mainTitle);
+        await keywords.verifyElementIsDisplayed.call(this, mainTitle);
     },
 
     /**
@@ -483,5 +483,32 @@ const self = module.exports = {
         const msgErrorMessage = lblNameErrorMsg.replace('$fieldName', valueFieldName);
         const actualValidationMsg = await keywords.waitAndGetText.call(this, msgErrorMessage);
         assert.equal(actualValidationMsg, expectedValidationMsg);
+    },
+
+    /**
+    * Verify record with title display
+    * @author Nam Hoang
+    * @param {String} title the value of title
+    */
+    async verifyRecordWithTitleDisplay(title) {
+        await keywords.waitUntilElementIsVisible.call(this, tblTable);
+        const valueTitle = await self.getVariableValue(title, this);
+        const lblRecordRow = lblRecordNameWithLevelTitle.replace('$itemName', valueTitle);
+        await keywords.waitUntilElementIsVisible.call(this, lblRecordsFound);
+        const result = await keywords.elementIsExisted.call(this, lblRecordRow);
+        assert.isTrue(result);
+    },
+
+    /**
+    * Verify record with title no display
+    * @author Nam Hoang
+    * @param {String} title the value of title
+    */
+    async verifyRecordWithTitleIsNotDisplay(title) {
+        await keywords.waitUntilElementIsVisible.call(this, tblTable);
+        const valueTitle = await self.getVariableValue(title, this);
+        const lblRecordRow = lblRecordNameWithLevelTitle.replace('$itemName', valueTitle);
+        const result = await keywords.elementIsExisted.call(this, lblRecordRow);
+        assert.isFalse(result);
     },
 };

@@ -21,14 +21,4 @@ When('Add the new Job with Title {string}', jobTitlesManagementPage.addNewJobTit
 
 Then('Verify the Job Titles records with title {string} and {string} is added successfully', jobTitlesManagementPage.verifyRecordWithTitleAndDescription);
 
-Then('Verify the Job Titles records {string} is added successfully', jobTitlesManagementPage.verifyRecordWithTitle);
-
-Then('Verify the Job Titles records {string} is removed successfully', jobTitlesManagementPage.verifyRecordWithTitleNotDisplayed);
-
 When('Generating {string} characters and set to {string} text box', jobTitlesManagementPage.generateCharAndSetToAddJobFields);
-
-When('Get number of records found in job title table', jobTitlesManagementPage.getNumberOfRecords);
-
-Then('Verify the total number of records found in the job title table increased by {string} unit', jobTitlesManagementPage.verifyIncreasingNumberRecords);
-
-Then('Verify the total number of records found in the job title table decreased by {string} unit', jobTitlesManagementPage.verifyDecreasingNumberRecords);

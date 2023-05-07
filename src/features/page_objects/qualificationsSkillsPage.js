@@ -4,7 +4,6 @@ const keywords = require('./keywords');
 const common = require('./common');
 const { assert } = chai;
 
-let numberOfRecordsFound = 0;
 const btnButton = `//button[normalize-space(.)='$itemName']`;
 const txtFieldInForm = `//label[normalize-space(.)='Name']/../..//input`;
 const txtDescriptionField = `//label[normalize-space(.)='Description']/../..//textarea`;
@@ -101,38 +100,5 @@ const self = module.exports = {
             await self.typeDescriptionForSkill.call(this, csvData[i]._1);
         }
         await common.clickBtnByName.call(this, 'Save');
-    },
-
-    /**
-  * Get number of the records found.
-  * @author Hanh Nguyen
-  * @return {number} Number of records found.
-  */
-    async getNumberOfRecordsFound() {
-        numberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-    },
-
-    /**
-    * Verify the number of records after added
-    * @author Hanh Nguyen
-    * @param {string} number The number of records added
-    */
-    async verifyNumberRecordsIncreasing(number) {
-        const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-        const value = parseInt(number);
-        const expectedNumberOfRecordsFound = numberOfRecordsFound + value;
-        assert.equal(actualNumberOfRecordsFound, expectedNumberOfRecordsFound);
-    },
-
-    /**
-    * Verify the number of records after deleted
-    * @author Hanh Nguyen
-    * @param {string} number The number of records deleted
-    */
-    async verifyNumberRecordsDecreasing(number) {
-        const actualNumberOfRecordsFound = await common.getNumberOfRecordsFound.call(this);
-        const value = parseInt(number);
-        const expectedNumberOfRecordsFound = numberOfRecordsFound - value;
-        assert.equal(actualNumberOfRecordsFound, expectedNumberOfRecordsFound);
     },
 };

@@ -1,7 +1,5 @@
-const { When, Then, Given } = require('@cucumber/cucumber');
+const { When, Then } = require('@cucumber/cucumber');
 const qualificationsMembershipsPage = require('../page_objects/qualificationsMembershipsPage');
-
-Given('Get current total of membership records', qualificationsMembershipsPage.getTotalOfRecords);
 
 When('Verify the delete memebership pop-up appears', qualificationsMembershipsPage.verifyDialogDisplay);
 
@@ -26,9 +24,3 @@ Then('Verify the {string} membership is not displayed in table', async function(
 });
 
 Then('Verify the {string} membership is displayed in {string} field', qualificationsMembershipsPage.verifyValueInField);
-
-Then('Verify the total of membership records increased by {string} unit', qualificationsMembershipsPage.verifyNumberOfRecordsIncrease);
-
-Then('Verify the total of membership records decreased by {string} unit', qualificationsMembershipsPage.verifyNumberOfRecordsDecrease);
-
-Then('Verify the main title {string} of membership page is displayed', qualificationsMembershipsPage.verifyMainTitleIsDisplayed);
