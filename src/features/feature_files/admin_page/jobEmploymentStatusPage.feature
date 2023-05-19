@@ -11,8 +11,8 @@ Feature: As a Admin, I can manage Employment Status in Job session
         And A user click 'Job' dropdown and choose 'Employment Status' item in topbar menu
         Then Verify the main title 'Employment Status' is displayed correctly
         And set:
-            | randomString                       |
-            | ${moment().format('YYMMDDHHmmss')} |
+            | randomString  |
+            | ${Date.now()} |
 
     @HappyCases
     Scenario Outline: 01. Verify that it is possible to ADD a new employment status.
@@ -107,6 +107,7 @@ Feature: As a Admin, I can manage Employment Status in Job session
         Then Verify alert message is 'Successfully Saved'
         And Verify '<name>' is displayed in table after adding successfully
         When User click the 'Add' button
+        Then Verify the main title 'Add Employment Status' is displayed correctly
         And User enter the name of an existing employment status as '<name>'
         Then Verify a error message 'Already exists' is shown under 'Name' field
         When User click the 'Cancel' button

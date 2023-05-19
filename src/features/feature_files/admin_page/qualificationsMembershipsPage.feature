@@ -112,6 +112,7 @@ Feature: As a Admin, I can manage memberships information in Qualifications sess
         When User click the 'Cancel' button
         Then A user is on '/web/index.php/admin/membership' page
         When A user click edit action of '<name>' membership
+        Then Verify the main title 'Edit Membership' is displayed correctly
         And Verify the '<name>' membership is displayed in 'Name' field
         And A user type '<updatedName>' membership into 'Name' field
         And User click the 'Save' button

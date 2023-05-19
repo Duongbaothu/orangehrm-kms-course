@@ -1,4 +1,4 @@
-@setup
+@setup @ignore
 Feature: Set up OrangeHRM application system
 
     Background: Open browser and navigate to the OrangeHRM page

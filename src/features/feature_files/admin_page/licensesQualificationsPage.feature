@@ -11,8 +11,8 @@ Feature: As a Admin, I can manage licenses information in Qualifications session
         And A user click 'Qualifications' dropdown and choose 'Licenses' item in topbar menu
         Then Verify the main title 'Licenses' is displayed correctly
         And set:
-            | randomString                       |
-            | ${moment().format('YYMMDDHHmmss')} |
+            | randomString  |
+            | ${Date.now()} |
 
     @HappyCases
     Scenario Outline: <TC>. Verify user can add new licenses successfully

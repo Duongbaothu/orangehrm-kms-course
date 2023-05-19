@@ -11,8 +11,8 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
         And A user click 'Job' dropdown and choose 'Job Titles' item in topbar menu
         Then Verify the main title 'Job Titles' is displayed correctly
         And set:
-            | randomString                       |
-            | ${moment().format('YYMMDDHHmmss')} |
+            | randomString  |
+            | ${Date.now()} |
 
     @HappyCases
     Scenario Outline: <TC>. Verify the job can be added to system successfully <note>
@@ -49,7 +49,7 @@ Feature: As a admin, We can add, edit and delete a Job Title on the Job page
         Then Verify alert message is 'Successfully Saved'
         And Add the new Job with Title '<jobName>'
         And Verify the error message of Job Title is 'Already exists'
-        
+
         Examples:
             | TC | jobTitle   | jobName              | button | msg            | addTitle      |
             | 04 | Job Titles | Title${randomString} | Add    | Already exists | Add Job Title |

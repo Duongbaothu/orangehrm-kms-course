@@ -11,8 +11,8 @@ Feature: As a Admin, I can manage languages information in Qualifications sessio
         And A user click 'Qualifications' dropdown and choose 'Languages' item in topbar menu
         Then Verify the main title 'Languages' is displayed correctly
         And set:
-            | randomString                       |
-            | ${moment().format('YYMMDDHHmmss')} |
+            | randomString  |
+            | ${Date.now()} |
 
     @HappyCases
     Scenario Outline: <TC>. Verify user can add new languages successfully

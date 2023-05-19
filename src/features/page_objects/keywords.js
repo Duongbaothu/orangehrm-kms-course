@@ -1,6 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-const { By, until, WebElement } = require('selenium-webdriver');
-const webdriver = require('selenium-webdriver');
+const { By, until, WebElement, Key } = require('selenium-webdriver');
 const { promisify } = require('util');
 const { TIMEOUT_SHORT, TIMEOUT_MEDIUM } = require('../support/config');
 const sleep = promisify(setTimeout);
@@ -16,7 +15,7 @@ const self = module.exports = {
     * @return {WebElement} The web element.
     */
     async waitUntilElementLocated(xpath, timeout = TIMEOUT_MEDIUM) {
-        return this.driver.wait(until.elementLocated(By.xpath(xpath)), timeout);
+        return await this.driver.wait(until.elementLocated(By.xpath(xpath)), timeout);
     },
 
     /**
@@ -27,7 +26,7 @@ const self = module.exports = {
     * @return {Array<WebElement>} The array of web elements.
     */
     async waitUntilElementsLocated(xpath, timeout = TIMEOUT_MEDIUM) {
-        return this.driver.wait(until.elementsLocated(By.xpath(xpath)), timeout);
+        return await this.driver.wait(until.elementsLocated(By.xpath(xpath)), timeout);
     },
 
     /**
@@ -39,7 +38,7 @@ const self = module.exports = {
     */
     async waitUntilStalenessOfElement(xpath, timeout = TIMEOUT_MEDIUM) {
         const element = await self.waitUntilElementLocated.call(this, xpath);
-        return this.driver.wait(until.stalenessOf(element), timeout);
+        return await this.driver.wait(until.stalenessOf(element), timeout);
     },
 
     /**
@@ -51,7 +50,7 @@ const self = module.exports = {
     */
     async waitUntilElementIsVisible(xpath, timeout = TIMEOUT_MEDIUM) {
         const element = await self.waitUntilElementLocated.call(this, xpath);
-        return this.driver.wait(until.elementIsVisible(element), timeout);
+        return await this.driver.wait(until.elementIsVisible(element), timeout);
     },
 
     /**
@@ -77,7 +76,7 @@ const self = module.exports = {
     */
     async waitUntilElementIsNotVisible(xpath, timeout = TIMEOUT_MEDIUM) {
         const element = await self.waitUntilElementLocated.call(this, xpath);
-        return this.driver.wait(until.elementIsNotVisible(element), timeout);
+        return await this.driver.wait(until.elementIsNotVisible(element), timeout);
     },
 
     /**
@@ -89,7 +88,7 @@ const self = module.exports = {
     */
     async waitUntilElementIsClickable(xpath, timeout = TIMEOUT_MEDIUM) {
         const element = await self.waitUntilElementIsVisible.call(this, xpath);
-        return this.driver.wait(until.elementIsEnabled(element), timeout);
+        return await this.driver.wait(until.elementIsEnabled(element), timeout);
     },
 
     /**
@@ -116,7 +115,7 @@ const self = module.exports = {
     * @param {String} timeout The waiting time.
     */
     async waitUntilTitleIs(title, timeout = TIMEOUT_MEDIUM) {
-        return this.driver.wait(until.titleIs(title), timeout);
+        return await this.driver.wait(until.titleIs(title), timeout);
     },
 
     /**
@@ -126,9 +125,9 @@ const self = module.exports = {
     * @param {String} text The text you want to input.
     */
     async setText(xpath, text) {
-        const element = await self.waitUntilElementLocated.call(this, xpath);
-        element.sendKeys(webdriver.Key.chord(webdriver.Key.CONTROL, 'a'));
-        element.sendKeys(text);
+        const element = await self.waitUntilElementIsVisible.call(this, xpath);
+        await element.sendKeys(Key.CONTROL, 'a');
+        await element.sendKeys(text);
     },
 
     /**
@@ -137,8 +136,8 @@ const self = module.exports = {
     * @param {String} xpath The text box xpath.
     */
     async deleteAllText(xpath) {
-        const element = await self.waitUntilElementLocated.call(this, xpath);
-        element.sendKeys(webdriver.Key.chord(webdriver.Key.CONTROL, 'a', webdriver.Key.DELETE));
+        const element = await self.waitUntilElementIsVisible.call(this, xpath);
+        await element.sendKeys(Key.CONTROL, 'a', Key.DELETE);
     },
 
     /**
@@ -149,7 +148,7 @@ const self = module.exports = {
     */
     async waitClick(xpath, timeout = TIMEOUT_MEDIUM) {
         const element = await self.waitUntilElementIsClickable.call(this, xpath, timeout);
-        element.click();
+        await element.click();
     },
 
     /**
@@ -192,7 +191,7 @@ const self = module.exports = {
             elements.forEach(async (element) => {
                 const value = await element.getAttribute('value');
                 if (value === String(valueExpect)) {
-                    element.click();
+                    await element.click();
                 }
             });
         });
@@ -282,7 +281,7 @@ const self = module.exports = {
     */
     async isDisplayed(xpath) {
         const element = await self.waitUntilElementLocated.call(this, xpath);
-        const result = element.isDisplayed();
+        const result = await element.isDisplayed();
         return result;
     },
 
@@ -293,16 +292,12 @@ const self = module.exports = {
     * @return {Boolean} element is existing or not
     */
     async elementIsExisted(xpath) {
-        const result = await this.driver.findElement(By.xpath(xpath)).then(function() {
+        try {
+            await this.driver.findElement(By.xpath(xpath));
             return true;
-        }, function(err) {
-            if (err instanceof webdriver.error.NoSuchElementError) {
-                return false;
-            } else {
-                webdriver.promise.rejected(err);
-            }
-        });
-        return result;
+        } catch (err) {
+            return false;
+        }
     },
 
     /**

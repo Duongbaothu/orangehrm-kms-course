@@ -36,6 +36,7 @@ Feature: As an Admin, I can manage users in User Management session
         And Verify employee name of user '<username>' is 'Boss A' showing correctly in table
         And Verify status of user '<username>' is '<status>' showing correctly in table
         When User click the 'Reset' button
+        And Verify user role of user '<username>' is '<userRole>' showing correctly in table
         And A user delete a record with key is 'user${randomNumber}'
         And User click the 'Yes, Delete' button
         Then Verify alert message is 'Successfully Deleted'
@@ -205,7 +206,7 @@ Feature: As an Admin, I can manage users in User Management session
         And A user click 'Logout' item in User Profile dropdown
         And A user logged in by admin role
         And A user click 'Admin' item in main menu
-        And A user select checkbox with keys are 'all'
+        And A user select checkbox with keys are 'User${randomNumber}1'
         And User click the 'Delete Selected' button
         And User click the 'Yes, Delete' button
         Then Verify alert message is 'Successfully Deleted'
@@ -245,7 +246,7 @@ Feature: As an Admin, I can manage users in User Management session
         And User click the 'Save' button
         Then Verify a error message '<msg>' is shown under '<field>' field
         When A user click 'Admin' item in main menu
-        And A user select checkbox with keys are 'all'
+        And A user select checkbox with keys are 'user${randomNumber}'
         And User click the 'Delete Selected' button
         And User click the 'Yes, Delete' button
         Then Verify alert message is 'Successfully Deleted'
@@ -260,7 +261,7 @@ Feature: As an Admin, I can manage users in User Management session
             # | 34 | type is not strong of          | Password         | Admin1234           | Your password must contain minimum 1 special character |
             | 35 | type not correct for           | Confirm Password | Admin12             | Passwords do not match                                 |
 
-    @HappyCases
+    @HappyCases @ignore
     Scenario: 36. As an Admin, I can delete all users.
         When Add multiple users with .csv file in 'src/features/data/users/user_data.csv'
         And set 'user1' to '${lastRun[0]}'

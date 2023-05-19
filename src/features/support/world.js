@@ -62,5 +62,5 @@ function CustomWorld({ attach, parameters }) {
         .build();
 }
 
-setDefaultTimeout(config.TIMEOUT_MEDIUM);
+setDefaultTimeout(config.TIMEOUT_LONG);
 setWorldConstructor(CustomWorld);

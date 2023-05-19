@@ -122,10 +122,9 @@ const self = module.exports = {
         const tabName = ddoTopbarMenu.replace('$dropdownName', dropdownName);
         await keywords.waitClick.call(this, tabName);
         const ddlTabName = ddlTopbarMenu.replace('$dropdownName', dropdownName);
-        if (keywords.waitUntilElementIsVisible.call(this, ddlTabName)) {
-            const tabItemName = ddlTopbarMenuItem.replace('$itemName', itemName);
-            await keywords.waitClick.call(this, tabItemName);
-        }
+        await keywords.waitUntilElementIsVisible.call(this, ddlTabName);
+        const tabItemName = ddlTopbarMenuItem.replace('$itemName', itemName);
+        await keywords.waitClick.call(this, tabItemName);
     },
 
     /**
@@ -160,10 +159,9 @@ const self = module.exports = {
         const ddoName = ddoInForm.replace('$dropdownName', ddo);
         await keywords.waitClick.call(this, ddoName);
         const ddlItemName = ddlInForm.replace('$dropdownName', ddo);
-        if (keywords.waitUntilElementIsVisible.call(this, ddlItemName)) {
-            const optionName = ddlOptionInForm.replace('$dropdownName', ddo).replace('$option', value);
-            await keywords.waitClick.call(this, optionName);
-        }
+        await keywords.waitUntilElementIsVisible.call(this, ddlItemName);
+        const optionName = ddlOptionInForm.replace('$dropdownName', ddo).replace('$option', value);
+        await keywords.waitClick.call(this, optionName);
     },
 
     /**
@@ -177,10 +175,9 @@ const self = module.exports = {
         const txtFieldByLabelName = txtFieldInForm.replace('$labelName', labelName);
         await keywords.setText.call(this, txtFieldByLabelName, hint);
         const ddlItemName = ddlInForm.replace('$dropdownName', labelName);
-        if (keywords.waitUntilElementIsVisible.call(this, ddlItemName)) {
-            const optionName = ddlOptionInForm.replace('$dropdownName', labelName).replace('$option', optionValue);
-            await keywords.waitClick.call(this, optionName);
-        }
+        await keywords.waitUntilElementIsVisible.call(this, ddlItemName);
+        const optionName = ddlOptionInForm.replace('$dropdownName', labelName).replace('$option', optionValue);
+        await keywords.waitClick.call(this, optionName);
     },
 
     /**
@@ -413,10 +410,9 @@ const self = module.exports = {
     async selectItemInUserDropdown(optionValue) {
         const value = await self.getVariableValue(optionValue, this);
         await keywords.waitClick.call(this, ddoUser);
-        if (keywords.waitUntilElementIsVisible.call(this, ddlUser)) {
-            const optionName = ddlOptionUser.replace('$option', value);
-            await keywords.waitClick.call(this, optionName);
-        }
+        await keywords.waitUntilElementIsVisible.call(this, ddlUser);
+        const optionName = ddlOptionUser.replace('$option', value);
+        await keywords.waitClick.call(this, optionName);
     },
 
     /**
@@ -425,7 +421,6 @@ const self = module.exports = {
      * @param {string} action The name of button
      */
     async clickBtnByName(action) {
-        await self.waitPageHeaderIsLoaded.call(this);
         const btnActXpath = btnByName.replace(`$action`, action);
         await keywords.waitAndScrollIntoView.call(this, btnActXpath);
         await keywords.waitClick.call(this, btnActXpath);

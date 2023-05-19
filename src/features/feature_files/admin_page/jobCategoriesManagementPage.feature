@@ -10,8 +10,8 @@ Feature: As a Admin, I can manage Job Categories in Job session
         And A user click 'Job' dropdown and choose 'Job Categories' item in topbar menu
         Then Verify the main title 'Job Categories' is displayed correctly
         And set:
-            | randomString                       |
-            | ${moment().format('YYMMDDHHmmss')} |
+            | randomString  |
+            | ${Date.now()} |
 
     @HappyCases
     Scenario Outline: 01. Verify that it is possible to ADD a new Job Category
@@ -104,6 +104,7 @@ Feature: As a Admin, I can manage Job Categories in Job session
         Then Verify alert message is 'Successfully Saved'
         And Verify '<job>' is displayed in table after adding successfully
         When User click the 'Add' button
+        And Verify the main title 'Add Job Category' is displayed correctly
         And User enter the name of an existing job category as '<job>'
         Then Verify a error message 'Already exists' is shown under 'Name' field
         When User click the 'Cancel' button

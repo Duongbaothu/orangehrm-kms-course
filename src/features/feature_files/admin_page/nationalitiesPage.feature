@@ -109,6 +109,7 @@ Feature: As a Admin, I can manage nationalities information in Nationalities ses
         When User click the 'Cancel' button
         Then A user is on '/web/index.php/admin/nationality' page
         When A user click edit action of '<name>' nationality
+        Then Verify the main title 'Edit Nationality' is displayed correctly
         And Verify the '<name>' nationality is displayed in 'Name' field
         And A user type '<updatedName>' nationality into 'Name' field
         And User click the 'Save' button
