@@ -100,8 +100,7 @@ module.exports = {
     */
     async logout() {
         await keywords.waitClick.call(this, ddlUserProfile);
-        if (keywords.waitUntilElementIsVisible.call(this, ddoLogout)) {
-            await keywords.waitClick.call(this, ddoLogout);
-        }
+        await keywords.waitUntilElementIsVisible.call(this, ddoLogout);
+        await keywords.waitClick.call(this, ddoLogout);
     },
 };
