@@ -126,7 +126,7 @@ const self = module.exports = {
     */
     async setText(xpath, text) {
         const element = await self.waitUntilElementIsVisible.call(this, xpath);
-        await element.sendKeys(Key.CONTROL, 'a');
+        await element.sendKeys(Key.CONTROL, 'a', Key.DELETE);
         await element.sendKeys(text);
     },
 

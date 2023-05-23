@@ -157,6 +157,7 @@ const self = module.exports = {
         const value = await self.getVariableValue(optionValue, this);
         const ddo = await self.getVariableValue(dropdownName, this);
         const ddoName = ddoInForm.replace('$dropdownName', ddo);
+        await keywords.waitUntilElementIsVisible.call(this, ddoName);
         await keywords.waitClick.call(this, ddoName);
         const ddlItemName = ddlInForm.replace('$dropdownName', ddo);
         await keywords.waitUntilElementIsVisible.call(this, ddlItemName);
