@@ -261,7 +261,7 @@ Feature: As an Admin, I can manage users in User Management session
             # | 34 | type is not strong of          | Password         | Admin1234           | Your password must contain minimum 1 special character |
             | 35 | type not correct for           | Confirm Password | Admin12             | Passwords do not match                                 |
 
-    @HappyCases @ignore
+    @HappyCases @DeleteAll
     Scenario: 36. As an Admin, I can delete all users.
         When Add multiple users with .csv file in 'src/features/data/users/user_data.csv'
         And set 'user1' to '${lastRun[0]}'
