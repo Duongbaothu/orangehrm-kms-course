@@ -365,4 +365,16 @@ const self = module.exports = {
         const elements = await self.waitUntilElementsLocated.call(this, xpath);
         return parseInt(elements.length);
     },
+
+    /**
+     * Check element is selected
+     * @author Han Hoang
+     * @param {String} xpath The element xpath.
+     * @param {String} timeout The waiting time.
+     * @return {Boolean} Element is selected or not
+     */
+    async isSelected(xpath, timeout = TIMEOUT_MEDIUM) {
+        const element = await self.waitUntilElementLocated.call(this, xpath, timeout);
+        return await element.isSelected();
+    },
 };
