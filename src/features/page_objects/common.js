@@ -7,6 +7,7 @@ const config = require('../support/config');
 const { assert } = chai;
 const fs = require('fs');
 const parse = require('csv-parser');
+const path = require('path');
 
 const txtUsername = `//input[@name='username']`;
 const txtPassword = `//input[@name='password']`;
@@ -37,12 +38,12 @@ const navPaging = `//nav[@aria-label='Pagination Navigation']/ul/li`;
 const btnUpload = `//input[@class='oxd-file-input']`;
 const frmPageHeaderTitle = `//div[@class='orangehrm-background-container']//h5 | //div[@class='orangehrm-background-container']//h6`;
 const btnByName = `//button[normalize-space(.)='$action']`;
-const txtMainTitle = `//h6[contains(@class, 'orangehrm-main-title')and(text()='$title')]`;
+const txtMainTitle = `//*[self::p or self::h6 or self::h5][text()='$title']`;
 const dlgPopup = `//div[contains(@class,'orangehrm-dialog-popup')]//p[normalize-space(.)='$itemName']`;
 const btnConfirmPopupButtonByName = `//div[@role = 'dialog' and .//p[contains(@class, 'oxd-text--card-title') and normalize-space(.) = 'Are you Sure?']]//button[normalize-space(.) = '$btnName']`;
 const lblNameErrorMsg = `//label[normalize-space(.)='$fieldName']/../../span[contains(@class,'error-message')]`;
 const lblRecordNameWithLevelTitle = `//div[contains(@class,'oxd-table-card')]//div[text()="$itemName"]`;
-const tblTable = `//div[@class='oxd-table']`;
+const tblTable = `//div[@role='table']`;
 
 const self = module.exports = {
     /**
@@ -370,7 +371,8 @@ const self = module.exports = {
       */
     async uploadFile(filePath) {
         const element = await keywords.waitUntilElementLocated.call(this, btnUpload);
-        element.sendKeys(process.cwd() + '/' + filePath);
+        const filePathImport = path.join(process.cwd(), filePath);
+        await element.sendKeys(filePathImport);
     },
 
     /**

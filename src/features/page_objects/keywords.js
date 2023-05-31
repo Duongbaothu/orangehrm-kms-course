@@ -5,6 +5,7 @@ const { TIMEOUT_SHORT, TIMEOUT_MEDIUM } = require('../support/config');
 const sleep = promisify(setTimeout);
 const chai = require('chai');
 const { assert } = chai;
+const glob = require('glob');
 
 const self = module.exports = {
     /**
@@ -367,14 +368,14 @@ const self = module.exports = {
     },
 
     /**
-     * Check element is selected
-     * @author Han Hoang
-     * @param {String} xpath The element xpath.
-     * @param {String} timeout The waiting time.
-     * @return {Boolean} Element is selected or not
-     */
-    async isSelected(xpath, timeout = TIMEOUT_MEDIUM) {
-        const element = await self.waitUntilElementLocated.call(this, xpath, timeout);
-        return await element.isSelected();
+    * Wait for file is downloaded
+    * @author Hanh Nguyen
+    */
+
+    async waitForFileIsDownloaded(filePath, timeout = TIMEOUT_SHORT) {
+        await this.driver.wait(async function() {
+            const files = glob.sync(filePath);
+            return files.length > 0;
+        }, TIMEOUT_SHORT);
     },
 };
