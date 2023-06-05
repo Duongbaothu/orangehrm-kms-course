@@ -280,7 +280,7 @@ const self = module.exports = {
     */
     async verifyAlert(expectedAlertMessage) {
         const actualAlertMessage = await keywords.waitAndGetText.call(this, alrtMessage);
-        assert.equal(true, actualAlertMessage.includes(expectedAlertMessage));
+        assert.equal(actualAlertMessage.includes(expectedAlertMessage), true);
     },
 
     /**
@@ -492,7 +492,7 @@ const self = module.exports = {
         await keywords.waitUntilElementIsVisible.call(this, tblTable);
         const valueTitle = await self.getVariableValue(title, this);
         const lblRecordRow = lblRecordNameWithLevelTitle.replace('$itemName', valueTitle);
-        await keywords.waitUntilElementIsVisible.call(this, lblRecordsFound);
+        await keywords.waitUntilElementIsVisible.call(this, lblRecordRow);
         const result = await keywords.elementIsExisted.call(this, lblRecordRow);
         assert.isTrue(result);
     },

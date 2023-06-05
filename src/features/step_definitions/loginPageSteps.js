@@ -16,3 +16,5 @@ When('A user click on the {string} button', loginPage.clickOnButtonByName);
 When('A user input a string {string} in the {string} field', loginPage.inputUserInformation);
 
 When('A user logout their account', loginPage.logout);
+
+When('A user login with username {string} and decode password {string}', loginPage.loginWithDecodePassword);

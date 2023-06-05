@@ -29,6 +29,19 @@ module.exports = {
     },
 
     /**
+     * Login to system using username and decode password
+     * @author Tuyen Nguyen
+     * @param {string} username The username of an account
+     * @param {string} password The password of an account
+     */
+    async loginWithDecodePassword(username, password) {
+        password = await common.getVariableValue(password, this);
+        await keywords.setText.call(this, txtUsername, common.getVariableValue(username, this));
+        await keywords.setText.call(this, txtPassword, common.decodeString.call(this, password));
+        await keywords.waitClick.call(this, btnLogin);
+    },
+
+    /**
      * Verify the credential error message
      * @author Han Hoang
      * @param {string} expectedMessage The expected credential error message
