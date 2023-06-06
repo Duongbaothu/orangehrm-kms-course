@@ -435,7 +435,8 @@ const self = module.exports = {
      * @param {string} title The title of main form
      */
     async verifyTheMainTitleIsDisplayed(title) {
-        const mainTitle = txtMainTitle.replace('$title', title);
+        const pattern = /\$title/g;
+        const mainTitle = txtMainTitle.replace(pattern, title);
         await keywords.waitUntilElementIsVisible.call(this, mainTitle);
         await keywords.verifyElementIsDisplayed.call(this, mainTitle);
     },
@@ -508,5 +509,13 @@ const self = module.exports = {
         const lblRecordRow = lblRecordNameWithLevelTitle.replace('$itemName', valueTitle);
         const result = await keywords.elementIsExisted.call(this, lblRecordRow);
         assert.isFalse(result);
+    },
+
+    /**
+    * wait Alert Message Not Display
+    * @author Nhu Ho
+    */
+    async waitAlertMessageNotDisplay() {
+        await keywords.waitForElementIsNotPresent.call(this, alrtMessage);
     },
 };
