@@ -20,7 +20,7 @@ Feature: As a admin, We can add, edit and delete a Work Shifts on the Job page
         And Enter value '<shiftName>' for 'Shift Name'
         And Enter value '<fromTime>' for 'From'
         And Enter value '<toTime>' for 'To'
-        And A user type a hint '<hintAssignedEmployees>' in field 'Assigned Employees' to search and then select option 'Boss a' in the dropdown list
+        And A user type a hint '<hintAssignedEmployees>' in field 'Assigned Employees' to search and then select option 'Boss A' in the dropdown list
         And Verify Duration Per Day '<durationPerDay>' displayed correctly
         And User click the 'Save' button
         Then Verify alert message is 'Successfully Saved'
@@ -105,7 +105,7 @@ Feature: As a admin, We can add, edit and delete a Work Shifts on the Job page
         And Enter value '<shiftNameUpdate>' for 'Shift Name'
         And Enter value '<fromTime>' for 'From'
         And Enter value '<toTime>' for 'To'
-        And A user type a hint '<hintAssignedEmployees>' in field 'Assigned Employees' to search and then select option 'Boss a' in the dropdown list
+        And A user type a hint '<hintAssignedEmployees>' in field 'Assigned Employees' to search and then select option 'Boss A' in the dropdown list
         And Verify Duration Per Day '<durationPerDay>' displayed correctly
         And User click the 'Save' button
         Then Verify alert message is 'Successfully Updated'

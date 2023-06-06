@@ -386,10 +386,22 @@ const self = module.exports = {
     * @author Hanh Nguyen
     */
 
-    async waitForFileIsDownloaded(filePath, timeout = TIMEOUT_SHORT) {
+    async waitForFileIsDownloaded(filePath, timeout = TIMEOUT_MEDIUM) {
         await this.driver.wait(async function() {
             const files = glob.sync(filePath);
             return files.length > 0;
-        }, TIMEOUT_SHORT);
+        }, timeout);
+    },
+
+    /**
+     * Check element is selected
+     * @author Han Hoang
+     * @param {String} xpath The element xpath.
+     * @param {String} timeout The waiting time.
+     * @return {Boolean} Element is selected or not
+     */
+    async isSelected(xpath, timeout = TIMEOUT_MEDIUM) {
+        const element = await self.waitUntilElementLocated.call(this, xpath, timeout);
+        return await element.isSelected();
     },
 };

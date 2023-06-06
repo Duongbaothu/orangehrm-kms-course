@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   web:
-    image: orangehrm/orangehrm:latest
+    image: orangehrm/orangehrm:5.3
     ports:
       - "8200:80"
     environment:

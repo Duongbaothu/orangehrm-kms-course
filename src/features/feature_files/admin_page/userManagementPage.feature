@@ -43,9 +43,9 @@ Feature: As an Admin, I can manage users in User Management session
         And Verify '<username>' is not displayed in table after removing successfully
 
         Examples:
-            | No | userRole | hintEmployeeName | status   | username            | password                | confirmPassword         |
-            | 01 | Admin    | Boss             | Enabled  | user${randomNumber} | ${randomStringPass}aA1! | ${randomStringPass}aA1! |
-            | 02 | ESS      | A                | Enabled  | user${randomNumber} | ${randomStringPass}aA1! | ${randomStringPass}aA1! |
+            | No | userRole | hintEmployeeName | status  | username            | password                | confirmPassword         |
+            | 01 | Admin    | Boss             | Enabled | user${randomNumber} | ${randomStringPass}aA1! | ${randomStringPass}aA1! |
+            | 02 | ESS      | A                | Enabled | user${randomNumber} | ${randomStringPass}aA1! | ${randomStringPass}aA1! |
 
     @HappyCases
     Scenario: 03. As an Admin, I can add multiple users from .csv file
@@ -82,13 +82,13 @@ Feature: As an Admin, I can manage users in User Management session
         Then Verify a error message '<msg>' is shown under '<field>' field
 
         Examples:
-            | No | case                           | field            | content             | msg                                                    |
-            | 05 | type invalid                   | Employee Name    | ${randomStringPass} | Invalid                                                |
-            | 06 | type already exist             | Username         | admin               | Already exists                                         |
-            | 07 | type less than 5 characters of | Username         | admi                | Should be at least 5 characters                        |
-            | 08 | type less than 8 characters of | Password         | admin               | Should have at least 8 characters                      |
-            # | 09 | type is not strong of          | Password         | Admin1234           | Your password must contain minimum 1 special character |
-            | 10 | type not correct for           | Confirm Password | Admin12             | Passwords do not match                                 |
+            | No | case                           | field            | content             | msg                                                                                                                             |
+            | 05 | type invalid                   | Employee Name    | ${randomStringPass} | Invalid                                                                                                                         |
+            | 06 | type already exist             | Username         | admin               | Already exists                                                                                                                  |
+            | 07 | type less than 5 characters of | Username         | admi                | Should be at least 5 characters                                                                                                 |
+            | 08 | type less than 8 characters of | Password         | admin               | Should have at least 8 characters                                                                                               |
+            | 09 | type is not strong of          | Password         | Admin1234           | Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password |
+            | 10 | type not correct for           | Confirm Password | Admin12             | Passwords do not match                                                                                                          |
 
     @HappyCases
     Scenario: <No>. As an Admin, I can search user with <field> field
@@ -253,13 +253,13 @@ Feature: As an Admin, I can manage users in User Management session
         And Verify 'user${randomNumber}' is not displayed in table after removing successfully
 
         Examples:
-            | No | case                           | field            | content             | msg                                                   |
-            | 30 | type invalid                   | Employee Name    | ${randomStringPass} | Invalid                                                |
-            | 31 | type already exist             | Username         | Admin               | Already exists                                         |
-            | 32 | type less than 5 characters of | Username         | admi                | Should be at least 5 characters                        |
-            | 33 | type less than 8 characters of | Password         | admin               | Should have at least 8 characters                      |
-            # | 34 | type is not strong of          | Password         | Admin1234           | Your password must contain minimum 1 special character |
-            | 35 | type not correct for           | Confirm Password | Admin12             | Passwords do not match                                 |
+            | No | case                           | field            | content             | msg                                                                                                                             |
+            | 30 | type invalid                   | Employee Name    | ${randomStringPass} | Invalid                                                                                                                         |
+            | 31 | type already exist             | Username         | Admin               | Already exists                                                                                                                  |
+            | 32 | type less than 5 characters of | Username         | admi                | Should be at least 5 characters                                                                                                 |
+            | 33 | type less than 8 characters of | Password         | admin               | Should have at least 8 characters                                                                                               |
+            | 34 | type is not strong of          | Password         | Admin1234           | Your password must contain a lower-case letter, an upper-case letter, a digit and a special character. Try a different password |
+            | 35 | type not correct for           | Confirm Password | Admin12             | Passwords do not match                                                                                                          |
 
     @HappyCases @DeleteAll
     Scenario: 36. As an Admin, I can delete all users.

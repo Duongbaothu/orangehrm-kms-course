@@ -38,19 +38,19 @@ Feature: As a Admin, I can manage skills information in Qualifications session
         Then Verify the skill with title '<skillName>' and '<description>' are shown in the table
         When A user click edit a record with key is '<skillName>'
         Then Verify the main title 'Edit Skill' is displayed correctly
-        And Type text '<skillName>' for Name field
-        And Type text '<description>' for Description field
+        And Type text '<skillNameUpdated>' for Name field
+        And Type text '<descriptionUpdated>' for Description field
         And User click the 'Save' button
         Then Verify alert message is 'Successfully Updated'
-        And Verify the skill with title '<skillName>' and '<description>' are shown in the table
-        And Delete the record '<skillName>' to clean environment
+        And Verify the skill with title '<skillNameUpdated>' and '<descriptionUpdated>' are shown in the table
+        And Delete the record '<skillNameUpdated>' to clean environment
 
         Examples:
-            | TC | skillName                        | description              |
-            | 05 | Content Creation ${randomString} | Marketing Skill Pro      |
-            | 06 | Google Analytics ${randomString} | Marketing Skill Pro      |
-            | 07 | Java ${randomString}             | Programming Language Pro |
-            | 08 | JavaScript ${randomString}       | Programming Language Pro |
+            | TC | skillName                        | description              | skillNameUpdated                         | descriptionUpdated               |
+            | 05 | Content Creation ${randomString} | Marketing Skill Pro      | Content Creation ${randomString} Updated | Marketing Skill Pro Updated      |
+            | 06 | Google Analytics ${randomString} | Marketing Skill Pro      | Google Analytics ${randomString} Updated | Marketing Skill Pro Updated      |
+            | 07 | Java ${randomString}             | Programming Language Pro | Java ${randomString} Updated             | Programming Language Pro Updated |
+            | 08 | JavaScript ${randomString}       | Programming Language Pro | JavaScript ${randomString} Updated       | Programming Language Pro Updated |
 
     @HappyCases
     Scenario Outline: <TC>. Verify user can choose muptiple skills to delete successfully
