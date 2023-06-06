@@ -180,6 +180,20 @@ const self = module.exports = {
     },
 
     /**
+    * Wait and get CSS value.
+    * @author Trang Ngo
+    * @param {String} xpath The element xpath.
+    * @param {String} propertyName The CSS property name of the element.
+    * @param {String} timeout The waiting time.
+    * @return {String} CSS value of the element.
+    */
+    async waitAndGetCSSValue(xpath, propertyName, timeout = TIMEOUT_MEDIUM) {
+        const element = await self.waitUntilElementLocated.call(this, xpath, timeout);
+        const result = element.getCssValue(propertyName);
+        return result;
+    },
+
+    /**
     * Click dropdown option by value.
     * @author Nam Hoang
     * @param {String} xpath The element xpath.
