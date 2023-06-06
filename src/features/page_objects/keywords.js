@@ -404,4 +404,17 @@ const self = module.exports = {
         const element = await self.waitUntilElementLocated.call(this, xpath, timeout);
         return await element.isSelected();
     },
+
+    /**
+    * Click the emelemt by provived offset
+    * @author Lan Tran
+    * @param {String} element
+    * @param {Number} xOffset the x offset
+    * @param {Number} yOffset the y offset
+    */
+    async clickElementByOffset(element, xOffset, yOffset) {
+        await this.driver.actions().move({ origin: element, x: xOffset, y: yOffset })
+            .click()
+            .perform();
+    },
 };
