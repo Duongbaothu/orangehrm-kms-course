@@ -36,7 +36,7 @@ const self = module.exports = {
         if (await keywords.isSelected.call(this, optionPath) && status.toLowerCase() == 'disable') {
             await keywords.waitClick.call(this, optionPath + '//../span');
         } else if (await keywords.isSelected.call(this, optionPath) == false && status.toLowerCase() == 'enable') {
-            await self.enableCheckboxByOptionName.call(this, optionPath);
+            await self.enableCheckboxByOptionName.call(this, optionName);
         }
         await common.clickBtnByName.call(this, 'Save');
     },
@@ -49,6 +49,7 @@ const self = module.exports = {
     async clickOnItemInEmployeeInformationMenu(item) {
         const itemPath = tabItemInEmpInfoMenu.replace('$tabName', item);
         await common.clickMainMenuItem.call(this, 'My Info');
+        await keywords.waitUntilElementIsVisible.call(this, itemPath);
         await keywords.waitAndScrollIntoView.call(this, itemPath);
         await keywords.waitClick.call(this, itemPath);
     },
